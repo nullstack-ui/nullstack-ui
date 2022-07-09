@@ -1,0 +1,14 @@
+{
+  "name": "nullstack-ui",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nullstack": "github:nullstack/nullstack#unstable-next"
+  },
+  "scripts": {
+    "start": "npx nullstack start",
+    "build": "npx nullstack build --mode=ssr"
+  }
+}
