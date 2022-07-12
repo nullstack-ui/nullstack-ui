@@ -10,5 +10,9 @@
   "scripts": {
     "start": "npx nullstack start",
     "build": "npx nullstack build --mode=ssr"
+  },
+  "dependencies": {
+    "@emotion/css": "^11.9.0",
+    "color": "^4.2.3"
   }
 }

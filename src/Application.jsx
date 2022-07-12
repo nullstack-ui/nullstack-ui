@@ -1,11 +1,11 @@
 import Nullstack from 'nullstack';
-import './Application.css';
-import Button from './components/Button.njs';
 import Home from './Home';
 import NullstackProvider from './providers/NullstackProvider.njs';
 
 const theme = {
-  color: 'blue'
+  colors: {
+    primary: '#00CCDD'
+  }
 }
 
 class Application extends Nullstack {
