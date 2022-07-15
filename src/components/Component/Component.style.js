@@ -3,7 +3,10 @@ import { handleProps } from '../../props';
 
 export const ComponentStyle = ({ props, theme }) => {
     const { asString } = handleProps({
-        props,
+        props: {
+            ...props,
+            boxSizing: 'border-box'
+        },
         theme
     });
 

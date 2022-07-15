@@ -21,6 +21,9 @@ export const allProps = {
         key: 'border',
         value: border
     },
+    'boxSizing': {
+        key: 'box-sizing'
+    },
     'cursor': {
         key: 'cursor'
     },
