@@ -2,6 +2,7 @@ import Nullstack from 'nullstack';
 import Logo from 'nullstack/logo';
 import './Home.css';
 import Button from './components/Button/Button.njs';
+import Wrapper from './components/Wrapper/Wrapper.njs';
 
 class Home extends Nullstack {
 
@@ -21,14 +22,41 @@ class Home extends Nullstack {
 
   render({ project }) {
     return (
-      <Button
+      <Wrapper
         bgColor={{
-          faded: true,
-          value: 'red'
+          opacity: 1,
+          value: 'blue'
         }}
-        ml={1}>
-        Button
-      </Button>
+        flex={{
+          alH: 'center',
+          alV: 'center',
+          value: true
+        }}
+        h={500}
+        p={1}
+        w="50%"
+        _hover={{
+          w: '100%'
+        }}
+        _active={{
+          bgColor: {
+            darken: .5,
+            value: 'blue'
+          }
+        }}>
+        <Button
+          bgColor={{
+            faded: true,
+            value: 'red'
+          }}
+          flex={{
+            align: 'center',
+            value: true
+          }}
+          ml={1}>
+          Button
+        </Button>
+      </Wrapper>
     )
   }
 

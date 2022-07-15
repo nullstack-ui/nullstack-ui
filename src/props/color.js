@@ -3,31 +3,43 @@ import Color from 'color';
 const defaultRatio = .5;
 
 export const color = props => {
+    let handledColor = props.value;
+
     if (props.darken) {
-        return darkenColor(props);
-    } else if (props.faded) {
-        return fadedColor(props);
-    } else if (props.lighten) {
-        return lightenColor(props);
-    } else {
-        return props.value;
+        handledColor = darkenColor(props);
     }
+
+    if (props.opacity) {
+        handledColor = opaqueColor({
+            ...props,
+            value: handledColor
+        });
+    }
+    
+    if (props.lighten) {
+        handledColor = lightenColor({
+            ...props,
+            value: handledColor
+        });
+    } 
+
+    return handledColor
 }
 
 export const darkenColor = props => {
-    const { darken, value } = props;
+    const { darken, ratio, value } = props;
 
-    return Color(value).darken(!isNaN(parseInt(darken)) ? darken : defaultRatio);
-}
-
-export const fadedColor = props => {
-    const { faded, value } = props;
-
-    return Color(value).fade(!isNaN(parseInt(faded)) ? faded : defaultRatio);
+    return Color(value).darken(!isNaN(parseInt(darken)) ? darken : (ratio || defaultRatio));
 }
 
 export const lightenColor = props => {
-    const { lighten, value } = props;
+    const { lighten, ratio, value } = props;
 
-    return Color(value).lighten(!isNaN(parseInt(lighten)) ? lighten : defaultRatio);
+    return Color(value).lighten(!isNaN(parseInt(lighten)) ? lighten : (ratio || defaultRatio));
+}
+
+export const opaqueColor = props => {
+    const { opacity, ratio, value } = props;
+
+    return Color(value).alpha(!isNaN(parseInt(opacity)) ? opacity : (ratio || defaultRatio));
 }

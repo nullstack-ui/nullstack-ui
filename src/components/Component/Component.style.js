@@ -1,8 +1,8 @@
 import { css } from '@emotion/css';
 import { handleProps } from '../../props';
 
-export const ButtonStyle = ({ props, theme }) => {
-    const { asString, elementProps } = handleProps({
+export const ComponentStyle = ({ props, theme }) => {
+    const { asString } = handleProps({
         props,
         theme
     });
