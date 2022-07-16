@@ -77,3 +77,10 @@ export const flexAlignV = ({ props, value }) => {
         }
     }
 }
+
+export const flexDirection = ({ value }) => {
+    return {
+        key: 'flex-direction',
+        value
+    }
+}

@@ -25,25 +25,33 @@ class Home extends Nullstack {
       <Wrapper
         bgColor={{
           opacity: 1,
-          value: 'blue'
+          value: 'yellow'
+        }}
+        bdLeft={{
+          style: 'solid',
+          width: 2
+        }}
+        bdBottom={{
+          style: 'dashed',
+          width: 4
         }}
         flex={{
           alH: 'center',
           alV: 'center',
+          dir: 'column',
           value: true
         }}
         h={500}
         p={1}
+        transition={['background']}
         w="50%"
-        _hover={{
-          w: '100%'
-        }}
         _active={{
           bgColor: {
             darken: .5,
             value: 'blue'
           }
         }}>
+        <Wrapper>Wrapper</Wrapper>
         <Button
           bgColor={{
             faded: true,
@@ -53,7 +61,7 @@ class Home extends Nullstack {
             align: 'center',
             value: true
           }}
-          ml={1}>
+          mt={1}>
           Button
         </Button>
       </Wrapper>

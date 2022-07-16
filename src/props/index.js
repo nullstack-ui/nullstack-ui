@@ -2,11 +2,12 @@ import { css } from '@emotion/css';
 import { bgColor } from './bg';
 
 // Props
-import { border } from './border';
-import { flex, flexAlign, flexAlignContent, flexAlignH, flexAlignV } from './flex';
+import { border, borderColor, borderStyle, borderWidth } from './border';
+import { flex, flexAlign, flexAlignContent, flexAlignH, flexAlignV, flexDirection } from './flex';
 import { margin } from './margin';
 import { padding } from './padding';
 import { height, size, width } from './size';
+import { transition, transitionDelay, transitionDuration, transitionProperty, transitionTimingFunction } from './transition';
 
 // All props
 export const allProps = {
@@ -17,9 +18,80 @@ export const allProps = {
         key: 'background-color',
         value: bgColor
     },
-    'bd': {
-        key: 'border',
+    'border': {
+        aliases: ['bd'],
         value: border
+    },
+    'border.color': {
+        aliases: ['bd.color'],
+        key: 'border-color',
+        value: borderColor
+    },
+    'border.style': {
+        aliases: ['bd.style'],
+        key: 'border-style',
+        value: borderStyle
+    },
+    'border.width': {
+        aliases: ['bd.width'],
+        key: 'border-width',
+        value: borderWidth
+    },
+    'borderBottom': {
+        aliases: ['bdBottom'],
+        value: params => border({
+            ...params,
+            key: 'border-bottom'
+        })
+    },
+    'border-bottom.style': {
+        aliases: [
+            'bdBottomStyle',
+            'borderBottomStyle'
+        ],
+        value: params => borderStyle({
+            ...params,
+            key: 'border-bottom'
+        })
+    },
+    'border-bottom.width': {
+        aliases: [
+            'bdBW',
+            'bdBottomWidth',
+            'borderBottomWidth'
+        ],
+        value: params => borderWidth({
+            ...params,
+            key: 'border-bottom'
+        })
+    },
+    'borderLeft': {
+        aliases: ['bdLeft'],
+        value: params => border({
+            ...params,
+            key: 'border-left'
+        })
+    },
+    'border-left.style': {
+        aliases: [
+            'bdLeftStyle',
+            'borderLeftStyle'
+        ],
+        value: params => borderStyle({
+            ...params,
+            key: 'border-left'
+        })
+    },
+    'border-left.width': {
+        aliases: [
+            'bdLWidth',
+            'bdLeftWidth',
+            'borderLeftmWidth'
+        ],
+        value: params => borderWidth({
+            ...params,
+            key: 'border-left'
+        })
     },
     'boxSizing': {
         key: 'box-sizing'
@@ -44,6 +116,12 @@ export const allProps = {
     },
     'flex.alV': {
         value: flexAlignV
+    },
+    'flex.dir': {
+        value: flexDirection
+    },
+    'flex.direction': {
+        value: flexDirection
     },
     'h': {
         value: height
@@ -77,6 +155,21 @@ export const allProps = {
     'size': {
         value: size
     },
+    'transition': {
+        value: transition
+    },
+    'transition.delay': {
+        value: transitionDelay
+    },
+    'transition.duration': {
+        value: transitionDuration
+    },
+    'transition.property': {
+        value: transitionProperty
+    },
+    'transition.timingFunciton': {
+        value: transitionTimingFunction
+    },
     'w': {
         value: width
     },
@@ -96,6 +189,15 @@ export const allStates = {
 }
 
 // Methods
+export const getPropByAlias = alias => {
+    for (let key in allProps) {
+        const prop = allProps[key];
+
+        if (prop.aliases?.indexOf(alias) > -1) {
+            return prop;
+        }
+    }
+}
 export const handleProps = ({
     props,
     theme
@@ -106,7 +208,8 @@ export const handleProps = ({
     let elementProps = {};
 
     for (let prop of cssProps) {
-        const { key, value } = allProps[prop] || {};
+        const targetProp = allProps[prop] || getPropByAlias(prop) || {};
+        const { key, value } = targetProp;
 
         if (key) {
             const handledValue = typeof value === 'function' ? value({
@@ -115,6 +218,10 @@ export const handleProps = ({
                 value: props[prop]
             }) : props[prop];
 
+            if (prop === 'bdBottom') {
+                console.log('value', value);
+            }
+            
             if (Array.isArray(key)) {
                 for (let k of key) {
                     cssAsArray.push(`${k}: ${handledValue}`);
@@ -130,8 +237,6 @@ export const handleProps = ({
                 theme,
                 value: props[prop]
             }) : props[prop];
-
-            console.log('handled', handled)
 
             if (Array.isArray(handled)) {
                 for (let i = 0; i < handled.length; i++) {
