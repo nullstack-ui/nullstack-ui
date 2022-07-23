@@ -1,8 +1,7 @@
 import { handleProps } from '.';
 
 export const transition = ({ theme, value }) => {
-    let props;
-
+    let handledProps;
 
     if (value === true) {
         return {
@@ -10,7 +9,7 @@ export const transition = ({ theme, value }) => {
             value: 'all .2s ease-in-out'
         }
     } else if (Array.isArray(value)) {
-        props = handleProps({
+        handledProps = handleProps({
             props: {
                 'transition': true,
                 'transition.duration': '.2s',
@@ -20,7 +19,10 @@ export const transition = ({ theme, value }) => {
             theme
         });
 
-        return props;
+        return Object.keys(handledProps.elementProps).map(propName => ({
+            key: propName,
+            value: handledProps.elementProps[propName]
+        }));
     } else if (typeof value === 'object') {
         const handled = {};
 
@@ -28,9 +30,12 @@ export const transition = ({ theme, value }) => {
             handled[`transition.${key}`] = value[key];
         }
 
-        props = handleProps({ props: handled, theme });
+        handledProps = handleProps({ props: handled, theme });
 
-        return props;
+        return Object.keys(handledProps.elementProps).map(propName => ({
+            key: propName,
+            value: handledProps.elementProps[propName]
+        }));
     }
 }
 

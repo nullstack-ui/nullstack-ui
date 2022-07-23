@@ -8,7 +8,7 @@ export const flex = ({ theme, value }) => {
         }
     } else if (typeof value === 'object') {
         const handled = {};
-        let props;
+        let handledProps;
 
         for (let key in value) {
             handled[`flex.${key}`] = value[key];
@@ -18,9 +18,12 @@ export const flex = ({ theme, value }) => {
             handled.flex = value.value;
         }
 
-        props = handleProps({ props: handled, theme });
+        handledProps = handleProps({ props: handled, theme });
 
-        return props;
+        return Object.keys(handledProps.elementProps).map(propName => ({
+            key: propName,
+            value: handledProps.elementProps[propName]
+        }));
     }
 }
 

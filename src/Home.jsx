@@ -22,49 +22,95 @@ class Home extends Nullstack {
 
   render({ project }) {
     return (
-      <Wrapper
-        bgColor={{
-          opacity: 1,
-          value: 'yellow'
-        }}
-        bdLeft={{
-          style: 'solid',
-          width: 2
-        }}
-        bdBottom={{
-          style: 'dashed',
-          width: 4
-        }}
-        flex={{
-          alH: 'center',
-          alV: 'center',
-          dir: 'column',
-          value: true
-        }}
-        h={500}
-        p={1}
-        transition={['background']}
-        w="50%"
-        _active={{
-          bgColor: {
-            darken: .5,
-            value: 'blue'
-          }
-        }}>
-        <Wrapper>Wrapper</Wrapper>
-        <Button
+      <>
+        <Wrapper
           bgColor={{
-            faded: true,
+            opacity: 1,
+            value: 'yellow'
+          }}
+          bdLeft={{
+            style: 'solid',
+            width: 2
+          }}
+          bdBottom={{
+            color: 'green',
+            style: 'dashed',
+            width: 4
+          }}
+          bdRightColor={{
+            lighten: .5,
             value: 'red'
           }}
+          bdRightStyle="dotted"
+          borderRightWidth={16}
           flex={{
-            align: 'center',
+            alH: 'center',
+            alV: 'center',
+            dir: 'column',
             value: true
           }}
-          mt={1}>
-          Button
-        </Button>
-      </Wrapper>
+          h={500}
+          p={1}
+          transition={['background']}
+          w="50%"
+          _active={{
+            bgColor: {
+              darken: .5,
+              value: 'blue'
+            },
+            bdRightStyle: 'dashed'
+          }}>
+          <Wrapper
+            border={{
+              color: 'red',
+              style: 'dashed',
+              width: 2
+            }}
+            p={2}
+            width="25%">Wrapper</Wrapper>
+          <Button
+            bgColor={{
+              faded: true,
+              value: 'red'
+            }}
+            cursor="pointer"
+            flex={{
+              align: 'center',
+              value: true
+            }}
+            mt={1}>
+            Button
+          </Button>
+        </Wrapper>
+
+        <Wrapper
+          border={{
+            color: {
+              lighten: .75,
+              value: 'green'
+            },
+            style: 'solid'
+          }}
+          borderWidth={5}
+          flex={{
+            alH: 'center',
+            value: true
+          }}
+          p={5}>
+          <Button
+            // color={{
+            //   lighten: .5,
+            //   value: 'blue'
+            // }}
+            color={{
+              ratio: .9,
+              value: 'yellow'
+            }}
+            p={2}>
+            Teste
+          </Button>
+        </Wrapper>
+      </>
     )
   }
 

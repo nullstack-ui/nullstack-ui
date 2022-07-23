@@ -1,8 +1,8 @@
 import { css } from '@emotion/css';
-import { bgColor } from './bg';
 
 // Props
 import { border, borderColor, borderStyle, borderWidth } from './border';
+import { bgColor, color, textColor } from './color';
 import { flex, flexAlign, flexAlignContent, flexAlignH, flexAlignV, flexDirection } from './flex';
 import { margin } from './margin';
 import { padding } from './padding';
@@ -14,34 +14,49 @@ export const allProps = {
     'appearance': {
         key: 'appearance'
     },
-    'bgColor': {
+    'backgroundColor': {
+        aliases: ['bgColor'],
         key: 'background-color',
-        value: bgColor
+        fn: bgColor
     },
     'border': {
         aliases: ['bd'],
-        value: border
+        fn: border,
+        key: 'border',
     },
     'border.color': {
         aliases: ['bd.color'],
-        key: 'border-color',
-        value: borderColor
+        fn: borderColor,
+        key: 'border-color'
     },
     'border.style': {
         aliases: ['bd.style'],
+        fn: borderStyle,
         key: 'border-style',
-        value: borderStyle
     },
-    'border.width': {
-        aliases: ['bd.width'],
+    'borderWidth': {
+        aliases: [
+            'border.width',
+            'bd.width'
+        ],
+        fn: borderWidth,
         key: 'border-width',
-        value: borderWidth
     },
     'borderBottom': {
         aliases: ['bdBottom'],
-        value: params => border({
+        fn: params => border({
             ...params,
             key: 'border-bottom'
+        })
+    },
+    'border-bottom.color': {
+        aliases: [
+            'bdBottomColor',
+            'borderBottomColor'
+        ],
+        fn: params => borderColor({
+            ...params,
+            key: 'border-bottom-color'
         })
     },
     'border-bottom.style': {
@@ -49,9 +64,9 @@ export const allProps = {
             'bdBottomStyle',
             'borderBottomStyle'
         ],
-        value: params => borderStyle({
+        fn: params => borderStyle({
             ...params,
-            key: 'border-bottom'
+            key: 'border-bottom-style'
         })
     },
     'border-bottom.width': {
@@ -60,16 +75,26 @@ export const allProps = {
             'bdBottomWidth',
             'borderBottomWidth'
         ],
-        value: params => borderWidth({
+        fn: params => borderWidth({
             ...params,
-            key: 'border-bottom'
+            key: 'border-bottom-width'
         })
     },
     'borderLeft': {
         aliases: ['bdLeft'],
-        value: params => border({
+        fn: params => border({
             ...params,
             key: 'border-left'
+        })
+    },
+    'border-left.color': {
+        aliases: [
+            'bdLeftColor',
+            'borderLeftColor'
+        ],
+        fn: params => borderColor({
+            ...params,
+            key: 'border-left-color'
         })
     },
     'border-left.style': {
@@ -77,9 +102,9 @@ export const allProps = {
             'bdLeftStyle',
             'borderLeftStyle'
         ],
-        value: params => borderStyle({
+        fn: params => borderStyle({
             ...params,
-            key: 'border-left'
+            key: 'border-left-style'
         })
     },
     'border-left.width': {
@@ -88,93 +113,173 @@ export const allProps = {
             'bdLeftWidth',
             'borderLeftmWidth'
         ],
-        value: params => borderWidth({
+        fn: params => borderWidth({
             ...params,
-            key: 'border-left'
+            key: 'border-left-width'
         })
+    },
+    'borderRight': {
+        aliases: ['bdRight'],
+        fn: params => border({
+            ...params,
+            key: 'border-right'
+        })
+    },
+    'border-right.color': {
+        aliases: [
+            'bdRightColor',
+            'borderRightColor'
+        ],
+        fn: params => borderColor({
+            ...params,
+            key: 'border-right-color'
+        })
+    },
+    'border-right.style': {
+        aliases: [
+            'bdRightStyle',
+            'borderRightStyle'
+        ],
+        fn: params => borderStyle({
+            ...params,
+            key: 'border-right-style'
+        })
+    },
+    'border-right.width': {
+        aliases: [
+            'bdRWidth',
+            'bdRightWidth',
+            'borderRightWidth'
+        ],
+        fn: params => borderWidth({
+            ...params,
+            key: 'border-right-width'
+        })
+    },
+    'borderTop': {
+        aliases: ['bdTop'],
+        fn: params => border({
+            ...params,
+            key: 'border-top'
+        })
+    },
+    'border-top.color': {
+        aliases: [
+            'bdTopColor',
+            'borderTopColor'
+        ],
+        fn: params => borderColor({
+            ...params,
+            key: 'border-top-color'
+        })
+    },
+    'border-top.style': {
+        aliases: [
+            'bdTopStyle',
+            'borderTopStyle'
+        ],
+        fn: params => borderStyle({
+            ...params,
+            key: 'border-top-style'
+        })
+    },
+    'border-top.width': {
+        aliases: [
+            'bdTWidth',
+            'bdTopWidth',
+            'borderTopWidth'
+        ],
+        fn: params => borderWidth({
+            ...params,
+            key: 'border-top-width'
+        })
+    },
+    'borderX': {
+        aliases: ['bdX'],
+        fn: border,
+        key: ['border-left', 'border-right']
     },
     'boxSizing': {
         key: 'box-sizing'
+    },
+    'color': {
+        fn: color
     },
     'cursor': {
         key: 'cursor'
     },
     'flex': {
-        value: flex
+        fn: flex
     },
     'flex.align': {
-        value: flexAlign
+        fn: flexAlign
     },
     'flex.alContent': {
-        value: flexAlignContent
+        fn: flexAlignContent
     },
     'flex.alignContent': {
-        value: flexAlignContent
+        fn: flexAlignContent
     },
     'flex.alH': {
-        value: flexAlignH
+        fn: flexAlignH
     },
     'flex.alV': {
-        value: flexAlignV
+        fn: flexAlignV
     },
     'flex.dir': {
-        value: flexDirection
+        fn: flexDirection
     },
     'flex.direction': {
-        value: flexDirection
-    },
-    'h': {
-        value: height
+        fn: flexDirection
     },
     'height': {
-        value: height
+        aliases: ['h'],
+        fn: height
     },
     'marginLeft': {
-        key: 'margin-left',
-        value: margin
-    },
-    'marginL': {
-        key: 'margin-left',
-        value: margin
-    },
-    'ml': {
-        key: 'margin-left',
-        value: margin
+        aliases: [
+            'marginL',
+            'ml'
+        ],
+        fn: margin,
+        key: 'margin-left'
     },
     'p': {
-        key: 'padding',
-        value: padding
+        fn: padding,
+        key: 'padding'
     },
     'px': {
+        fn: padding,
         key: [
             'padding-left',
             'padding-right'
         ],
-        value: padding
     },
     'size': {
-        value: size
+        fn: size
+    },
+    'textColor': {
+        fn: textColor
     },
     'transition': {
-        value: transition
+        fn: transition
     },
     'transition.delay': {
-        value: transitionDelay
+        fn: transitionDelay
     },
     'transition.duration': {
-        value: transitionDuration
+        fn: transitionDuration
     },
     'transition.property': {
-        value: transitionProperty
+        fn: transitionProperty
     },
     'transition.timingFunciton': {
-        value: transitionTimingFunction
-    },
-    'w': {
-        value: width
+        fn: transitionTimingFunction
     },
     'width': {
-        value: width
+        aliases: ['w'],
+        fn: width,
+        key: 'width'
     }
 }
 
@@ -207,55 +312,85 @@ export const handleProps = ({
     const cssAsArray = [];
     let elementProps = {};
 
-    for (let prop of cssProps) {
-        const targetProp = allProps[prop] || getPropByAlias(prop) || {};
-        const { key, value } = targetProp;
+    for (let cssProp of cssProps) {
+        const {
+            fn,
+            key,
+            value
+        } = allProps[cssProp] || getPropByAlias(cssProp) || {};
 
-        if (key) {
-            const handledValue = typeof value === 'function' ? value({
+        if (key && value) {
+            elementProps[key] = value;
+        } else if (fn && typeof fn === 'function') {
+            const handledProp = fn({
+                key,
                 props,
                 theme,
-                value: props[prop]
-            }) : props[prop];
+                value: props[cssProp]
+            });
 
-            if (prop === 'bdBottom') {
-                console.log('value', value);
-            }
-            
-            if (Array.isArray(key)) {
-                for (let k of key) {
-                    cssAsArray.push(`${k}: ${handledValue}`);
+            if (Array.isArray(handledProp)) {
+                for (let prop of handledProp) {
+                    elementProps[prop.key] = prop.value;
                 }
-            } else {
-                cssAsArray.push(`${key}: ${handledValue}`);
-            }
-
-            elementProps[prop] = handledValue;
-        } else {
-            const handled = typeof value === 'function' ? value({
-                props,
-                theme,
-                value: props[prop]
-            }) : props[prop];
-
-            if (Array.isArray(handled)) {
-                for (let i = 0; i < handled.length; i++) {
-                    const { key, value } = handled[i];
-
-                    cssAsArray.push(`${key}: ${value}`);
-                    elementProps[key] = value;
-                }
-            } else if (handled?.key && handled.value) {
-                cssAsArray.push(`${handled.key}: ${handled.value}`);
-                elementProps[handled.key] = handled.value;
-            } else if (handled?.elementProps && handled?.asArray) {
-                cssAsArray.push(...handled.asArray)
-                elementProps = {
-                    ...elementProps,
-                    ...handled.elementProps
+            } else if (handledProp.key && handledProp.value) {
+                if (Array.isArray(handledProp.key)) {
+                    for (let key of handledProp.key) {
+                        elementProps[key] = handledProp.value;
+                    }
+                } else if (typeof handledProp.key === 'string') {
+                    elementProps[handledProp.key] = handledProp.value;
                 }
             }
+        } else if (key && !value) {
+            elementProps[key] = props[cssProp];
         }
+
+        // if (key) {
+        //     const handledValue = typeof value === 'function' ? value({
+        //         props,
+        //         theme,
+        //         value: props[prop]
+        //     }) : props[prop];
+
+        //     if (Array.isArray(key)) {
+        //         for (let k of key) {
+        //             cssAsArray.push(`${k}: ${handledValue}`);
+        //         }
+        //     } else {
+        //         cssAsArray.push(`${key}: ${handledValue}`);
+        //     }
+
+        //     elementProps[prop] = handledValue;
+        // } else {
+        //     const handled = typeof value === 'function' ? value({
+        //         props,
+        //         theme,
+        //         value: props[prop]
+        //     }) : props[prop];
+
+        //     if (Array.isArray(handled)) {
+        //         for (let i = 0; i < handled.length; i++) {
+        //             const { key, value } = handled[i];
+
+        //             cssAsArray.push(`${key}: ${value}`);
+        //             elementProps[key] = value;
+        //         }
+        //     } else if (handled?.key && handled.value) {
+        //         cssAsArray.push(`${handled.key}: ${handled.value}`);
+        //         elementProps[handled.key] = handled.value;
+        //     } else if (handled?.elementProps && handled?.asArray) {
+        //         cssAsArray.push(...handled.asArray)
+        //         elementProps = {
+        //             ...elementProps,
+        //             ...handled.elementProps
+        //         }
+        //     }
+        // }
+    }
+
+    for (let propName in elementProps) {
+        cssAsArray.push(`${propName}: ${elementProps[propName]}`);
     }
 
     for (let state of cssStates) {
@@ -265,7 +400,7 @@ export const handleProps = ({
             const { asArray } = handleProps({
                 props: typeof props[state] === 'function' ? props[state](elementProps) : props[state],
                 theme
-            })
+            });
             cssAsArray.push(`&${key} {`);
             cssAsArray.push(...asArray);
             cssAsArray.push('}');
@@ -276,5 +411,5 @@ export const handleProps = ({
         asArray: cssAsArray,
         asString: cssAsArray.join(';'),
         elementProps
-    };
+    }
 }

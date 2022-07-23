@@ -14,16 +14,16 @@ const componentProps = {
     cursor: 'pointer',
     px: 1,
     // States
-    _hover: ({ bgColor }) => {
-        return {
-            bgColor: lightenColor({ lighten: .9, value: bgColor }).hex()
-        }
-    },
-    _active: ({ }) => {
-        return {
-            bgColor: 'yellow'
-        }
-    },
+    // _hover: ({ bgColor }) => {
+    //     return {
+    //         bgColor: lightenColor({ lighten: .9, value: bgColor }).hex()
+    //     }
+    // },
+    // _active: ({ }) => {
+    //     return {
+    //         bgColor: 'yellow'
+    //     }
+    // },
 };
 
 export default class Button extends Nullstack {

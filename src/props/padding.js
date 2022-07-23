@@ -1,3 +1,9 @@
-export const padding = ({ value }) => {
-    return isNaN(value) ? value : `${value}rem`
+export const padding = ({
+    key,
+    value
+}) => {
+    return {
+        key,
+        value: isNaN(value) ? value : `${value}rem`
+    };
 }

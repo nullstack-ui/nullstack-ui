@@ -1,4 +1,5 @@
-import { allProps, handleProps } from '.';
+import { handleProps } from '.';
+import { getColor } from './color';
 
 export const border = ({
     key = 'border',
@@ -6,67 +7,65 @@ export const border = ({
     value
 }) => {
     if (value === true) {
-        return 'solid 1px #000';
+        return {
+            key,
+            value: 'solid 1px #000'
+        };
     } else if (typeof value === 'string') {
-        return value;
+        const borderColor = getColor({ theme, value });
+        return {
+            key,
+            value: `solid 1px ${borderColor}`
+        };
     } else if (typeof value === 'object') {
         const handled = {};
-        let props;
+        let handledProps;
 
         for (let v in value) {
             handled[`${key}.${v}`] = value[v];
         }
 
-        props = handleProps({ props: handled, theme });
+        handledProps = handleProps({ props: handled, theme });
 
-        return props;
-        // const handled = {};
-
-        // handled[`${key}.color`] = value.color;
-        // handled[`${key}.style`] = value.style;
-        // handled[`${key}.width`] = value.width;
-
-        // props = handleProps({
-        //     props: handled,
-        //     theme
-        // });
-
-        // if (key === 'border-bottom') {
-        //     console.log('props', props);
-        // }
-
-        // return props;
+        return Object.keys(handledProps.elementProps).map(propName => ({
+            key: propName,
+            value: handledProps.elementProps[propName]
+        }));
     } else {
         return '';
     }
 }
 
 export const borderColor = ({
-    key = 'border',
+    key = 'border-color',
+    theme,
     value
 }) => {
     return {
-        key: `${key}-color`,
-        value
+        key,
+        value: getColor({
+            theme,
+            value
+        })
     }
 }
 
 export const borderStyle = ({
-    key = 'border',
+    key = 'border-style',
     value
 }) => {
     return {
-        key: `${key}-style`,
+        key,
         value
     }
 }
 
 export const borderWidth = ({
-    key = 'border',
+    key = 'border-width',
     value
 }) => {
     return {
-        key: `${key}-width`,
+        key,
         value: isNaN(value) ? value : `${value}px`
     }
 }
