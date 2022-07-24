@@ -1,7 +1,7 @@
 import { css } from '@emotion/css';
 
 // Props
-import { border, borderColor, borderRadius, borderStyle, borderWidth } from './border';
+import { border, borderColor, borderProps, borderRadius, borderStyle, borderWidth } from './border';
 import { bgColor, color, textColor } from './color';
 import { flex, flexAlign, flexAlignContent, flexAlignH, flexAlignV, flexDirection } from './flex';
 import { margin } from './margin';
@@ -19,186 +19,7 @@ export const allProps = {
         key: 'background-color',
         fn: bgColor
     },
-    'border': {
-        aliases: ['bd'],
-        fn: border,
-        key: 'border',
-    },
-    'border.color': {
-        aliases: ['bd.color'],
-        fn: borderColor,
-        key: 'border-color'
-    },
-    'border.style': {
-        aliases: ['bd.style'],
-        fn: borderStyle,
-        key: 'border-style',
-    },
-    'borderWidth': {
-        aliases: [
-            'border.width',
-            'bd.width'
-        ],
-        fn: borderWidth,
-        key: 'border-width',
-    },
-    'borderBottom': {
-        aliases: ['bdBottom'],
-        fn: params => border({
-            ...params,
-            key: 'border-bottom'
-        })
-    },
-    'border-bottom.color': {
-        aliases: [
-            'bdBottomColor',
-            'borderBottomColor'
-        ],
-        fn: params => borderColor({
-            ...params,
-            key: 'border-bottom-color'
-        })
-    },
-    'border-bottom.style': {
-        aliases: [
-            'bdBottomStyle',
-            'borderBottomStyle'
-        ],
-        fn: params => borderStyle({
-            ...params,
-            key: 'border-bottom-style'
-        })
-    },
-    'border-bottom.width': {
-        aliases: [
-            'bdBW',
-            'bdBottomWidth',
-            'borderBottomWidth'
-        ],
-        fn: params => borderWidth({
-            ...params,
-            key: 'border-bottom-width'
-        })
-    },
-    'borderLeft': {
-        aliases: ['bdLeft'],
-        fn: params => border({
-            ...params,
-            key: 'border-left'
-        })
-    },
-    'border-left.color': {
-        aliases: [
-            'bdLeftColor',
-            'borderLeftColor'
-        ],
-        fn: params => borderColor({
-            ...params,
-            key: 'border-left-color'
-        })
-    },
-    'border-left.style': {
-        aliases: [
-            'bdLeftStyle',
-            'borderLeftStyle'
-        ],
-        fn: params => borderStyle({
-            ...params,
-            key: 'border-left-style'
-        })
-    },
-    'border-left.width': {
-        aliases: [
-            'bdLWidth',
-            'bdLeftWidth',
-            'borderLeftmWidth'
-        ],
-        fn: params => borderWidth({
-            ...params,
-            key: 'border-left-width'
-        })
-    },
-    'borderRight': {
-        aliases: ['bdRight'],
-        fn: params => border({
-            ...params,
-            key: 'border-right'
-        })
-    },
-    'border-right.color': {
-        aliases: [
-            'bdRightColor',
-            'borderRightColor'
-        ],
-        fn: params => borderColor({
-            ...params,
-            key: 'border-right-color'
-        })
-    },
-    'border-right.style': {
-        aliases: [
-            'bdRightStyle',
-            'borderRightStyle'
-        ],
-        fn: params => borderStyle({
-            ...params,
-            key: 'border-right-style'
-        })
-    },
-    'border-right.width': {
-        aliases: [
-            'bdRWidth',
-            'bdRightWidth',
-            'borderRightWidth'
-        ],
-        fn: params => borderWidth({
-            ...params,
-            key: 'border-right-width'
-        })
-    },
-    'borderTop': {
-        aliases: ['bdTop'],
-        fn: params => border({
-            ...params,
-            key: 'border-top'
-        })
-    },
-    'border-top.color': {
-        aliases: [
-            'bdTopColor',
-            'borderTopColor'
-        ],
-        fn: params => borderColor({
-            ...params,
-            key: 'border-top-color'
-        })
-    },
-    'border-top.style': {
-        aliases: [
-            'bdTopStyle',
-            'borderTopStyle'
-        ],
-        fn: params => borderStyle({
-            ...params,
-            key: 'border-top-style'
-        })
-    },
-    'border-top.width': {
-        aliases: [
-            'bdTWidth',
-            'bdTopWidth',
-            'borderTopWidth'
-        ],
-        fn: params => borderWidth({
-            ...params,
-            key: 'border-top-width'
-        })
-    },
-    'borderX': {
-        aliases: ['bdX'],
-        fn: border,
-        key: ['border-left', 'border-right']
-    },
+    ...borderProps,
     'boxSizing': {
         key: 'box-sizing'
     },
@@ -261,15 +82,6 @@ export const allProps = {
             'padding-bottom',
             'padding-top'
         ],
-    },
-    'radius': {
-        aliases: [
-            'borderRadius',
-            'radius',
-            'rounded'
-        ],
-        fn: borderRadius,
-        key: 'border-radius'
     },
     'size': {
         fn: size

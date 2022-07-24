@@ -28,20 +28,28 @@ class Home extends Nullstack {
             opacity: 1,
             value: 'yellow'
           }}
-          bdLeft={{
-            style: 'solid',
-            width: 2
+          border={{
+            left: {
+              style: 'solid',
+              width: 2
+            }
           }}
-          bdBottom={{
-            color: 'green',
-            style: 'dashed',
-            width: 4
-          }}
-          bdRightColor={{
-            lighten: .5,
-            value: 'red'
-          }}
-          bdRightStyle="dotted"
+          // borderLeft={{
+          //   style: 'solid',
+          //   width: 2
+          // }}
+          // bdB={{
+          //   color: 'green',
+          //   style: 'dashed',
+          //   width: 4
+          // }}
+          // bdRightColor={{
+          //   lighten: .5,
+          //   value: 'red'
+          // }}
+          // bdRightStyle="dotted"
+          bdX="green"
+          bdY="blue"
           borderRightWidth={16}
           flex={{
             alH: 'center',
@@ -104,8 +112,7 @@ class Home extends Nullstack {
             // }}
             color={{
               value: '#CCC'
-            }}
-            rounded={false}>
+            }}>
             Teste
           </Button>
         </Wrapper>
