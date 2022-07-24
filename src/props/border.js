@@ -6,13 +6,19 @@ export const border = ({
     theme,
     value
 }) => {
-    if (value === true) {
+    if (value === 'none') {
+        return {
+            key,
+            value: 'none'
+        };
+    } else if (value === true) {
         return {
             key,
             value: 'solid 1px #000'
         };
     } else if (typeof value === 'string') {
         const borderColor = getColor({ theme, value });
+
         return {
             key,
             value: `solid 1px ${borderColor}`
@@ -47,6 +53,23 @@ export const borderColor = ({
             theme,
             value
         })
+    }
+}
+
+export const borderRadius = ({
+    key = 'border-radius',
+    value
+}) => {
+    if (typeof value === 'boolean') {
+        return {
+            key,
+            value: value ? '.5em' : 0
+        }
+    } else {
+        return {
+            key,
+            value: isNaN(value) ? value : `${value}em`
+        }
     }
 }
 

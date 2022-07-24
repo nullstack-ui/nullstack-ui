@@ -1,7 +1,7 @@
 import { css } from '@emotion/css';
 
 // Props
-import { border, borderColor, borderStyle, borderWidth } from './border';
+import { border, borderColor, borderRadius, borderStyle, borderWidth } from './border';
 import { bgColor, color, textColor } from './color';
 import { flex, flexAlign, flexAlignContent, flexAlignH, flexAlignV, flexDirection } from './flex';
 import { margin } from './margin';
@@ -255,6 +255,22 @@ export const allProps = {
             'padding-right'
         ],
     },
+    'py': {
+        fn: padding,
+        key: [
+            'padding-bottom',
+            'padding-top'
+        ],
+    },
+    'radius': {
+        aliases: [
+            'borderRadius',
+            'radius',
+            'rounded'
+        ],
+        fn: borderRadius,
+        key: 'border-radius'
+    },
     'size': {
         fn: size
     },
@@ -321,7 +337,7 @@ export const handleProps = ({
 
         if (key && value) {
             elementProps[key] = value;
-        } else if (fn && typeof fn === 'function') {
+        } else if (fn && typeof fn === 'function' && props[cssProp] != null) {
             const handledProp = fn({
                 key,
                 props,
@@ -345,48 +361,6 @@ export const handleProps = ({
         } else if (key && !value) {
             elementProps[key] = props[cssProp];
         }
-
-        // if (key) {
-        //     const handledValue = typeof value === 'function' ? value({
-        //         props,
-        //         theme,
-        //         value: props[prop]
-        //     }) : props[prop];
-
-        //     if (Array.isArray(key)) {
-        //         for (let k of key) {
-        //             cssAsArray.push(`${k}: ${handledValue}`);
-        //         }
-        //     } else {
-        //         cssAsArray.push(`${key}: ${handledValue}`);
-        //     }
-
-        //     elementProps[prop] = handledValue;
-        // } else {
-        //     const handled = typeof value === 'function' ? value({
-        //         props,
-        //         theme,
-        //         value: props[prop]
-        //     }) : props[prop];
-
-        //     if (Array.isArray(handled)) {
-        //         for (let i = 0; i < handled.length; i++) {
-        //             const { key, value } = handled[i];
-
-        //             cssAsArray.push(`${key}: ${value}`);
-        //             elementProps[key] = value;
-        //         }
-        //     } else if (handled?.key && handled.value) {
-        //         cssAsArray.push(`${handled.key}: ${handled.value}`);
-        //         elementProps[handled.key] = handled.value;
-        //     } else if (handled?.elementProps && handled?.asArray) {
-        //         cssAsArray.push(...handled.asArray)
-        //         elementProps = {
-        //             ...elementProps,
-        //             ...handled.elementProps
-        //         }
-        //     }
-        // }
     }
 
     for (let propName in elementProps) {
@@ -397,10 +371,15 @@ export const handleProps = ({
         const { key } = allStates[state] || {};
 
         if (key) {
-            const { asArray } = handleProps({
-                props: typeof props[state] === 'function' ? props[state](elementProps) : props[state],
+            const { asArray, elementProps: stateProps } = handleProps({
+                props: typeof props[state] === 'function' ? props[state]({
+                    props,
+                    theme
+                }) : props[state],
                 theme
             });
+
+            props[state] = stateProps;
             cssAsArray.push(`&${key} {`);
             cssAsArray.push(...asArray);
             cssAsArray.push('}');

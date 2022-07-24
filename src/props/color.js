@@ -92,7 +92,55 @@ export const darkenColor = props => {
     const lightness = Color(value).lightness();
     const finalRatio = !isNaN(parseInt(darken)) ? darken : (ratio || defaultRatio);
 
-    return Color(value).lightness(lightness - lightness * finalRatio);
+    return Color(value).lightness(lightness - lightness * finalRatio).hex();
+}
+
+export const getActiveColors = params => {
+    const { props, theme } = params;
+    const { bgColor, color, textColor } = props._hover || props;
+
+    const getActiveColor = unhandledColor => {
+        const color = getColor({
+            theme,
+            value: unhandledColor
+        });
+
+        if (color && Color(color).isDark()) {
+            return lightenColor(({ ratio: .35, value: color }));
+        } else if (color && Color(color).isLight()) {
+            return darkenColor(({ ratio: .35, value: color }));
+        }
+    }
+
+    return {
+        bgColor: getActiveColor(bgColor),
+        color: getActiveColor(color),
+        textColor: getActiveColor(textColor)
+    }
+}
+
+export const getHoverColors = params => {
+    const { props, theme } = params;
+    const { bgColor, color, textColor } = props;
+
+    const getHoverColor = unhandledColor => {
+        const color = getColor({
+            theme,
+            value: unhandledColor
+        });
+
+        if (color && Color(color).isDark()) {
+            return lightenColor(({ ratio: .2, value: color }));
+        } else if (color && Color(color).isLight()) {
+            return darkenColor(({ ratio: .2, value: color }));
+        }
+    }
+
+    return {
+        bgColor: getHoverColor(bgColor),
+        color: getHoverColor(color),
+        textColor: getHoverColor(textColor)
+    }
 }
 
 export const lightenColor = props => {
@@ -100,13 +148,13 @@ export const lightenColor = props => {
     const lightness = Color(value).lightness();
     const finalRatio = !isNaN(parseInt(lighten)) ? lighten : (ratio || defaultRatio);
 
-    return Color(value).lightness(lightness + (100 - lightness) * finalRatio)
+    return Color(value).lightness(lightness + (100 - lightness) * finalRatio).hex()
 }
 
 export const opaqueColor = props => {
     const { opacity, ratio, value } = props;
 
-    return Color(value).alpha(!isNaN(parseInt(opacity)) ? opacity : (ratio || defaultRatio));
+    return Color(value).alpha(!isNaN(parseInt(opacity)) ? opacity : (ratio || defaultRatio)).hex();
 }
 
 export const textColor = ({
@@ -121,14 +169,4 @@ export const textColor = ({
             value
         })
     };
-}
-
-function lightenBy(color, ratio) {
-    const lightness = color.lightness();
-    return color.lightness(lightness + (100 - lightness) * ratio);
-}
-
-function darkenBy(color, ratio) {
-    const lightness = color.lightness();
-    return color.lightness(lightness - lightness * ratio);
 }

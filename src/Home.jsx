@@ -103,10 +103,9 @@ class Home extends Nullstack {
             //   value: 'blue'
             // }}
             color={{
-              ratio: .9,
-              value: 'yellow'
+              value: '#CCC'
             }}
-            p={2}>
+            rounded={false}>
             Teste
           </Button>
         </Wrapper>

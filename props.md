@@ -93,10 +93,9 @@
 - borderX / bdX
 - borderY / bdY
 - borderColor / bdColor
-- borderRadius / bdRadius / radius
+- borderRadius / bdRadius / radius / rounded
 - borderStyle / bdStyle
 - borderWidth / bdWidth
-- rounded 
 
 ## Bg
 - background / bg
