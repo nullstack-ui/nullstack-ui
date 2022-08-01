@@ -9,6 +9,7 @@ import {
     getHoverColors,
     lightenColor
 } from '../../props/color';
+import { ComponentStyle } from '../Component/Component.style';
 
 const componentProps = {
     appearance: 'none',
@@ -41,6 +42,22 @@ const componentProps = {
             textColor
         };
     },
+
+    // Custom props
+    customProps: [
+        {
+            name: 'compact',
+            props: {
+                px: 2
+            }
+        },
+        {
+            name: 'wide',
+            props: {
+                px: 10
+            }
+        }
+    ]
 };
 
 export default class Button extends Nullstack {
@@ -51,7 +68,8 @@ export default class Button extends Nullstack {
     }) {
         return (
             <button
-                class={ButtonStyle({
+                class={ComponentStyle({
+                    name: 'button',
                     props: {
                         ...componentProps,
                         ...props

@@ -57,7 +57,7 @@ class Home extends Nullstack {
             dir: 'column',
             value: true
           }}
-          h={500}
+          h={120}
           p={1}
           transition={['background']}
           w="50%"
@@ -105,14 +105,51 @@ class Home extends Nullstack {
             value: true
           }}
           p={5}>
+          <Wrapper>
+            {Array(10).fill({}).map(() => (
+              <Wrapper
+                _after={{
+                  absolute: true,
+                  content: '"Teste"',
+                  left: '-50%',
+                  top: '-50%',
+                  transform: {
+                    translate: ['-50%', '-50%']
+                  }
+                }}
+                _even={{
+                  color: 'cyan'
+                }}
+                _firstChild={{
+                  opacity: .2
+                }}
+                border={true}
+                mb={1}
+                p={4}
+                relative={true}>
+                Wrapper
+              </Wrapper>
+            ))}
+          </Wrapper>
           <Button
-            // color={{
-            //   lighten: .5,
-            //   value: 'blue'
-            // }}
-            color={{
-              value: '#CCC'
-            }}>
+            fixed={true}
+            left={0}
+            radius={0}
+            right={0}
+            bottom={0}
+            clown={true}
+            compact={true}
+            rounded={true}
+            variant="success"
+          // color={{
+          //   lighten: .5,
+          //   value: 'blue'
+          // }}
+          // ml={15}
+          // margin={{
+          //   top: 15
+          // }}
+          >
             Teste
           </Button>
         </Wrapper>

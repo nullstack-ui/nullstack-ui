@@ -40,13 +40,6 @@ export const flexAlign = ({ value }) => {
     ]
 }
 
-export const flexAlignContent = ({ value }) => {
-    return {
-        key: 'align-content',
-        value
-    }
-}
-
 export const flexAlignH = ({ props, value }) => {
     const { flex } = props;
     const direction = flex?.direction;
@@ -85,5 +78,92 @@ export const flexDirection = ({ value }) => {
     return {
         key: 'flex-direction',
         value
+    }
+}
+
+// Props
+export const flexProps = {
+    'flex': {
+        fn: flex
+    },
+    'flex.align': {
+        aliases: ['flex.al'],
+        fn: flexAlign
+    },
+    'flex.alignContent': {
+        aliases: [
+            'alContent',
+            'alignContent',
+            'flex.alContent'
+        ],
+        key: 'align-content'
+    },
+    'flex.alH': {
+        fn: flexAlignH
+    },
+    'flex.alV': {
+        fn: flexAlignV
+    },
+    'flex.basis': {
+        aliases: [
+            'basis',
+            'flexBasis'
+        ],
+        key: 'flex-basis'
+    },
+    'flex.direction': {
+        aliases: [
+            'flex.dir',
+            'flexDir',
+            'flexDirection'
+        ],
+        fn: flexDirection
+    },
+    'flex.flow': {
+        aliases: [
+            'flexFlow',
+            'flow'
+        ],
+        key: 'flex-flow'
+    },
+    'flex.grow': {
+        aliases: [
+            'flexGrow',
+            'grow'
+        ],
+        key: 'flex-grow'
+    },
+    'flex.justifyContent': {
+        aliases: [
+            'justifyContent'
+        ],
+        key: 'justify-content'
+    },
+    'flex.justifySelf': {
+        aliases: [
+            'justifySelf'
+        ],
+        key: 'justify-self'
+    },
+    'flex.order': {
+        aliases: [
+            'flexOrder',
+            'order'
+        ],
+        key: 'order'
+    },
+    'flex.shrink': {
+        aliases: [
+            'flexShrink',
+            'shrink'
+        ],
+        key: 'flex-shrink'
+    },
+    'flex.wrap': {
+        aliases: [
+            'flexWrap',
+            'wrap'
+        ],
+        key: 'flex-wrap'
     }
 }

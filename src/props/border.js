@@ -1,6 +1,9 @@
 import { handleProps } from '.';
 import { getColor } from './color';
 
+// Utils
+import { getNestedProps } from '#utils/getNestedProps';
+
 // Methods
 export const border = ({
     key = 'border',
@@ -25,19 +28,11 @@ export const border = ({
             value: `solid 1px ${borderColor}`
         };
     } else if (typeof value === 'object') {
-        const handled = {};
-        let handledProps;
-
-        for (let v in value) {
-            handled[`${key}.${v}`] = value[v];
-        }
-
-        handledProps = handleProps({ props: handled, theme });
-
-        return Object.keys(handledProps.elementProps).map(propName => ({
-            key: propName,
-            value: handledProps.elementProps[propName]
-        }));
+        return getNestedProps({
+            childProps: value,
+            propName: 'border',
+            theme
+        });
     } else {
         return '';
     }
@@ -92,6 +87,20 @@ export const borderWidth = ({
         key,
         value: isNaN(value) ? value : `${value}px`
     }
+}
+
+export const rounded = ({
+    value
+}) => {
+    // TODO: add sizes
+    let handledValue;
+
+    if (!isNaN(value) || typeof value === 'string') {
+        return borderRadius({ value });
+    } else {
+        return borderRadius({ value });
+    }
+
 }
 
 // Props
@@ -363,5 +372,11 @@ export const borderProps = {
         aliases: ['bdY'],
         fn: border,
         key: ['border-bottom', 'border-top']
-    },    
+    },
+
+    // Rounded
+    'rounded': {
+        fn: rounded,
+        key: 'border-radius'
+    }
 }

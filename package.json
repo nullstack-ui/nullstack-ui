@@ -14,5 +14,9 @@
   "dependencies": {
     "@emotion/css": "^11.9.0",
     "color": "^4.2.3"
+  },
+  "imports": {
+    "#props/*": "./src/props/*",
+    "#utils/*": "./src/utils/*"
   }
 }

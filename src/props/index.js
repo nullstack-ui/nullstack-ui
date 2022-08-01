@@ -3,10 +3,12 @@ import { css } from '@emotion/css';
 // Props
 import { border, borderColor, borderProps, borderRadius, borderStyle, borderWidth } from './border';
 import { bgColor, color, textColor } from './color';
-import { flex, flexAlign, flexAlignContent, flexAlignH, flexAlignV, flexDirection } from './flex';
-import { margin } from './margin';
-import { padding } from './padding';
-import { height, size, width } from './size';
+import { flexProps } from './flex';
+import { marginProps } from './margin';
+import { paddingProps } from './padding';
+import { positionProps } from './position';
+import { sizeProps } from './size';
+import { transformProps } from './transform';
 import { transition, transitionDelay, transitionDuration, transitionProperty, transitionTimingFunction } from './transition';
 
 // All props
@@ -26,69 +28,27 @@ export const allProps = {
     'color': {
         fn: color
     },
+    'content': {
+        key: 'content'
+    },
     'cursor': {
         key: 'cursor'
     },
-    'flex': {
-        fn: flex
+    'display': {
+        key: 'display'
     },
-    'flex.align': {
-        fn: flexAlign
+    ...flexProps,
+    ...marginProps,
+    'opacity': {
+        key: 'opacity'
     },
-    'flex.alContent': {
-        fn: flexAlignContent
-    },
-    'flex.alignContent': {
-        fn: flexAlignContent
-    },
-    'flex.alH': {
-        fn: flexAlignH
-    },
-    'flex.alV': {
-        fn: flexAlignV
-    },
-    'flex.dir': {
-        fn: flexDirection
-    },
-    'flex.direction': {
-        fn: flexDirection
-    },
-    'height': {
-        aliases: ['h'],
-        fn: height
-    },
-    'marginLeft': {
-        aliases: [
-            'marginL',
-            'ml'
-        ],
-        fn: margin,
-        key: 'margin-left'
-    },
-    'p': {
-        fn: padding,
-        key: 'padding'
-    },
-    'px': {
-        fn: padding,
-        key: [
-            'padding-left',
-            'padding-right'
-        ],
-    },
-    'py': {
-        fn: padding,
-        key: [
-            'padding-bottom',
-            'padding-top'
-        ],
-    },
-    'size': {
-        fn: size
-    },
+    ...paddingProps,
+    ...positionProps,
+    ...sizeProps,
     'textColor': {
         fn: textColor
     },
+    ...transformProps,
     'transition': {
         fn: transition
     },
@@ -104,11 +64,6 @@ export const allProps = {
     'transition.timingFunciton': {
         fn: transitionTimingFunction
     },
-    'width': {
-        aliases: ['w'],
-        fn: width,
-        key: 'width'
-    }
 }
 
 export const allStates = {
@@ -118,10 +73,58 @@ export const allStates = {
     },
     '_active': {
         key: ':active'
+    },
+
+    // Pseudo classes
+    // Move this somewhere else later
+    '_even': {
+        key: ':nth-child(even)'
+    },
+    '_firstChild': {
+        key: ':first-child'
+    },
+
+    // Pseudo elements
+    // Move this somewhere else later
+    '_after': {
+        key: ':after'
     }
 }
 
 // Methods
+export const getCustomProps = ({
+    props,
+}) => {
+    let customProps = {};
+
+    if (props.customProps) {
+        for (let customProp of props.customProps) {
+            const componentProp = props[customProp.name];
+
+            if (componentProp) {
+                if (customProp.values && Array.isArray(customProp.values)) {
+                    const index = customProp.values.map(value => value.name).indexOf(componentProp);
+
+                    if (index > -1) {
+                        customProps = {
+                            ...customProps,
+                            ...customProp.values[index].props
+                        }
+                    }
+                    console.log('componentProp', componentProp);
+                } else {
+                    customProps = {
+                        ...customProps,
+                        ...customProp.props
+                    }
+                }
+            }
+        }
+    }
+
+    return customProps;
+}
+
 export const getPropByAlias = alias => {
     for (let key in allProps) {
         const prop = allProps[key];
@@ -131,13 +134,17 @@ export const getPropByAlias = alias => {
         }
     }
 }
+
 export const handleProps = ({
     props,
     theme
 }) => {
-    const cssProps = Object.keys(props).filter(prop => prop.indexOf('_') !== 0);
+    const customProps = getCustomProps({ props });
+    const propsWithCustomProps = { ...props, ...customProps };
+    const cssProps = Object.keys(propsWithCustomProps).filter(prop => prop.indexOf('_') !== 0);
     const cssStates = Object.keys(props).filter(prop => prop.indexOf('_') === 0);
     const cssAsArray = [];
+
     let elementProps = {};
 
     for (let cssProp of cssProps) {
@@ -149,12 +156,12 @@ export const handleProps = ({
 
         if (key && value) {
             elementProps[key] = value;
-        } else if (fn && typeof fn === 'function' && props[cssProp] != null) {
+        } else if (fn && typeof fn === 'function' && propsWithCustomProps[cssProp] != null) {
             const handledProp = fn({
                 key,
-                props,
+                props: propsWithCustomProps,
                 theme,
-                value: props[cssProp]
+                value: propsWithCustomProps[cssProp]
             });
 
             if (Array.isArray(handledProp)) {

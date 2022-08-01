@@ -5,6 +5,41 @@ import NullstackProvider from './providers/NullstackProvider.njs';
 const theme = {
   colors: {
     primary: '#00CCDD'
+  },
+  components: {
+    button: {
+      customProps: [
+        {
+          name: 'clown',
+          props: {
+            bgColor: 'yellow'
+          }
+        },
+        {
+          name: 'wayUpHigh',
+          props: {
+            mt: 100
+          }
+        },
+        {
+          name: 'variant',
+          values: [
+            {
+              name: 'danger',
+              props: {
+                color: 'red'
+              }
+            },
+            {
+              name: 'success',
+              props: {
+                color: 'green'
+              }
+            }
+          ]
+        }
+      ]
+    }
   }
 }
 
