@@ -1,5 +1,11 @@
 import { handleProps } from '.';
 
+const getFlexDirection = props => {
+    const { flex, flexDir, flexDirection } = props;
+
+    return flex?.dir || flex?.direction || flexDir || flexDirection || 'row';
+}
+
 export const flex = ({ theme, value }) => {
     if (value === true) {
         return {
@@ -41,8 +47,7 @@ export const flexAlign = ({ value }) => {
 }
 
 export const flexAlignH = ({ props, value }) => {
-    const { flex } = props;
-    const direction = flex?.direction;
+    const direction = getFlexDirection(props)
 
     if (direction === 'column') {
         return {
@@ -58,8 +63,7 @@ export const flexAlignH = ({ props, value }) => {
 }
 
 export const flexAlignV = ({ props, value }) => {
-    const { flex } = props;
-    const direction = flex?.direction;
+    const direction = getFlexDirection(props)
 
     if (direction === 'column') {
         return {
@@ -99,6 +103,7 @@ export const flexProps = {
         key: 'align-content'
     },
     'flex.alH': {
+        aliases: ['alH'],
         fn: flexAlignH
     },
     'flex.alV': {

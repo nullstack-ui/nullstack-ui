@@ -1,76 +1,60 @@
-const genericSize = ({
-    key,
-    value
-}) => {
-    return {
-        key,
-        value: isNaN(value) ? value : `${value}px`
+const sizeRatio = 1.1;
+const sizes = {
+    md: 1,
+
+    get xl() {
+        return this.lg * sizeRatio
+    },
+    get lg() {
+        return this.md * sizeRatio
+    },
+    get sm() {
+        return this.md / sizeRatio
+    },
+    get xs() {
+        return this.sm / sizeRatio
     }
 }
 
-export const height = ({ value }) => {
-    return genericSize({ key: 'height', value });
+const size = ({
+    key,
+    value
+}) => {
+    const targetSize = sizes[value];
+    const xl = sizes.xl;
+    const xs = sizes.xs;
+
+    if (targetSize) {
+        return {
+            key,
+            value: `${targetSize}em`
+        }
+    } else {
+        if (value.indexOf('xs') > 0) {
+            const power = parseInt(value.split('xs')[0]);
+            const poweredRatio = Math.pow(sizeRatio, power);
+
+            return {
+                key,
+                value: `${xs / poweredRatio}em`
+            }
+        }
+
+        if (value.indexOf('xl') > 0) {
+            const power = parseInt(value.split('xl')[0]);
+            const poweredRatio = Math.pow(sizeRatio, power);
+
+            return {
+                key,
+                value: `${xl * poweredRatio}em`
+            }
+        }
+    }
 }
 
-export const size = ({ value }) => {
-    return [
-        ...genericSize({
-            key: 'height',
-            value
-        }),
-        ...genericSize({
-            key: 'width',
-            value
-        })
-    ]
-}
-
-export const width = ({ value }) => {
-    return genericSize({ key: 'width', value });
-}
-
-// Props
 export const sizeProps = {
-    height: {
-        aliases: ['h'],
-        fn: ({ value }) => genericSize({
-            key: 'height',
-            value
-        })
-    },
-    maxHeight: {
-        aliases: ['maxH'],
-        fn: ({ value }) => genericSize({
-            key: 'max-height',
-            value
-        })
-    },
-    maxWidth: {
-        aliases: ['maxW'],
-        fn: ({ value }) => genericSize({
-            key: 'max-width',
-            value
-        })
-    },
-    minHeight: {
-        aliases: ['minH'],
-        fn: ({ value }) => genericSize({
-            key: 'min-height',
-            value
-        })
-    },
-    minWidth: {
-        aliases: ['minW'],
-        fn: ({ value }) => genericSize({
-            key: 'min-width',
-            value
-        })
-    },
-    width: {
-        aliases: ['w'],
-        fn: ({ value }) => genericSize({
-            key: 'width',
-            value
-        })
+    size: {
+        fn: size,
+        key: 'font-size',
     }
 }

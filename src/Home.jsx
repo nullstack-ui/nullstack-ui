@@ -92,6 +92,38 @@ class Home extends Nullstack {
         </Wrapper>
 
         <Wrapper
+          _children={{
+            _not: {
+              _firstChild: {
+                opacity: .5
+              }
+            }
+          }}
+          spX={.5}>
+          <button>Button 1</button>
+          <button>Button 2</button>
+          <button>Button 3</button>
+        </Wrapper>
+
+        <Wrapper
+          alH="center"
+          flex={{
+            direction: 'column',
+            value: true
+          }}
+          spY={2}>
+          <button>Button 1</button>
+          <button>Button 2</button>
+          <button>Button 3</button>
+        </Wrapper>
+
+        <Wrapper
+          ellipsis={true}
+          width={150}>
+          This is a big text that will be cut by ellipsis prop
+        </Wrapper>
+
+        <Wrapper
           border={{
             color: {
               lighten: .75,
@@ -110,23 +142,71 @@ class Home extends Nullstack {
               <Wrapper
                 _after={{
                   absolute: true,
-                  content: '"Teste"',
-                  left: '-50%',
-                  top: '-50%',
-                  transform: {
-                    translate: ['-50%', '-50%']
+                  content: '":after"',
+                  left: '50%',
+                  rotate: 90,
+                  scale: [1, 2],
+
+                  // rotateZ: 180,
+                  top: '50%',
+                  translate: {
+                    x: -100,
+                    y: -200
                   }
+                  // translate: {
+                  //   x: '-50%',
+                  //   y: '-50%'
+                  // }
+                  // transform: {
+                  //   rotate: ['90deg'],
+                  //   translate: ['-50%', '-50%']
+                  // }
+                }}
+                _before={{
+                  absolute: true,
+                  content: '":before"',
+                  left: 0,
+                  top: 0
+                }}
+                _firstLetter={{
+                  color: 'red',
+                  p: 1
+                }}
+                _firstLine={{
+                  color: 'green'
                 }}
                 _even={{
-                  color: 'cyan'
+                  color: 'cyan',
                 }}
                 _firstChild={{
-                  opacity: .2
+                  opacity: .5,
+                }}
+                _hover={{
+                  scale: 1.5,
+                  z: 1
                 }}
                 border={true}
+                color="white"
                 mb={1}
                 p={4}
-                relative={true}>
+                relative={true}
+                _selection={{
+                  color: 'cyan'
+                }}
+                transition={true}
+                _down={{
+                  xs: {
+                    color: 'blue'
+                  },
+                  sm: {
+                    color: 'green'
+                  },
+                }}
+                _up={{
+                  sm: {
+                    color: 'red'
+                  }
+                }}>
                 Wrapper
               </Wrapper>
             ))}
@@ -140,6 +220,7 @@ class Home extends Nullstack {
             clown={true}
             compact={true}
             rounded={true}
+            size="xs"
             variant="success"
           // color={{
           //   lighten: .5,

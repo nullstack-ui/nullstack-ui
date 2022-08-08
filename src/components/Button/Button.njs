@@ -15,8 +15,8 @@ const componentProps = {
     appearance: 'none',
     bd: 'none',
     cursor: 'pointer',
-    px: 1,
-    py: .5,
+    px: '1em',
+    py: '.5em',
     rounded: true,
     // States
     _hover: params => {
