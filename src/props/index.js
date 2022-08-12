@@ -99,8 +99,8 @@ export const getCustomProps = ({
 }) => {
     let customProps = {};
 
-    if (props.customProps) {
-        for (let customProp of props.customProps) {
+    if (props?.customProps) {
+        for (let customProp of props?.customProps) {
             const componentProp = props[customProp.name];
 
             if (componentProp) {
@@ -136,19 +136,29 @@ export const getPropByAlias = alias => {
     }
 }
 
-const handleAllProps = ({ props, theme }) => {
+const handleAllProps = ({ initialProps, props, theme }) => {
     const handledProps = {};
 
     for (let key in props) {
-        const value = props[key] != null ? props[key] : {};
+        const value = props?.[key] != null ? props?.[key] : null;
+        let handledValue;
 
-        handledProps[key] = typeof value === 'function' ? value({
-            props,
-            theme
-        }) : value
+        if (typeof value === 'function') {
+            handledValue = value({
+                initialProps,
+                props,
+                theme
+            });
+        } else {
+            handledValue = value;
+        }
+
+        if (handledValue != null) {
+            handledProps[key] = handledValue;
+        }
     }
 
-    return handledProps;
+    return props;
 }
 
 export const handleProps = ({
@@ -157,6 +167,7 @@ export const handleProps = ({
 }) => {
     const customProps = getCustomProps({ props });
     const propsWithCustomProps = handleAllProps({
+        initialProps: props,
         props: {
             ...props,
             ...customProps
@@ -164,7 +175,7 @@ export const handleProps = ({
         theme
     });
     const cssProps = Object.keys(propsWithCustomProps).filter(prop => prop.indexOf('_') !== 0);
-    const cssStates = Object.keys(props).filter(prop => prop.indexOf('_') === 0);
+    const cssStates = props ? Object.keys(props).filter(prop => prop.indexOf('_') === 0) : [];
     const cssAsArray = [];
     const groups = {};
 
@@ -206,34 +217,52 @@ export const handleProps = ({
                 cssAsArray.push(...asArray);
             }
         } else if (key && value) {
-            elementProps[key] = value;
+            elementProps[key] = typeof value === 'function' ? value({
+                initialProps: props,
+                props: propsWithCustomProps,
+                theme
+            }) : value;
         } else if (fn && typeof fn === 'function' && propsWithCustomProps[cssProp] != null) {
             const handledProp = fn({
                 key,
                 props: propsWithCustomProps,
                 theme,
-                value: propsWithCustomProps[cssProp]
+                value: typeof propsWithCustomProps[cssProp] === 'function' ? propsWithCustomProps[cssProp]({
+                    initialProps: props,
+                    props: propsWithCustomProps,
+                    theme
+                }) : propsWithCustomProps[cssProp]
             });
 
             if (Array.isArray(handledProp)) {
                 for (let prop of handledProp) {
-                    elementProps[prop.key] = prop.value;
+                    elementProps[prop.key] = typeof prop.value === 'function' ? prop.value({
+                        initialProps: props,
+                        props: propsWithCustomProps,
+                        theme
+                    }) : prop.value;
                 }
             } else if (handledProp.key && handledProp.value) {
                 if (Array.isArray(handledProp.key)) {
                     for (let key of handledProp.key) {
-                        elementProps[key] = handledProp.value;
+                        elementProps[key] = typeof handledProp.value === 'function' ? handledProp.value({
+                            initialProps: props,
+                            props: propsWithCustomProps,
+                            theme
+                        }) : handledProp.value;
                     }
                 } else if (typeof handledProp.key === 'string') {
-                    elementProps[handledProp.key] = handledProp.value;
+                    elementProps[handledProp.key] = typeof handledProp.value === 'function' ? handledProp.value({
+                        initialProps: props,
+                        props: propsWithCustomProps,
+                        theme
+                    }) : handledProp.value;
                 }
             }
         } else if (key && !value) {
             if (typeof propsWithCustomProps[cssProp] === 'object') {
-                // const key = propsWithCustomProps[cssProp];
                 const subKey = Object.keys(propsWithCustomProps[cssProp])[0];
                 const newProps = {};
-                const value = propsWithCustomProps[cssProp][subKey];
                 let handledProps;
 
                 newProps[`${cssProp}.${subKey}`] = propsWithCustomProps[cssProp][subKey];
@@ -242,9 +271,6 @@ export const handleProps = ({
                     props: newProps,
                     theme
                 });
-
-                // console.log('subKey', subKey);
-                // console.log()
             } else {
                 elementProps[key] = props[cssProp];
             }
@@ -307,11 +333,20 @@ export const handleProps = ({
                 }
             }
         } else if (key) {
+            const customProps = getCustomProps({ props: _props });
+            const propsWithCustomProps = handleAllProps({
+                props: {
+                    ..._props,
+                    ...customProps
+                },
+                theme
+            });
             const { asArray, elementProps: stateProps } = handleProps({
-                props: typeof _props[state] === 'function' ? _props[state]({
-                    props: _props,
+                props: typeof propsWithCustomProps[state] === 'function' ? propsWithCustomProps[state]({
+                    initialProps: props,
+                    props: propsWithCustomProps,
                     theme
-                }) : _props[state],
+                }) : propsWithCustomProps[state],
                 theme
             });
 

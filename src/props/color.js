@@ -96,8 +96,9 @@ export const darkenColor = props => {
 }
 
 export const getActiveColors = params => {
-    const { props, theme } = params;
-    const { bgColor, color, textColor } = props._hover || props;
+    const { props, ratio, theme } = params;
+    const hoverProps = typeof props?._hover === 'function' ? props._hover(params) : props;
+    const { bgColor, color, mixColors, textColor } = hoverProps || {};
 
     const getActiveColor = unhandledColor => {
         const color = getColor({
@@ -106,22 +107,29 @@ export const getActiveColors = params => {
         });
 
         if (color && Color(color).isDark()) {
-            return lightenColor(({ ratio: .35, value: color }));
+            return lightenColor(({ ratio: ratio ? 1 - ratio : .35, value: color }));
         } else if (color && Color(color).isLight()) {
-            return darkenColor(({ ratio: .35, value: color }));
+            return darkenColor(({ ratio: ratio ? 1 - ratio : .35, value: color }));
         }
     }
 
-    return {
-        bgColor: getActiveColor(bgColor),
-        color: getActiveColor(color),
-        textColor: getActiveColor(textColor)
+    if (mixColors) {
+        return {
+            bgColor: getActiveColor(bgColor || props.bgColor),
+            textColor: Color(textColor).mix(Color(getActiveColor(bgColor)), .2).hex()
+        }
+    } else {
+        return {
+            bgColor: getActiveColor(bgColor),
+            color: getActiveColor(color),
+            textColor: getActiveColor(textColor)
+        }
     }
 }
 
 export const getHoverColors = params => {
-    const { props, theme } = params;
-    const { bgColor, color, textColor } = props;
+    const { props, ratio, theme } = params;
+    const { bgColor, color, mixColors, textColor } = props;
 
     const getHoverColor = unhandledColor => {
         const color = getColor({
@@ -130,16 +138,23 @@ export const getHoverColors = params => {
         });
 
         if (color && Color(color).isDark()) {
-            return lightenColor(({ ratio: .2, value: color }));
+            return lightenColor(({ ratio: ratio ? 1 - ratio : .2, value: color }));
         } else if (color && Color(color).isLight()) {
-            return darkenColor(({ ratio: .2, value: color }));
-        }
+            return darkenColor(({ ratio: ratio ? 1 - ratio : .2, value: color }));
+        } 
     }
 
-    return {
-        bgColor: getHoverColor(bgColor),
-        color: getHoverColor(color),
-        textColor: getHoverColor(textColor)
+    if (mixColors) {
+        return {
+            bgColor: getHoverColor(bgColor),
+            textColor: Color(textColor).mix(Color(getHoverColor(bgColor)), .2).hex()
+        }
+    } else {
+        return {
+            bgColor: getHoverColor(bgColor),
+            color: getHoverColor(color),
+            textColor: getHoverColor(textColor)
+        }
     }
 }
 

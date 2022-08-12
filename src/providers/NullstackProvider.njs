@@ -3,17 +3,15 @@ import Nullstack from 'nullstack';
 export default class NullstackProvider extends Nullstack {
     theme = {};
 
-    initiate(context) {
+    prepare(context) {
         if (context.theme) {
-            context.project.theme = context.theme;
+            // context.project.theme = context.theme;
         }
-        // context.theme = theme;
-        // console.log('theme', theme);
     }
 
     render({ children }) {
         return (
-            <Wrapper key="nullstackUIWrapper">
+            <Wrapper key="nullstackUI">
                 {children}
             </Wrapper>
         )

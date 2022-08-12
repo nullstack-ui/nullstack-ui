@@ -4,22 +4,38 @@ import Components from './pages/Components.njs';
 import NullstackProvider from './providers/NullstackProvider.njs';
 
 const sizeRatio = 1.1;
-const sizeMultipliers = {
-    md: 1,
 
-    get xl() {
-        return this.lg * sizeRatio
-    },
-    get lg() {
-        return this.md * sizeRatio
-    },
-    get sm() {
-        return this.md / sizeRatio
-    },
-    get xs() {
-        return this.sm / sizeRatio
-    }
+class sizeMultipliers {
+  lg;
+  md = 1;
+  sm;
+  xl;
+  xs;
+  
+  constructor() {
+    this.lg = this.md * sizeRatio;
+    this.sm = this.md / sizeRatio;
+    this.xl = this.lg * sizeRatio;
+    this.xs = this.sm / sizeRatio;
+  }
 }
+// const sizeMultipliers = {
+//   md: 1,
+
+//   get sm() {
+//     return this.md / sizeRatio
+//   },
+//   get xs() {
+//     return this.sm / sizeRatio
+//   },
+//   get lg() {
+//     return this.md * sizeRatio
+//   },
+//   get xl() {
+//     return this.lg * sizeRatio
+//   },
+// }
+
 const theme = {
   colors: {
     primary: '#00CCDD'
@@ -38,24 +54,7 @@ const theme = {
           props: {
             mt: 100
           }
-        },
-        // {
-        //   name: 'variant',
-        //   values: [
-        //     {
-        //       name: 'danger',
-        //       props: {
-        //         color: 'red'
-        //       }
-        //     },
-        //     {
-        //       name: 'success',
-        //       props: {
-        //         color: 'green'
-        //       }
-        //     }
-        //   ]
-        // }
+        }
       ]
     }
   },
@@ -67,8 +66,9 @@ const theme = {
 
 class Application extends Nullstack {
 
-  prepare({ page }) {
-    page.locale = 'pt-BR';
+  prepare(context) {
+    context.theme = theme;
+    context.page.locale = 'pt-BR';
   }
 
   renderHead() {
@@ -85,13 +85,14 @@ class Application extends Nullstack {
 
   render() {
     return (
-      <NullstackProvider theme={theme}>
+      <>
+        {/* <NullstackProvider theme={theme} /> */}
         <main>
           <Head />
           <Components route="/components" />
           <Home route="/" />
         </main>
-      </NullstackProvider>
+      </>
     )
   }
 

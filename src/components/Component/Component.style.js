@@ -26,7 +26,6 @@ export const ComponentStyle = ({ name, props, theme }) => {
         }
     }
 
-    console.log('componentProps', componentProps)
     const { asString } = handleProps({
         props: {
             ...componentProps,

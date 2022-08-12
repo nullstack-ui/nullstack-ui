@@ -30,23 +30,34 @@ const componentProps = {
     // py: '.5em',
     // rounded: true,
     // States
-    _hover: props => {
-        const { bgColor, color, textColor } = getHoverColors(props);
+    _hover: ({ props, theme }) => {
+        if (props) {
+            const { bgColor, color, textColor } = getHoverColors({
+                props,
+                theme
+            });
 
-        return {
-            bgColor,
-            color,
-            textColor
-        };
+            return {
+                bgColor,
+                color,
+                textColor
+            };
+        }
     },
-    _active: props => {
-        const { bgColor, color, textColor } = getActiveColors(props);
+    _active: ({ initialProps, theme }) => {
+        if (initialProps) {
+            const { bgColor, color, textColor } = getActiveColors({
+                props: initialProps,
+                ratio: initialProps.ratio,
+                theme
+            });
 
-        return {
-            bgColor,
-            color,
-            textColor
-        };
+            return {
+                bgColor,
+                color,
+                textColor
+            };
+        }
     },
 
     // Custom props
@@ -64,7 +75,50 @@ const componentProps = {
                     name: 'outline',
                     props: {
                         bg: 'none',
-                        border: 'red'
+                        bgColor: 'transparent',
+                        border: ({ props }) => {
+                            return props.color;
+                        },
+                        textColor: ({
+                            initialProps,
+                            theme
+                        }) => {
+                            if (initialProps) {
+                                return initialProps.color
+                            }
+                        },
+                        _hover: ({ initialProps }) => {
+                            if (initialProps) {
+                                const { bgColor, color, textColor } = initialProps;
+
+                                return {
+                                    bgColor,
+                                    color,
+                                    textColor
+                                }
+                            }
+                        },
+                        _active: ({ initialProps, theme }) => {
+                            if (initialProps) {
+                                const {
+                                    bgColor,
+                                    color,
+                                    textColor
+                                } = getActiveColors({
+                                    props: initialProps,
+                                    ratio: initialProps.ratio,
+                                    theme
+                                });
+
+                                return {
+                                    bgColor,
+                                    border: bgColor || color,
+                                    color,
+                                    textColor
+                                }
+                            }
+
+                        }
                     }
                 },
             ]
@@ -82,6 +136,7 @@ export default class Button extends Nullstack {
     render({
         children,
         project,
+        theme,
         ...props
     }) {
         return (
@@ -92,7 +147,7 @@ export default class Button extends Nullstack {
                         ...componentProps,
                         ...props
                     },
-                    theme: project.theme
+                    theme
                 })}>
                 {children}
             </button>
