@@ -1,4 +1,5 @@
 import { css } from '@emotion/css';
+import { bgProps } from './bg';
 
 // Props
 import { border, borderColor, borderProps, borderRadius, borderStyle, borderWidth } from './border';
@@ -23,11 +24,7 @@ export const allProps = {
     'appearance': {
         key: 'appearance'
     },
-    'backgroundColor': {
-        aliases: ['bgColor'],
-        key: 'background-color',
-        fn: bgColor
-    },
+    ...bgProps,
     ...borderProps,
     'boxSizing': {
         key: 'box-sizing'
@@ -139,12 +136,33 @@ export const getPropByAlias = alias => {
     }
 }
 
+const handleAllProps = ({ props, theme }) => {
+    const handledProps = {};
+
+    for (let key in props) {
+        const value = props[key] != null ? props[key] : {};
+
+        handledProps[key] = typeof value === 'function' ? value({
+            props,
+            theme
+        }) : value
+    }
+
+    return handledProps;
+}
+
 export const handleProps = ({
     props,
     theme
 }) => {
     const customProps = getCustomProps({ props });
-    const propsWithCustomProps = { ...props, ...customProps };
+    const propsWithCustomProps = handleAllProps({
+        props: {
+            ...props,
+            ...customProps
+        },
+        theme
+    });
     const cssProps = Object.keys(propsWithCustomProps).filter(prop => prop.indexOf('_') !== 0);
     const cssStates = Object.keys(props).filter(prop => prop.indexOf('_') === 0);
     const cssAsArray = [];
@@ -217,7 +235,7 @@ export const handleProps = ({
                 const newProps = {};
                 const value = propsWithCustomProps[cssProp][subKey];
                 let handledProps;
-                
+
                 newProps[`${cssProp}.${subKey}`] = propsWithCustomProps[cssProp][subKey];
 
                 handledProps = handleProps({
@@ -225,8 +243,6 @@ export const handleProps = ({
                     theme
                 });
 
-                console.log('handledProps', handledProps);
-                console.log('newProps', newProps);
                 // console.log('subKey', subKey);
                 // console.log()
             } else {

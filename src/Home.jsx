@@ -86,8 +86,9 @@ class Home extends Nullstack {
               align: 'center',
               value: true
             }}
-            mt={1}>
-            Button
+            mt={1}
+            size="lg">
+            Button lg
           </Button>
         </Wrapper>
 

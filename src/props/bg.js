@@ -13,3 +13,15 @@ export const bgColor = ({
         })
     };
 }
+
+export const bgProps = {
+    'bg': {
+        aliases: ['background'],
+        key: 'background',
+    },
+    'bgColor': {
+        aliases: ['backgroundColor'],
+        fn: bgColor,
+        key: 'background-color',
+    },
+}

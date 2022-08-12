@@ -1,7 +1,25 @@
 import Nullstack from 'nullstack';
 import Home from './Home';
+import Components from './pages/Components.njs';
 import NullstackProvider from './providers/NullstackProvider.njs';
 
+const sizeRatio = 1.1;
+const sizeMultipliers = {
+    md: 1,
+
+    get xl() {
+        return this.lg * sizeRatio
+    },
+    get lg() {
+        return this.md * sizeRatio
+    },
+    get sm() {
+        return this.md / sizeRatio
+    },
+    get xs() {
+        return this.sm / sizeRatio
+    }
+}
 const theme = {
   colors: {
     primary: '#00CCDD'
@@ -21,25 +39,29 @@ const theme = {
             mt: 100
           }
         },
-        {
-          name: 'variant',
-          values: [
-            {
-              name: 'danger',
-              props: {
-                color: 'red'
-              }
-            },
-            {
-              name: 'success',
-              props: {
-                color: 'green'
-              }
-            }
-          ]
-        }
+        // {
+        //   name: 'variant',
+        //   values: [
+        //     {
+        //       name: 'danger',
+        //       props: {
+        //         color: 'red'
+        //       }
+        //     },
+        //     {
+        //       name: 'success',
+        //       props: {
+        //         color: 'green'
+        //       }
+        //     }
+        //   ]
+        // }
       ]
     }
+  },
+  globals: {
+    sizeMultipliers,
+    sizeRatio
   }
 }
 
@@ -66,6 +88,7 @@ class Application extends Nullstack {
       <NullstackProvider theme={theme}>
         <main>
           <Head />
+          <Components route="/components" />
           <Home route="/" />
         </main>
       </NullstackProvider>

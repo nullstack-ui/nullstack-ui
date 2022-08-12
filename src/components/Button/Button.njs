@@ -11,24 +11,30 @@ import {
 } from '../../props/color';
 import { ComponentStyle } from '../Component/Component.style';
 
+// Utils
+import { getSize } from '../../utils/getSize';
+
 const componentProps = {
     appearance: 'none',
     bd: 'none',
     cursor: 'pointer',
-    px: '1em',
-    py: '.5em',
-    rounded: true,
+    height: ({ props, theme }) => {
+        return getSize({
+            baseSize: '40px',
+            props,
+            theme
+        });
+    },
+    px: '1.5em',
+    radius: '.5em',
+    // py: '.5em',
+    // rounded: true,
     // States
-    _hover: params => {
-        const { bgColor, color, textColor } = getHoverColors(params);
+    _hover: props => {
+        const { bgColor, color, textColor } = getHoverColors(props);
 
         return {
             bgColor,
-            border: {
-                color: 'red',
-                style: 'dashed',
-                width: 3
-            },
             color,
             textColor
         };
@@ -48,13 +54,25 @@ const componentProps = {
         {
             name: 'compact',
             props: {
-                px: 2
+                px: 1
             }
+        },
+        {
+            name: 'variant',
+            values: [
+                {
+                    name: 'outline',
+                    props: {
+                        bg: 'none',
+                        border: 'red'
+                    }
+                },
+            ]
         },
         {
             name: 'wide',
             props: {
-                px: 10
+                px: 4
             }
         }
     ]
