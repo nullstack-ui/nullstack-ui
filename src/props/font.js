@@ -17,6 +17,10 @@ export const fontProps = {
     //         }
     //     }
     // },
+    'fontWeight': {
+        aliases: ['font.weight'],
+        key: 'font-weight'
+    },
     'text.overflow': {
         aliases: [
             'text.ov',

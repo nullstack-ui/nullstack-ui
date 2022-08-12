@@ -17,6 +17,7 @@ export default class Components extends Nullstack {
                     </Button>
                     <Button
                         bgColor="pink"
+                        mixColors={true}
                         textColor="white"
                         wide={true}>
                         Button

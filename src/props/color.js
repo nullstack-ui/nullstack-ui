@@ -115,7 +115,7 @@ export const getActiveColors = params => {
 
     if (mixColors) {
         return {
-            bgColor: getActiveColor(bgColor || props.bgColor),
+            bgColor: getActiveColors(bgColor || props.bgColor),
             textColor: Color(textColor).mix(Color(getActiveColor(bgColor)), .2).hex()
         }
     } else {

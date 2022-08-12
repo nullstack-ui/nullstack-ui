@@ -18,6 +18,12 @@ const componentProps = {
     appearance: 'none',
     bd: 'none',
     cursor: 'pointer',
+    fontFamily: ({ theme }) => {
+        const { globals } = theme;
+
+        return globals.fontFamily;
+    },
+    fontWeight: 600,
     height: ({ props, theme }) => {
         return getSize({
             baseSize: '40px',

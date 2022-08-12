@@ -96,32 +96,42 @@ export const allStates = {
 // Methods
 export const getCustomProps = ({
     props,
+    theme
 }) => {
+    let allProps = [];
     let customProps = {};
 
     if (props?.customProps) {
-        for (let customProp of props?.customProps) {
-            const componentProp = props[customProp.name];
+        allProps.push(...props?.customProps)
+    }
 
-            if (componentProp) {
-                if (customProp.values && Array.isArray(customProp.values)) {
-                    const index = customProp.values.map(value => value.name).indexOf(componentProp);
+    if (theme?.customProps) {
+        allProps.push(...theme?.customProps)
+    }
 
-                    if (index > -1) {
-                        customProps = {
-                            ...customProps,
-                            ...customProp.values[index].props
-                        }
-                    }
-                } else {
+
+    for (let customProp of allProps) {
+        const componentProp = allProps[customProp.name];
+
+        if (componentProp) {
+            if (customProp.values && Array.isArray(customProp.values)) {
+                const index = customProp.values.map(value => value.name).indexOf(componentProp);
+
+                if (index > -1) {
                     customProps = {
                         ...customProps,
-                        ...customProp.props
+                        ...customProp.values[index].props
                     }
+                }
+            } else {
+                customProps = {
+                    ...allProps,
+                    ...customProp.props
                 }
             }
         }
     }
+
 
     return customProps;
 }
@@ -165,7 +175,7 @@ export const handleProps = ({
     props,
     theme
 }) => {
-    const customProps = getCustomProps({ props });
+    const customProps = getCustomProps({ props, theme });
     const propsWithCustomProps = handleAllProps({
         initialProps: props,
         props: {
@@ -333,7 +343,7 @@ export const handleProps = ({
                 }
             }
         } else if (key) {
-            const customProps = getCustomProps({ props: _props });
+            const customProps = getCustomProps({ props: _props, theme });
             const propsWithCustomProps = handleAllProps({
                 props: {
                     ..._props,

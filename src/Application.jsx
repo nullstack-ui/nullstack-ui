@@ -1,6 +1,7 @@
 import Nullstack from 'nullstack';
 import Home from './Home';
 import Components from './pages/Components.njs';
+import HTMLELements from './pages/HTMLElements.njs';
 import NullstackProvider from './providers/NullstackProvider.njs';
 
 const sizeRatio = 1.1;
@@ -19,22 +20,6 @@ class sizeMultipliers {
     this.xs = this.sm / sizeRatio;
   }
 }
-// const sizeMultipliers = {
-//   md: 1,
-
-//   get sm() {
-//     return this.md / sizeRatio
-//   },
-//   get xs() {
-//     return this.sm / sizeRatio
-//   },
-//   get lg() {
-//     return this.md * sizeRatio
-//   },
-//   get xl() {
-//     return this.lg * sizeRatio
-//   },
-// }
 
 const theme = {
   colors: {
@@ -59,6 +44,7 @@ const theme = {
     }
   },
   globals: {
+    fontFamily: 'Inter',
     sizeMultipliers,
     sizeRatio
   }
@@ -77,7 +63,7 @@ class Application extends Nullstack {
         <link
           href="https://fonts.gstatic.com" rel="preconnect" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Crete+Round&family=Roboto&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
           rel="stylesheet" />
       </head>
     )
@@ -90,6 +76,7 @@ class Application extends Nullstack {
         <main>
           <Head />
           <Components route="/components" />
+          <HTMLELements route="/html" />
           <Home route="/" />
         </main>
       </>
