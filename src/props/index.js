@@ -101,17 +101,16 @@ export const getCustomProps = ({
     let allProps = [];
     let customProps = {};
 
-    if (props?.customProps) {
-        allProps.push(...props?.customProps)
-    }
-
     if (theme?.customProps) {
         allProps.push(...theme?.customProps)
     }
 
+    if (props?.customProps) {
+        allProps.push(...props?.customProps)
+    }
 
     for (let customProp of allProps) {
-        const componentProp = allProps[customProp.name];
+        const componentProp = props[customProp.name];
 
         if (componentProp) {
             if (customProp.values && Array.isArray(customProp.values)) {
@@ -125,10 +124,14 @@ export const getCustomProps = ({
                 }
             } else {
                 customProps = {
-                    ...allProps,
+                    ...customProps,
                     ...customProp.props
                 }
             }
+        }
+
+        if (componentProp === 'outline') {
+            // console.log('!!!', customProps);
         }
     }
 

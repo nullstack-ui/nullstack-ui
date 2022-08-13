@@ -23,7 +23,7 @@ class sizeMultipliers {
 
 const theme = {
   colors: {
-    primary: '#00CCDD'
+    primary: '#000'
   },
   components: {
     button: {
@@ -47,13 +47,13 @@ const theme = {
     fontFamily: 'Inter',
     sizeMultipliers,
     sizeRatio
-  }
+  },
+  test: 'Teste'
 }
 
 class Application extends Nullstack {
 
   prepare(context) {
-    context.theme = theme;
     context.page.locale = 'pt-BR';
   }
 

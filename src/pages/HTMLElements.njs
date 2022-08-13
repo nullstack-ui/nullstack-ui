@@ -22,6 +22,8 @@ export default class HTMLELements extends Nullstack {
                     Test
                 </div>
 
+                <button clown={true}>Teste</button>
+
                 <div
                     border={true}
                     clown={true}

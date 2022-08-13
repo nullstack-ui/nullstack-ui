@@ -139,22 +139,11 @@ const componentProps = {
 };
 
 export default class Button extends Nullstack {
-    render({
-        children,
-        project,
-        theme,
-        ...props
-    }) {
+    render({ children, ...props }) {
         return (
             <button
-                class={ComponentStyle({
-                    name: 'button',
-                    props: {
-                        ...componentProps,
-                        ...props
-                    },
-                    theme
-                })}>
+                {...componentProps}
+                {...props}>
                 {children}
             </button>
         )

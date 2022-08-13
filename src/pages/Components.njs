@@ -7,7 +7,7 @@ export default class Components extends Nullstack {
     render() {
         return (
             <>
-                <div>
+                <div flex={true} mb={1} spX={.5}>
                     <Button
                         bgColor="cyan"
                         mixColors={true}
@@ -28,11 +28,12 @@ export default class Components extends Nullstack {
                         Button
                     </Button>
                 </div>
-                <div>
+
+                <div flex={true} spX={.5}>
                     <Button
                         color="cyan"
                         variant="outline"
-                        wide={true}>
+                        compact={true}>
                         Button
                     </Button>
                     <Button
@@ -47,6 +48,8 @@ export default class Components extends Nullstack {
                         wide={true}>
                         Button
                     </Button>
+
+                    <Button clown={true}>Clown</Button>
                 </div>
             </>
         )

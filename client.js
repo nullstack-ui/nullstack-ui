@@ -56,6 +56,7 @@ const theme = {
       }
     }
   ],
+  test: 'test',
   globals: {
     fontFamily: 'Inter',
     sizeMultipliers,
@@ -66,7 +67,7 @@ const theme = {
 function match(node) {
   const acceptableTypes = [
     'a',
-    'Button',
+    'button',
     'div',
     'input',
     'select',
@@ -80,34 +81,42 @@ function match(node) {
   )
 }
 
-function transform({ theme, node, router, params }) {
-  if (!match(node)) { return false; };
-  // console.log('node', node);
-  const style = ComponentStyle({
-    props: {
-      ...node.attributes
-    },
-    theme
-  });
+// const NullstackUI = {
+//   transform,
+//   client: true,
+//   server: true
+// }
 
-  for (let attribute in node.attributes) {
-    if (allProps[attribute] || allStates[attribute] || getPropByAlias(attribute)) {
-      delete node.attributes[attribute];
+class NullstackUI {
+  constructor() {
+    this.client = true;
+    this.server = true;
+    this.theme = theme;
+  }
+
+  transform({ node }) {
+    if (!match(node)) { return false; };
+    
+    const style = ComponentStyle({
+      props: {
+        ...node.attributes
+      },
+      theme: this.theme
+    });
+
+    for (let attribute in node.attributes) {
+      if (allProps[attribute] || allStates[attribute] || getPropByAlias(attribute)) {
+        delete node.attributes[attribute];
+      }
+    }
+
+    if (node.attributes) {
+      node.attributes.class = style;
     }
   }
-
-  if (node.attributes) {
-    node.attributes.class = style;
-  }
 }
 
-const NullstackUI = {
-  transform,
-  client: true,
-  server: true
-}
-
-Nullstack.use(NullstackUI, theme);
+Nullstack.use(new NullstackUI);
 
 const context = Nullstack.start(Application);
 
