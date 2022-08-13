@@ -27,6 +27,7 @@ export const marginProps = {
     'margin.bottom': {
         aliases: [
             'mb',
+            'mB',
             'marginB',
             'marginBottom'
         ],
@@ -36,6 +37,7 @@ export const marginProps = {
     'margin.left': {
         aliases: [
             'ml',
+            'mL',
             'marginL',
             'marginLeft'
         ],
@@ -45,6 +47,7 @@ export const marginProps = {
     'margin.right': {
         aliases: [
             'mr',
+            'mR',
             'marginR',
             'marginRight'
         ],
@@ -54,6 +57,7 @@ export const marginProps = {
     'margin.top': {
         aliases: [
             'mt',
+            'mT',
             'marginT',
             'marginTop'
         ],
@@ -65,6 +69,7 @@ export const marginProps = {
     'margin.x': {
         aliases: [
             'mx',
+            'mX',
             'marginX'
         ],
         fn: ({ value }) => margin({
@@ -78,6 +83,7 @@ export const marginProps = {
     'margin.y': {
         aliases: [
             'my',
+            'mY',
             'marginY'
         ],
         fn: ({ value }) => margin({

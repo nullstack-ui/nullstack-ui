@@ -27,6 +27,7 @@ export const paddingProps = {
     'padding.bottom': {
         aliases: [
             'pb',
+            'pB',
             'paddingB',
             'paddingBottom'
         ],
@@ -36,6 +37,7 @@ export const paddingProps = {
     'padding.left': {
         aliases: [
             'pl',
+            'pL',
             'paddingL',
             'paddingLeft'
         ],
@@ -45,6 +47,7 @@ export const paddingProps = {
     'padding.right': {
         aliases: [
             'pr',
+            'pR',
             'paddingR',
             'paddingRight'
         ],
@@ -54,6 +57,7 @@ export const paddingProps = {
     'padding.top': {
         aliases: [
             'pt',
+            'pT',
             'paddingT',
             'paddingTop'
         ],
@@ -65,6 +69,7 @@ export const paddingProps = {
     'padding.x': {
         aliases: [
             'px',
+            'pX',
             'paddingX'
         ],
         fn: ({ value }) => padding({
@@ -78,6 +83,7 @@ export const paddingProps = {
     'padding.y': {
         aliases: [
             'py',
+            'pY',
             'paddingY'
         ],
         fn: ({ value }) => padding({

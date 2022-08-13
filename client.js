@@ -64,25 +64,40 @@ const theme = {
   }
 }
 
-function match(node) {
-  const acceptableTypes = [
-    'a',
-    'button',
-    'div',
-    'input',
-    'select',
-    'span',
-    'textarea',
-    'Wrapper'
-  ];
+const acceptableTypes = [
+  'a',
+  'button',
+  'div',
+  'input',
+  'select',
+  'span',
+  'textarea',
+  'Wrapper'
+];
+
+function match({ elements, node }) {
+  const key = node?.attributes?.__self?.key;
+
+  if (node.attributes && key) {
+    node.attributes['data-id'] = key;
+  }
 
   if (node.attributes?.hasOwnProperty('if')) {
     if (!node.attributes.if) {
-      const key = node.attributes.__self.key;
       node.type = false;
       delete node.attributes;
       delete node.children;
-    } 
+    }
+  }
+
+  if (node.attributes?.hasOwnProperty('else')) {
+    const previousElement = elements[elements.length - 2];
+
+    if (previousElement?.attributes?.if) {
+      node.type = false;
+      delete node.attributes;
+      delete node.children;
+    }
   }
 
   return (
@@ -101,11 +116,29 @@ class NullstackUI {
   constructor() {
     this.client = true;
     this.server = true;
+    this.storedElements = [];
     this.theme = theme;
   }
 
-  transform({ node }) {
-    if (!match(node)) { return false; };
+  load() {
+    this.storedElements = [];
+  }
+
+  transform(params) {
+    const { node } = params;
+
+    if (acceptableTypes.indexOf(node.type) > -1) {
+      this.storedElements.push(typeof node === 'object' ? {
+        ...node
+      } : node);
+    }
+
+    // node.attributes.variables = 1;
+
+    if (!match({
+      elements: this.storedElements,
+      node
+    })) { return false; };
 
     const style = ComponentStyle({
       props: {

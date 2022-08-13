@@ -20,7 +20,11 @@ export const bgProps = {
         key: 'background',
     },
     'bgColor': {
-        aliases: ['backgroundColor'],
+        aliases: [
+            'bg.color',
+            'background.color',
+            'backgroundColor'
+        ],
         fn: bgColor,
         key: 'background-color',
     },

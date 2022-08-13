@@ -21,6 +21,12 @@ import { responsiveness } from './_responsiveness';
 
 // All props
 export const allProps = {
+    'accentColor': {
+        key: 'accent-color'
+    },
+    'all': {
+        key: 'all'
+    },
     'appearance': {
         key: 'appearance'
     },
@@ -40,17 +46,22 @@ export const allProps = {
     },
     ...dimensionProps,
     'display': {
+        aliases: ['d'],
         key: 'display'
     },
     ...flexProps,
     ...fontProps,
     ...marginProps,
     'opacity': {
+        aliases: ['op'],
         key: 'opacity'
     },
     ...overflowProps,
     ...paddingProps,
     ...positionProps,
+    'resize': {
+        key: 'resize'
+    },
     ...sizeProps,
     ...spacingProps,
     'textColor': {
@@ -75,9 +86,27 @@ export const allProps = {
 }
 
 export const allStates = {
+    '_checked': {
+        key: ':checked'
+    },
+    '_disabled': {
+        key: '[disabled]'
+    },
+    '_empty': {
+        key: ':empty'
+    },
+    '_focus': {
+        key: ':focus'
+    },
     '_hover': {
         // props: , 
         key: ':hover',
+    },
+    '_link': {
+        key: ':link'
+    },
+    '_optional': {
+        key: ':optional'
     },
     '_active': {
         key: ':active'

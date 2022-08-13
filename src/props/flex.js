@@ -91,7 +91,11 @@ export const flexProps = {
         fn: flex
     },
     'flex.align': {
-        aliases: ['flex.al'],
+        aliases: [
+            'al',
+            'align',
+            'flex.al'
+        ],
         fn: flexAlign
     },
     'flex.alignContent': {
@@ -102,11 +106,36 @@ export const flexProps = {
         ],
         key: 'align-content'
     },
-    'flex.alH': {
-        aliases: ['alH'],
+    'flex.alignH': {
+        aliases: [
+            'alH',
+            'alignH',
+            'flex.alH'
+        ],
         fn: flexAlignH
     },
-    'flex.alV': {
+    'flex.alignItems': {
+        aliases: [
+            'alItems',
+            'alignItems',
+            'flex.alItems'
+        ],
+        key: 'align-items'
+    },
+    'flex.alignSelf': {
+        aliases: [
+            'alSelf',
+            'alignSelf',
+            'flex.alSelf'
+        ],
+        key: 'align-selft'
+    },
+    'flex.alignV': {
+        aliases: [
+            'alV',
+            'alignV',
+            'flex.alV'
+        ],
         fn: flexAlignV
     },
     'flex.basis': {
