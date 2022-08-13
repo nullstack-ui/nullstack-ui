@@ -156,6 +156,13 @@ const handleAllProps = ({ initialProps, props, theme }) => {
         const value = props?.[key] != null ? props?.[key] : null;
         let handledValue;
 
+        if (
+            Object.keys(allProps).indexOf(key) === -1 &&
+            Object.keys(allStates).indexOf(key) === -1
+        ) {
+            continue;
+        }
+
         if (typeof value === 'function') {
             handledValue = value({
                 initialProps,

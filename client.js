@@ -75,6 +75,16 @@ function match(node) {
     'textarea',
     'Wrapper'
   ];
+
+  if (node.attributes?.hasOwnProperty('if')) {
+    if (!node.attributes.if) {
+      const key = node.attributes.__self.key;
+      node.type = false;
+      delete node.attributes;
+      delete node.children;
+    } 
+  }
+
   return (
     node &&
     acceptableTypes.indexOf(node.type) > -1
@@ -96,7 +106,7 @@ class NullstackUI {
 
   transform({ node }) {
     if (!match(node)) { return false; };
-    
+
     const style = ComponentStyle({
       props: {
         ...node.attributes

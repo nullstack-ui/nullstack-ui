@@ -4,11 +4,21 @@ import Nullstack from 'nullstack';
 import Button from '../components/Button/Button.njs';
 
 export default class Components extends Nullstack {
+    isVisible = false;
+
+    // update() {
+    //     console.log('this.isVisible', this.isVisible);
+    // }
+
+    handleClick() {
+        this.isVisible = !this.isVisible;
+    }
+
     render() {
         return (
             <>
                 <div flex={true} mb={1} spX={.5}>
-                    <Button
+                    {/* <Button
                         bgColor="cyan"
                         mixColors={true}
                         textColor="yellow"
@@ -47,9 +57,24 @@ export default class Components extends Nullstack {
                         variant="outline"
                         wide={true}>
                         Button
-                    </Button>
+                    </Button> */}
 
-                    <Button clown={true}>Clown</Button>
+                    <Button
+                        clown={true}
+                        onclick={this.handleClick}>
+                        {this.isVisible ? 'Hide' : 'Show'}
+                    </Button>
+                </div>
+
+                <div
+                    alH="center"
+                    color="orange"
+                    flex={true}
+                    if={this.isVisible}
+                    mt={2}
+                    p={10}
+                    w="100%">
+                    Should be visible now
                 </div>
             </>
         )
