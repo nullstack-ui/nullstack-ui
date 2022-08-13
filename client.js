@@ -1,6 +1,7 @@
 import Nullstack, { } from 'nullstack';
 import Application from './src/Application';
 import { ComponentStyle } from './src/components/Component/Component.style';
+import { allProps, allStates, getPropByAlias } from './src/props';
 
 const sizeRatio = 1.1;
 
@@ -80,6 +81,7 @@ function match(node) {
 }
 
 function transform({ theme, node, router, params }) {
+  if (!match(node)) { return false; };
   // console.log('node', node);
   const style = ComponentStyle({
     props: {
@@ -88,14 +90,19 @@ function transform({ theme, node, router, params }) {
     theme
   });
 
+  for (let attribute in node.attributes) {
+    if (allProps[attribute] || allStates[attribute] || getPropByAlias(attribute)) {
+      delete node.attributes[attribute];
+    }
+  }
+
   if (node.attributes) {
     node.attributes.class = style;
   }
 }
 
 const NullstackUI = {
-  match,
-  transform: params => transform({ ...params }),
+  transform,
   client: true,
   server: true
 }
