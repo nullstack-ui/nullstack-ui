@@ -17,6 +17,8 @@ import { sizeProps } from './size';
 import { spacingProps } from './spacing';
 import { transformProps } from './transform';
 import { transition, transitionDelay, transitionDuration, transitionProperty, transitionTimingFunction } from './transition';
+import { visibilityProps } from './visibility';
+import { groupProps } from './_group';
 import { responsiveness } from './_responsiveness';
 
 // All props
@@ -51,6 +53,7 @@ export const allProps = {
     },
     ...flexProps,
     ...fontProps,
+    ...groupProps,
     ...marginProps,
     'opacity': {
         aliases: ['op'],
@@ -83,6 +86,7 @@ export const allProps = {
     'transition.timingFunciton': {
         fn: transitionTimingFunction
     },
+    ...visibilityProps
 }
 
 export const allStates = {
@@ -178,7 +182,12 @@ export const getPropByAlias = alias => {
     }
 }
 
-const handleAllProps = ({ initialProps, props, theme }) => {
+const handleAllProps = ({
+    initialProps,
+    parentProps,
+    props,
+    theme
+}) => {
     const handledProps = {};
 
     for (let key in props) {
@@ -186,6 +195,7 @@ const handleAllProps = ({ initialProps, props, theme }) => {
         let handledValue;
 
         if (
+            !getPropByAlias(key) &&
             Object.keys(allProps).indexOf(key) === -1 &&
             Object.keys(allStates).indexOf(key) === -1
         ) {
@@ -195,6 +205,7 @@ const handleAllProps = ({ initialProps, props, theme }) => {
         if (typeof value === 'function') {
             handledValue = value({
                 initialProps,
+                parentProps,
                 props,
                 theme
             });
@@ -211,12 +222,14 @@ const handleAllProps = ({ initialProps, props, theme }) => {
 }
 
 export const handleProps = ({
+    parentProps,
     props,
     theme
 }) => {
     const customProps = getCustomProps({ props, theme });
     const propsWithCustomProps = handleAllProps({
         initialProps: props,
+        parentProps,
         props: {
             ...props,
             ...customProps
@@ -236,8 +249,9 @@ export const handleProps = ({
             key,
             parent,
             transform,
-            value
+            value: unhandledValue
         } = allProps[cssProp] || getPropByAlias(cssProp) || {};
+        const value = typeof unhandledValue === 'function' ? unhandledValue({ props, theme }) : unhandledValue;
 
         if (parent) {
             if (!groups[parent]) {
@@ -254,9 +268,13 @@ export const handleProps = ({
             })
         }
 
-        if (transform) {
-            const { props: transformProps, value: transformValue } = transform;
-            const stringifiedProps = transformValue ? JSON.stringify(transformProps).replace(/value/g, transformValue(propsWithCustomProps[cssProp])) : '';
+        if (transform && typeof transform === 'function') {
+            const { props: transformProps, value: transformValue } = transform({ props, theme });
+            const stringifiedProps = transformValue ? JSON.stringify(transformProps).replace(/value/g, transformValue({
+                props,
+                theme,
+                value: propsWithCustomProps[cssProp]
+            })) : '';
             const { asArray } = handleProps({
                 props: transformValue ? JSON.parse(stringifiedProps) : transformProps,
                 theme
@@ -307,12 +325,13 @@ export const handleProps = ({
                         theme
                     }) : handledProp.value;
                 }
+            } else if (handledProp.asArray) {
+                cssAsArray.push(...handledProp.asArray);
             }
         } else if (key && !value) {
             if (typeof propsWithCustomProps[cssProp] === 'object') {
                 const subKey = Object.keys(propsWithCustomProps[cssProp])[0];
                 const newProps = {};
-                let handledProps;
 
                 newProps[`${cssProp}.${subKey}`] = propsWithCustomProps[cssProp][subKey];
 
@@ -362,6 +381,7 @@ export const handleProps = ({
 
         if (responsiveness) {
             const responsivenessProps = fn({
+                key,
                 props,
                 theme
             });
@@ -406,6 +426,7 @@ export const handleProps = ({
             cssAsArray.push('}');
         } else if (fn) {
             const { asArray } = fn({
+                key,
                 props,
                 theme
             });

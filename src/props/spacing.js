@@ -1,42 +1,47 @@
-const spacing = value => {
+import { isReverse } from './flex';
+
+const spacing = ({
+    props,
+    theme,
+    value
+}) => {
     return isNaN(value) ? value : `${value}rem`
 }
 
 export const spacingProps = {
-    'space': {
-        aliases: [
-            'sp'
-        ],
-        transform: {
-            props: {
-                _children: {
-                    _not: {
-                        _firstChild: {
-                            ml: 'value',
-                            mt: 'value'
-                        }
-                    }
-                }
-            },
-            value: spacing
-        }
-    },
     'space.x': {
         aliases: [
             'spX',
             'spaceX'
         ],
-        transform: {
-            props: {
-                _children: {
-                    _not: {
-                        _firstChild: {
-                            ml: 'value'
+        transform: ({ props }) => {
+            if (props.reverse) {
+                return {
+                    props: {
+                        _children: {
+                            _not: {
+                                _lastChild: {
+                                    ml: 'value'
+                                }
+                            }
                         }
-                    }
+                    },
+                    value: spacing
                 }
-            },
-            value: spacing
+            } else {
+                return {
+                    props: {
+                        _children: {
+                            _not: {
+                                _firstChild: {
+                                    ml: 'value'
+                                }
+                            }
+                        }
+                    },
+                    value: spacing
+                }
+            }
         }
     },
     'space.y': {
@@ -44,17 +49,34 @@ export const spacingProps = {
             'spY',
             'spaceY'
         ],
-        transform: {
-            props: {
-                _children: {
-                    _not: {
-                        _firstChild: {
-                            mt: 'value'
+        transform: ({ props }) => {
+            if (props.reverse) {
+                return {
+                    props: {
+                        _children: {
+                            _not: {
+                                _lastChild: {
+                                    mt: 'value'
+                                }
+                            }
                         }
-                    }
+                    },
+                    value: spacing
                 }
-            },
-            value: spacing
+            } else {
+                return {
+                    props: {
+                        _children: {
+                            _not: {
+                                _firstChild: {
+                                    mt: 'value'
+                                }
+                            }
+                        }
+                    },
+                    value: spacing
+                }
+            }
         }
     },
 }

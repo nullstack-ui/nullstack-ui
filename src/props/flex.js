@@ -1,9 +1,15 @@
 import { handleProps } from '.';
 
-const getFlexDirection = props => {
+export const getFlexDirection = props => {
     const { flex, flexDir, flexDirection } = props;
 
     return flex?.dir || flex?.direction || flexDir || flexDirection || 'row';
+}
+
+export const isReverse = props => {
+    const { flex, flexReverse, reverse } = props;
+
+    return flex?.reverse || flexReverse || reverse;
 }
 
 export const flex = ({ theme, value }) => {
@@ -82,6 +88,15 @@ export const flexDirection = ({ value }) => {
     return {
         key: 'flex-direction',
         value
+    }
+}
+
+export const flexReverse = ({ props }) => {
+    const direction = getFlexDirection(props);
+
+    return {
+        key: 'flex-direction',
+        value: props.reverse ? `${direction}-reverse` : ''
     }
 }
 
@@ -185,6 +200,13 @@ export const flexProps = {
             'order'
         ],
         key: 'order'
+    },
+    'flex.reverse': {
+        aliases: [
+            'flexReverse',
+            'reverse'
+        ],
+        fn: flexReverse
     },
     'flex.shrink': {
         aliases: [

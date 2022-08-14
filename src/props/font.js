@@ -2,9 +2,7 @@ export const fontProps = {
     'ellipsis': {
         transform: {
             props: {
-                overflow: {
-                    x: 'hidden'
-                },
+                ovX: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap'
             },
