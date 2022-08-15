@@ -16,10 +16,20 @@ export default class Components extends Nullstack {
             <>
                 <div
                     alH="center"
+                    blur={10}
                     color="green"
                     group
                     flex={true}
-                    p={10}>
+                    hueRotate={90}
+                    p={10}
+                    transition={['filter']}
+                    _hover={{
+                        blur: 0,
+                        brightness: 1.5,
+                        contrast: 1.5,
+                        invert: 1,
+                        saturate: .5
+                    }}>
                     <button
                         _group={{
                             _hover: {

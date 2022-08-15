@@ -5,6 +5,7 @@ import { bgProps } from './bg';
 import { border, borderColor, borderProps, borderRadius, borderStyle, borderWidth } from './border';
 import { bgColor, color, textColor } from './color';
 import { dimensionProps } from './dimension';
+import { filterProps } from './filter';
 import { flexProps } from './flex';
 import { fontProps } from './font';
 import { marginProps } from './margin';
@@ -51,6 +52,7 @@ export const allProps = {
         aliases: ['d'],
         key: 'display'
     },
+    ...filterProps,
     ...flexProps,
     ...fontProps,
     ...groupProps,
@@ -264,11 +266,9 @@ export const handleProps = ({
             groups[parent].childProps.push({
                 fn,
                 propName: key,
-                value: props[key]
+                value: props[key] || props[cssProp]
             })
-        }
-
-        if (transform && typeof transform === 'function') {
+        } else if (transform && typeof transform === 'function') {
             const { props: transformProps, value: transformValue } = transform({ props, theme });
             const stringifiedProps = transformValue ? JSON.stringify(transformProps).replace(/value/g, transformValue({
                 props,
