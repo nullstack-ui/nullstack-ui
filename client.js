@@ -44,6 +44,12 @@ const theme = {
   },
   customProps: [
     {
+      name: 'testing',
+      props: {
+        bgColor: 'blue'
+      }
+    },
+    {
       name: 'clown',
       props: {
         bgColor: 'yellow'
@@ -80,6 +86,14 @@ function match({ elements, node }) {
 
   if (node.attributes && key) {
     node.attributes['data-id'] = key;
+  }
+
+  if (node.attributes?.hasOwnProperty('bypass')) {
+    if (node.attributes.bypass) {
+      node.type = ({ children }) => {
+        return children;
+      }
+    }
   }
 
   if (node.attributes?.hasOwnProperty('if')) {
@@ -126,6 +140,8 @@ class NullstackUI {
 
   transform(params) {
     const { node } = params;
+
+    console.log('node', node)
 
     if (acceptableTypes.indexOf(node.type) > -1) {
       this.storedElements.push(typeof node === 'object' ? {
