@@ -141,8 +141,6 @@ class NullstackUI {
   transform(params) {
     const { node } = params;
 
-    console.log('node', node)
-
     if (acceptableTypes.indexOf(node.type) > -1) {
       this.storedElements.push(typeof node === 'object' ? {
         ...node

@@ -176,7 +176,6 @@ const transform = ({
         key: 'transform',
         value: valueAsArr.join(' ')
     }
-    // }
 }
 
 const translate = value => {
