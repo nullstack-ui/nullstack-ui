@@ -3,10 +3,16 @@ import Color from 'color';
 const defaultRatio = .5;
 
 export const getColor = props => {
-    const { theme, value } = props;
+    const { context, theme, value } = props;
 
     if (typeof value === 'string') {
-        return theme?.colors?.[value] || value;
+        const themeColor = theme?.colors?.[value];
+
+        if (themeColor && typeof themeColor === 'function') {
+            return themeColor(props);
+        } else {
+            return themeColor || value;
+        }
     } else if (
         Array.isArray(value) &&
         typeof value[0] === 'string' &&

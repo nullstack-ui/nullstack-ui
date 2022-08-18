@@ -22,7 +22,9 @@ class sizeMultipliers {
 
 const theme = {
   colors: {
-    primary: '#00CCDD'
+    primary: ({ context }) => {
+      return context.isDarkMode ? 'red' : 'blue'
+    }
   },
   components: {
     button: {
@@ -43,6 +45,13 @@ const theme = {
     }
   },
   customProps: [
+    {
+      name: 'fat',
+      props: {
+        h: 'full',
+        w: 'full'
+      }
+    },
     {
       name: 'testing',
       props: {
@@ -155,6 +164,7 @@ class NullstackUI {
     })) { return false; };
 
     const style = ComponentStyle({
+      context,
       props: {
         ...node.attributes
       },
