@@ -3,7 +3,7 @@ import { bgProps } from './bg';
 
 // Props
 import { border, borderColor, borderProps, borderRadius, borderStyle, borderWidth } from './border';
-import { bgColor, color, textColor } from './color';
+import { bgColor, color, colorProps, textColor } from './color';
 import { dimensionProps } from './dimension';
 import { filterProps } from './filter';
 import { flexProps } from './flex';
@@ -38,9 +38,7 @@ export const allProps = {
     'boxSizing': {
         key: 'box-sizing'
     },
-    'color': {
-        fn: color
-    },
+    ...colorProps,
     'content': {
         key: 'content'
     },
@@ -69,9 +67,6 @@ export const allProps = {
     },
     ...sizeProps,
     ...spacingProps,
-    'textColor': {
-        fn: textColor
-    },
     ...transformProps,
     'transition': {
         fn: transition

@@ -24,6 +24,11 @@ const theme = {
   colors: {
     primary: ({ context }) => {
       return context.isDarkMode ? 'red' : 'blue'
+    },
+    secondary: {
+      DEFAULT: 'green',
+      500: 'yellow',
+      100: 'pink',
     }
   },
   components: {

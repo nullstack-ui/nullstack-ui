@@ -1,4 +1,3 @@
-import { getColor } from './color';
 import { handleProps } from '.';
 
 const bg = ({
@@ -32,20 +31,6 @@ const bg = ({
     }
 }
 
-export const bgColor = ({
-    key,
-    theme,
-    value
-}) => {
-    return {
-        key,
-        value: getColor({
-            theme,
-            value
-        })
-    };
-}
-
 export const bgProps = {
     'bg': {
         aliases: ['background'],
@@ -59,15 +44,6 @@ export const bgProps = {
             'backgroundAttachment'
         ],
         key: 'background-attachment',
-    },
-    'bgColor': {
-        aliases: [
-            'bg.color',
-            'background.color',
-            'backgroundColor'
-        ],
-        fn: bgColor,
-        key: 'background-color',
     },
     'bgImage': {
         aliases: [

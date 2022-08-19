@@ -3,13 +3,15 @@ import Color from 'color';
 const defaultRatio = .5;
 
 export const getColor = props => {
-    const { context, theme, value } = props;
+    const { theme, value } = props;
 
     if (typeof value === 'string') {
         const themeColor = theme?.colors?.[value];
 
         if (themeColor && typeof themeColor === 'function') {
             return themeColor(props);
+        } else if (themeColor && typeof themeColor === 'object') {
+            return getColorIntensity(props);
         } else {
             return themeColor || value;
         }
@@ -18,16 +20,48 @@ export const getColor = props => {
         typeof value[0] === 'string' &&
         typeof value[1] === 'object'
     ) {
+        const themeColor = theme?.colors?.[value[0]];
+        const handledValue = typeof themeColor === 'function' ? themeColor(props) : value[0];
+
         return handleColor({
+            theme,
             ...value[1],
-            value: theme?.colors?.[value[0]] || value[0]
+            value: handledValue
         })
-    } else if (typeof value === 'object') {
+    } else if (
+        Array.isArray(value) &&
+        typeof value[0] === 'string' &&
+        !isNaN(value[1])
+    ) {
+        const themeColor = theme?.colors?.[value[0]];
+        const handledValue = typeof themeColor === 'function' ? themeColor(props) : value[0];
+
         return handleColor({
-            ...value,
-            value: theme?.colors?.[value.value] || value.value
+            theme,
+            intensity: value[1],
+            value: handledValue
         });
+    } else if (typeof value === 'object') {
+        const themeColor = theme?.colors?.[value.value];
+
+        if (themeColor && typeof themeColor === 'function') {
+            return handleColor({
+                theme,
+                ...value,
+                value: themeColor(props) || value[value.value]
+            })
+        } else {
+            return handleColor({
+                theme,
+                ...value,
+                value: themeColor || value.value
+            });
+        }
     }
+}
+
+const getThemeColor = props => {
+    const { theme, value } = props;
 }
 
 // Handle color
@@ -36,6 +70,14 @@ export const handleColor = props => {
 
     if (props.darken) {
         handledColor = darkenColor(props);
+    }
+
+    if (props.faded) {
+        handledColor = fadedColor(props);
+    }
+
+    if (props.intensity) {
+        handledColor = getColorIntensity(props);
     }
 
     if (props.opacity) {
@@ -73,6 +115,7 @@ export const bgColor = ({
 export const color = props => {
     const { value } = props;
     const bgColor = getColor(props);
+
     const textColor = Color(bgColor).isDark() ? lightenColor({
         ratio: value?.ratio || .9,
         value: bgColor
@@ -99,6 +142,13 @@ export const darkenColor = props => {
     const finalRatio = !isNaN(parseInt(darken)) ? darken : (ratio || defaultRatio);
 
     return Color(value).lightness(lightness - lightness * finalRatio).hex();
+}
+
+export const fadedColor = props => {
+    const { faded, ratio, value } = props;
+    const finalRatio = !isNaN(parseInt(faded)) ? faded : (ratio || defaultRatio);
+
+    return Color(value).mix(Color('#FFF'), finalRatio).hex();
 }
 
 export const getActiveColors = params => {
@@ -133,6 +183,58 @@ export const getActiveColors = params => {
     }
 }
 
+const getColorIntensity = props => {
+    const { intensity, theme, value } = props;
+    const themeColor = theme?.colors?.[value];
+    const defaultColor = theme?.colors?.[value]?.DEFAULT;
+    const intensityColor = theme?.colors?.[value]?.[intensity];
+    let index;
+    let mixIntensity;
+    let next;
+    let nextColor;
+    let nextIntensity;
+    let previous;
+    let previousColor;
+    let previousIntensity;
+
+    if (!themeColor) {
+        return value
+    } else if (intensityColor && typeof intensityColor === 'function') {
+        return intensityColor(props);
+    } else if (intensityColor && typeof intensityColor === 'string') {
+        return intensityColor
+    } else if (!intensity) {
+        return defaultColor;
+    } else if (!intensityColor) {
+        themeColor[intensity] = null;
+
+        index = Object.keys(themeColor).indexOf(`${intensity}`);
+        next = Object.keys(themeColor)[index + 1];
+        previous = Object.keys(themeColor)[index - 1];
+        mixIntensity = intensity / (+next + +previous);
+
+        nextIntensity = theme?.colors?.[value]?.[next];
+        previousIntensity = theme?.colors?.[value]?.[previous];
+
+        if (typeof nextIntensity === 'function') {
+            nextColor = nextIntensity(props);
+        } else if (typeof nextIntensity === 'string') {
+            nextColor = nextIntensity;
+        }
+
+        if (typeof previousIntensity === 'function') {
+            previousColor = previousIntensity(props);
+        } else if (typeof nextIntensity === 'string') {
+            previousColor = previousIntensity;
+        }
+
+        delete themeColor[intensity];
+
+        return Color(previousColor).mix(Color(nextColor), mixIntensity).hex();
+    }
+    // console.log('intensity', value);
+}
+
 export const getHoverColors = params => {
     const { props, ratio, theme } = params;
     const { bgColor, color, mixColors, textColor } = props;
@@ -147,7 +249,7 @@ export const getHoverColors = params => {
             return lightenColor(({ ratio: ratio ? 1 - ratio : .2, value: color }));
         } else if (color && Color(color).isLight()) {
             return darkenColor(({ ratio: ratio ? 1 - ratio : .2, value: color }));
-        } 
+        }
     }
 
     if (mixColors) {
@@ -173,9 +275,10 @@ export const lightenColor = props => {
 }
 
 export const opaqueColor = props => {
-    const { opacity, ratio, value } = props;
+    const { opacity, ratio } = props;
+    const handledValue = getColor(props);
 
-    return Color(value).alpha(!isNaN(parseInt(opacity)) ? opacity : (ratio || defaultRatio)).hex();
+    return Color(handledValue).alpha(!isNaN(parseInt(opacity)) ? opacity : (ratio || defaultRatio)).hexa();
 }
 
 export const textColor = ({
@@ -190,4 +293,23 @@ export const textColor = ({
             value
         })
     };
+}
+
+// Color props
+export const colorProps = {
+    'bgColor': {
+        aliases: [
+            'bg.color',
+            'background.color',
+            'backgroundColor'
+        ],
+        fn: bgColor,
+        key: 'background-color',
+    },
+    'color': {
+        fn: color
+    },
+    'textColor': {
+        fn: textColor
+    },
 }

@@ -22,7 +22,10 @@ export default class Components extends Nullstack {
     render() {
         return (
             <div p={5}>
-                <button color="primary">Button</button>
+                <button
+                    color={['secondary', 100]}>
+                    Button
+                </button>
 
                 Div
             </div>
