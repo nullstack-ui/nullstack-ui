@@ -53,6 +53,10 @@ const theme = {
 
 class Application extends Nullstack {
 
+  initiate(context) {
+    context.isDarkMode = true;
+  }
+
   prepare(context) {
     context.page.locale = 'pt-BR';
   }

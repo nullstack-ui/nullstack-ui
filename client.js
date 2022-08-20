@@ -22,7 +22,14 @@ class sizeMultipliers {
 
 const theme = {
   colors: {
-    primary: '#00CCDD'
+    primary: ({ context }) => {
+      return context.isDarkMode ? 'red' : 'blue'
+    },
+    secondary: {
+      DEFAULT: 'green',
+      500: 'yellow',
+      100: 'pink',
+    }
   },
   components: {
     button: {
@@ -43,6 +50,19 @@ const theme = {
     }
   },
   customProps: [
+    {
+      name: 'fat',
+      props: {
+        h: 'full',
+        w: 'full'
+      }
+    },
+    {
+      name: 'testing',
+      props: {
+        bgColor: 'blue'
+      }
+    },
     {
       name: 'clown',
       props: {
@@ -80,6 +100,14 @@ function match({ elements, node }) {
 
   if (node.attributes && key) {
     node.attributes['data-id'] = key;
+  }
+
+  if (node.attributes?.hasOwnProperty('bypass')) {
+    if (node.attributes.bypass) {
+      node.type = ({ children }) => {
+        return children;
+      }
+    }
   }
 
   if (node.attributes?.hasOwnProperty('if')) {
@@ -141,6 +169,7 @@ class NullstackUI {
     })) { return false; };
 
     const style = ComponentStyle({
+      context,
       props: {
         ...node.attributes
       },

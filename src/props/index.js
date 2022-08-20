@@ -3,8 +3,9 @@ import { bgProps } from './bg';
 
 // Props
 import { border, borderColor, borderProps, borderRadius, borderStyle, borderWidth } from './border';
-import { bgColor, color, textColor } from './color';
+import { bgColor, color, colorProps, textColor } from './color';
 import { dimensionProps } from './dimension';
+import { filterProps } from './filter';
 import { flexProps } from './flex';
 import { fontProps } from './font';
 import { marginProps } from './margin';
@@ -37,9 +38,7 @@ export const allProps = {
     'boxSizing': {
         key: 'box-sizing'
     },
-    'color': {
-        fn: color
-    },
+    ...colorProps,
     'content': {
         key: 'content'
     },
@@ -51,6 +50,7 @@ export const allProps = {
         aliases: ['d'],
         key: 'display'
     },
+    ...filterProps,
     ...flexProps,
     ...fontProps,
     ...groupProps,
@@ -67,9 +67,6 @@ export const allProps = {
     },
     ...sizeProps,
     ...spacingProps,
-    'textColor': {
-        fn: textColor
-    },
     ...transformProps,
     'transition': {
         fn: transition
@@ -228,6 +225,7 @@ const handleAllProps = ({
 }
 
 export const handleProps = ({
+    context,
     parentProps,
     props,
     theme
@@ -257,7 +255,7 @@ export const handleProps = ({
             transform,
             value: unhandledValue
         } = allProps[cssProp] || getPropByAlias(cssProp) || {};
-        const value = typeof unhandledValue === 'function' ? unhandledValue({ props, theme }) : unhandledValue;
+        const value = typeof unhandledValue === 'function' ? unhandledValue({ context, props, theme }) : unhandledValue;
 
         if (parent) {
             if (!groups[parent]) {
@@ -270,18 +268,17 @@ export const handleProps = ({
             groups[parent].childProps.push({
                 fn,
                 propName: key,
-                value: props[key]
+                value: props[key] || props[cssProp]
             })
-        }
-
-        if (transform && typeof transform === 'function') {
-            const { props: transformProps, value: transformValue } = transform({ props, theme });
+        } else if (transform && typeof transform === 'function') {
+            const { props: transformProps, value: transformValue } = transform({ context, props, theme });
             const stringifiedProps = transformValue ? JSON.stringify(transformProps).replace(/value/g, transformValue({
                 props,
                 theme,
                 value: propsWithCustomProps[cssProp]
             })) : '';
             const { asArray } = handleProps({
+                context,
                 props: transformValue ? JSON.parse(stringifiedProps) : transformProps,
                 theme
             });
@@ -291,12 +288,14 @@ export const handleProps = ({
             }
         } else if (key && value) {
             elementProps[key] = typeof value === 'function' ? value({
+                context,
                 initialProps: props,
                 props: propsWithCustomProps,
                 theme
             }) : value;
         } else if (fn && typeof fn === 'function' && propsWithCustomProps[cssProp] != null) {
             const handledProp = fn({
+                context,
                 key,
                 props: propsWithCustomProps,
                 theme,
@@ -310,6 +309,7 @@ export const handleProps = ({
             if (Array.isArray(handledProp)) {
                 for (let prop of handledProp) {
                     elementProps[prop.key] = typeof prop.value === 'function' ? prop.value({
+                        context,
                         initialProps: props,
                         props: propsWithCustomProps,
                         theme
@@ -319,6 +319,7 @@ export const handleProps = ({
                 if (Array.isArray(handledProp.key)) {
                     for (let key of handledProp.key) {
                         elementProps[key] = typeof handledProp.value === 'function' ? handledProp.value({
+                            context,
                             initialProps: props,
                             props: propsWithCustomProps,
                             theme
@@ -326,6 +327,7 @@ export const handleProps = ({
                     }
                 } else if (typeof handledProp.key === 'string') {
                     elementProps[handledProp.key] = typeof handledProp.value === 'function' ? handledProp.value({
+                        context,
                         initialProps: props,
                         props: propsWithCustomProps,
                         theme
@@ -342,6 +344,7 @@ export const handleProps = ({
                 newProps[`${cssProp}.${subKey}`] = propsWithCustomProps[cssProp][subKey];
 
                 handledProps = handleProps({
+                    context,
                     props: newProps,
                     theme
                 });
@@ -356,6 +359,7 @@ export const handleProps = ({
         const { childProps } = groups[groupName];
         const handledProp = fn({
             childProps,
+            context,
             key: parentKey,
             props: propsWithCustomProps,
             theme
@@ -417,6 +421,7 @@ export const handleProps = ({
                 theme
             });
             const { asArray, elementProps: stateProps } = handleProps({
+                context,
                 props: typeof propsWithCustomProps[state] === 'function' ? propsWithCustomProps[state]({
                     initialProps: props,
                     props: propsWithCustomProps,
@@ -432,6 +437,7 @@ export const handleProps = ({
             cssAsArray.push('}');
         } else if (fn) {
             const { asArray } = fn({
+                context,
                 key,
                 props,
                 theme
