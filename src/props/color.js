@@ -11,9 +11,7 @@ export const getColor = props => {
             value
         });
 
-        if (!themeColor) {
-            return '#000';
-        } else if (themeColor && typeof themeColor === 'function') {
+        if (themeColor && typeof themeColor === 'function') {
             return themeColor(props);
         } else if (themeColor && typeof themeColor === 'object') {
             return getColorIntensity(props);
@@ -29,19 +27,13 @@ export const getColor = props => {
             ...props,
             value: value[0]
         });
-        let handledValue;
+        const handledValue = typeof themeColor === 'function' ? themeColor(props) : value[0];
 
-        if (!themeColor) {
-            return '#000';
-        } else {
-            handledValue = typeof themeColor === 'function' ? themeColor(props) : value[0];
-
-            return handleColor({
-                theme,
-                ...value[1],
-                value: handledValue
-            });
-        }
+        return handleColor({
+            theme,
+            ...value[1],
+            value: handledValue
+        });
     } else if (
         Array.isArray(value) &&
         typeof value[0] === 'string' &&
@@ -51,29 +43,20 @@ export const getColor = props => {
             ...props,
             value: value[0]
         });
-        let handledValue;
+        const handledValue = typeof themeColor === 'function' ? themeColor(props) : value[0];
 
-        if (!themeColor) {
-            return '#000';
-        } else {
-            handledValue = typeof themeColor === 'function' ? themeColor(props) : value[0];
-
-            return handleColor({
-                theme,
-                intensity: value[1],
-                value: handledValue
-            });
-        }
-
+        return handleColor({
+            theme,
+            intensity: value[1],
+            value: handledValue
+        });
     } else if (typeof value === 'object') {
         const themeColor = getThemeColor({
             ...props,
             value: value.value
         });
 
-        if (!themeColor) {
-            return '#000';
-        } else if (typeof themeColor === 'function') {
+        if (typeof themeColor === 'function') {
             return handleColor({
                 theme,
                 ...value,

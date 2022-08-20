@@ -29,16 +29,28 @@ export default class Components extends Nullstack {
 
     render() {
         return (
-            <div p={5}>
-                <button
-                    color={['secondary', 100]}>
-                    Button
-                </button>
+            <>
+                <div p={5}>
+                    <button
+                        color={['secondary', 100]}>
+                        Button
+                    </button>
 
-                <button color="primary">
-                    Primary button
-                </button>
-            </div>
+                    <button color="primary">
+                        Primary button
+                    </button>
+                </div>
+
+                <div
+                    border="green"
+                    outline={true}
+                    outlineOffset={-15}
+                    outlineWidth={5}
+                    rounded={true}
+                    p={5}>
+                    Test
+                </div>
+            </>
             // <div
             //     alH="center"
             //     color="cyan"
