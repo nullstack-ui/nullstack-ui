@@ -112,6 +112,12 @@ export const allStates = {
     '_optional': {
         key: ':optional'
     },
+    '_readOnly': {
+        key: ':read-only'  
+    },
+    '_visited': {
+        key: ':visited'  
+    },
     '_active': {
         key: ':active'
     },
