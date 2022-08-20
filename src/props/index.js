@@ -17,6 +17,7 @@ import { pseudoClasses } from './pseudoClasses';
 import { pseudoElements } from './pseudoElements';
 import { sizeProps } from './size';
 import { spacingProps } from './spacing';
+import { textProps } from './text';
 import { transformProps } from './transform';
 import { transition, transitionDelay, transitionDuration, transitionProperty, transitionTimingFunction } from './transition';
 import { visibilityProps } from './visibility';
@@ -69,6 +70,7 @@ export const allProps = {
     },
     ...sizeProps,
     ...spacingProps,
+    ...textProps,
     ...transformProps,
     'transition': {
         fn: transition
@@ -112,10 +114,10 @@ export const allStates = {
         key: ':optional'
     },
     '_readOnly': {
-        key: ':read-only'  
+        key: ':read-only'
     },
     '_visited': {
-        key: ':visited'  
+        key: ':visited'
     },
     '_active': {
         key: ':active'
@@ -272,8 +274,8 @@ export const handleProps = ({
                 propName: key,
                 value: props[key] || props[cssProp]
             })
-        } else if (transform && typeof transform === 'function') {
-            const { props: transformProps, value: transformValue } = transform({ context, props, theme });
+        } else if (transform) {
+            const { props: transformProps, value: transformValue } = typeof transform === 'function' ? transform({ context, props, theme }) : transform;
             const stringifiedProps = transformValue ? JSON.stringify(transformProps).replace(/value/g, transformValue({
                 props,
                 theme,

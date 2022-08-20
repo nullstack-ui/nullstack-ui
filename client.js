@@ -82,10 +82,14 @@ const theme = {
       }
     }
   ],
-  test: 'test',
   globals: {
-    fontFamily: 'Inter',
-    sizeMultipliers,
+    fonts: {
+      DEFAULT: 'Inter',
+      body: 'Roboto',
+      fallback: ['Arial', 'Tahoma']
+    },
+    // fontFamily: 'Inter',
+    sizeMultipliers: new sizeMultipliers,
     sizeRatio
   }
 }
@@ -94,7 +98,14 @@ const acceptableTypes = [
   'a',
   'button',
   'div',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
   'input',
+  'p',
   'select',
   'span',
   'textarea',
