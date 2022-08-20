@@ -7,6 +7,14 @@ export default class Components extends Nullstack {
     elements = [1, 2, 3, 4, 5, 6];
     isVisible = false;
 
+    initiate(context) {
+        context.darkMode = true;
+
+        setTimeout(() => {
+            context.darkMode = false;
+        }, 5000);
+    }
+
     handleClick() {
         this.isVisible = !this.isVisible;
     }
@@ -27,7 +35,9 @@ export default class Components extends Nullstack {
                     Button
                 </button>
 
-                Div
+                <button color="primary">
+                    Primary button
+                </button>
             </div>
             // <div
             //     alH="center"

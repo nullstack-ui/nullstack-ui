@@ -6,9 +6,14 @@ export const getColor = props => {
     const { theme, value } = props;
 
     if (typeof value === 'string') {
-        const themeColor = theme?.colors?.[value];
+        const themeColor = getThemeColor({
+            ...props,
+            value
+        });
 
-        if (themeColor && typeof themeColor === 'function') {
+        if (!themeColor) {
+            return '#000';
+        } else if (themeColor && typeof themeColor === 'function') {
             return themeColor(props);
         } else if (themeColor && typeof themeColor === 'object') {
             return getColorIntensity(props);
@@ -20,31 +25,55 @@ export const getColor = props => {
         typeof value[0] === 'string' &&
         typeof value[1] === 'object'
     ) {
-        const themeColor = theme?.colors?.[value[0]];
-        const handledValue = typeof themeColor === 'function' ? themeColor(props) : value[0];
+        const themeColor = getThemeColor({
+            ...props,
+            value: value[0]
+        });
+        let handledValue;
 
-        return handleColor({
-            theme,
-            ...value[1],
-            value: handledValue
-        })
+        if (!themeColor) {
+            return '#000';
+        } else {
+            handledValue = typeof themeColor === 'function' ? themeColor(props) : value[0];
+
+            return handleColor({
+                theme,
+                ...value[1],
+                value: handledValue
+            });
+        }
     } else if (
         Array.isArray(value) &&
         typeof value[0] === 'string' &&
         !isNaN(value[1])
     ) {
-        const themeColor = theme?.colors?.[value[0]];
-        const handledValue = typeof themeColor === 'function' ? themeColor(props) : value[0];
-
-        return handleColor({
-            theme,
-            intensity: value[1],
-            value: handledValue
+        const themeColor = getThemeColor({
+            ...props,
+            value: value[0]
         });
-    } else if (typeof value === 'object') {
-        const themeColor = theme?.colors?.[value.value];
+        let handledValue;
 
-        if (themeColor && typeof themeColor === 'function') {
+        if (!themeColor) {
+            return '#000';
+        } else {
+            handledValue = typeof themeColor === 'function' ? themeColor(props) : value[0];
+
+            return handleColor({
+                theme,
+                intensity: value[1],
+                value: handledValue
+            });
+        }
+
+    } else if (typeof value === 'object') {
+        const themeColor = getThemeColor({
+            ...props,
+            value: value.value
+        });
+
+        if (!themeColor) {
+            return '#000';
+        } else if (typeof themeColor === 'function') {
             return handleColor({
                 theme,
                 ...value,
@@ -61,7 +90,16 @@ export const getColor = props => {
 }
 
 const getThemeColor = props => {
-    const { theme, value } = props;
+    const { context, theme, value } = props;
+    const { darkMode } = context || {};
+
+    if (darkMode && theme.colors['_dark']?.[value]) {
+        return theme.colors['_dark']?.[value];
+    } else if (!darkMode && theme.colors['_light']?.[value]) {
+        return theme.colors['_light']?.[value];
+    } else {
+        return theme.colors?.[value];
+    }
 }
 
 // Handle color

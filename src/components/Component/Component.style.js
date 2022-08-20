@@ -1,7 +1,7 @@
 import { css } from '@emotion/css';
 import { handleProps } from '../../props';
 
-export const ComponentStyle = ({ context, name, props, theme }) => {
+export const ComponentStyle = ({ context, darkMode, name, props, theme }) => {
     const componentProps = { ...props };
     const themeProps = theme?.components?.[name] || {};
 
@@ -28,6 +28,7 @@ export const ComponentStyle = ({ context, name, props, theme }) => {
 
     const { asString } = handleProps({
         context,
+        darkMode,
         props: {
             ...componentProps,
             boxSizing: 'border-box'

@@ -22,6 +22,12 @@ class sizeMultipliers {
 
 const theme = {
   colors: {
+    _dark: {
+      primary: 'black'
+    },
+    _light: {
+
+    },
     primary: ({ context }) => {
       return context.isDarkMode ? 'red' : 'blue'
     },
@@ -168,6 +174,8 @@ class NullstackUI {
       node
     })) { return false; };
 
+    context.darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
     const style = ComponentStyle({
       context,
       props: {
@@ -183,6 +191,12 @@ class NullstackUI {
     }
 
     if (node.attributes) {
+      window
+        .matchMedia('(prefers-color-scheme: dark)')
+        .addEventListener('change', event => {
+          context.darkMode = event.matches;
+        });
+
       node.attributes.class = style;
     }
   }
