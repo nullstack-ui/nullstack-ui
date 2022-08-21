@@ -1,3 +1,7 @@
+import { getColor } from './color';
+import { getNestedProps } from '../utils/getNestedProps';
+import { getValue } from '../utils/getValue';
+
 const letterSpacingAliases = [
     {
         alias: 'tighter',
@@ -22,6 +26,65 @@ const letterSpacingAliases = [
     {
         alias: 'widest',
         value: '0.1em'
+    }
+];
+
+const lineHeightAliases = [
+    {
+        alias: '3',
+        value: '.75rem'
+    },
+    {
+        alias: '4',
+        value: '1rem'
+    },
+    {
+        alias: '5',
+        value: '1.25rem'
+    },
+    {
+        alias: '6',
+        value: '1.5rem'
+    },
+    {
+        alias: '7',
+        value: '1.75rem'
+    },
+    {
+        alias: '8',
+        value: '2rem'
+    },
+    {
+        alias: '9',
+        value: '2.25rem'
+    },
+    {
+        alias: '10',
+        value: '1rem'
+    },
+    {
+        alias: 'none',
+        value: 1
+    },
+    {
+        alias: 'tight',
+        value: 1.25
+    },
+    {
+        alias: 'snug',
+        value: 1.375
+    },
+    {
+        alias: 'normal',
+        value: 1.5
+    },
+    {
+        alias: 'relaxed',
+        value: 1.625
+    },
+    {
+        alias: 'loose',
+        value: 2
     }
 ];
 
@@ -62,7 +125,77 @@ const lineClamp = ({ value }) => {
     ]
 }
 
+const lineHeight = ({
+    props,
+    value
+}) => {
+    let alias;
+
+    if (props.leading != null) {
+        alias = lineHeightAliases.find(({ alias }) => alias === value);
+
+        return {
+            key: 'line-height',
+            value: alias?.value || 1
+        }
+    } else {
+        return {
+            key: 'line-height',
+            value
+        }
+    }
+}
+
+const text = ({
+    theme,
+    value,
+    ...rest
+}) => {
+    return getNestedProps({
+        childProps: value,
+        propName: 'text',
+        theme,
+        ...rest
+    });
+}
+
+const textDecoration = ({
+    theme,
+    value,
+    ...rest
+}) => {
+    if (typeof value === 'object') {
+
+    } else {
+        return {
+            key: 'text-decoration',
+            value
+        }
+    }
+}
+
+const textDecorationColor = ({
+    key = 'text-decoration-color',
+    theme,
+    value
+}) => {
+    return {
+        key,
+        value: getColor({
+            theme,
+            value
+        })
+    };
+}
+
 export const textProps = {
+    'capitalize': {
+        transform: {
+            props: {
+                textTransform: 'capitalize'
+            },
+        }
+    },
     'ellipsis': {
         transform: {
             props: {
@@ -82,12 +215,108 @@ export const textProps = {
         key: 'line-clamp',
         fn: lineClamp
     },
+    'lineHeight': {
+        aliases: ['leading'],
+        key: 'line-height',
+        fn: lineHeight
+    },
+    'lowerCase': {
+        aliases: ['lowercase'],
+        transform: {
+            props: {
+                textTransform: 'lowercase'
+            },
+        }
+    },
     'noWrap': {
+        aliases: ['nowrap'],
         transform: {
             props: {
                 whiteSpace: 'nowrap'
             }
         }
+    },
+    'text': {
+        key: 'text',
+        fn: text
+    },
+    'text.align': {
+        aliases: [
+            'textAl',
+            'text.al',
+            'textAlign'
+        ],
+        key: 'text-align'
+    },
+    'text.alignLast': {
+        aliases: [
+            'textAlLast',
+            'text.alLast',
+            'textAlignLast'
+        ],
+        key: 'text-align-last'
+    },
+    'textDecoration': {
+        aliases: [
+            'text.decoration'
+        ],
+        fn: textDecoration,
+        key: 'text-decoration'
+    },
+    'textDecoration.color': {
+        aliases: [
+            'text.decorationColor',
+            'textDecorationColor'
+        ],
+        fn: textDecorationColor,
+        key: 'text-decoration-color'
+    },
+    'textDecoration.line': {
+        aliases: [
+            'text.decorationLine',
+            'textDecorationLine'
+        ],
+        key: 'text-decoration-line'
+    },
+    'textDecoration.style': {
+        aliases: [
+            'text.decorationStyle',
+            'textDecorationStyle'
+        ],
+        key: 'text-decoration-style'
+    },
+    'textDecoration.thickness': {
+        aliases: [
+            'text.decorationThickness',
+            'textDecorationThickness',
+            'textDecoration.width',
+            'text.decorationWidth',
+            'textDecorationWidth'
+        ],
+        fn: ({ value }) => ({
+            key: 'text-decoration-thickness',
+            value: getValue({ unit: 'px', value })
+        }),
+        key: 'text-decoration-thickness'
+    },
+    'text.direction': {
+        aliases: [
+            'textDir',
+            'text.dir',
+            'textDirection'
+        ],
+        key: 'text-direction'
+    },
+    'text.indent': {
+        aliases: [
+            'indent',
+            'textIndent'
+        ],
+        fn: ({ value }) => ({
+            key: 'text-indent',
+            value: getValue({ unit: 'px', value })
+        }),
+        key: 'text-indent'
     },
     'text.overflow': {
         aliases: [
@@ -96,7 +325,29 @@ export const textProps = {
         ],
         key: 'text-overflow'
     },
+    'text.transform': {
+        aliases: ['textTransform'],
+        key: 'text-transform'
+    },
+    'upperCase': {
+        aliases: ['uppercase'],
+        transform: {
+            props: {
+                textTransform: 'uppercase'
+            },
+        }
+    },
+    'verticalAlign': {
+        aliases: [
+            'vAl',
+            'vAlign'
+        ],
+        key: 'vertical-align'
+    },
     'whiteSpace': {
-        'key': 'white-space'
+        key: 'white-space'
+    },
+    'wordSpacing': {
+        key: 'word-spacing'
     }
 }

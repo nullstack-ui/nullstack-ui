@@ -59,10 +59,24 @@ export default class Components extends Nullstack {
                     tracking="tighter"
                     semibold={true}>Test</h2>
 
+                <div
+                    indent={-5}
+                    textAlign="center"
+                    textDecoration="underline"
+                    textDecorationColor="red"
+                    textDecorationLine="overline"
+                    textDecorationStyle="wavy"
+                    textDecorationWidth={2}>
+                    Teste
+                </div>
+
                 <p
+                    capitalize={true}
                     clamp={3}
+                    leading="tight"
                     ov="hidden"
-                    textColor="red">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at maximus lacus. Curabitur sit amet cursus purus. Pellentesque ac sem non mauris efficitur sodales et at lorem. Morbi sed accumsan neque, nec condimentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas pulvinar sed urna et fermentum. Nam felis quam, congue vitae vulputate ultrices, molestie a dolor. Praesent posuere faucibus nibh quis fermentum. Nullam lectus nunc, sollicitudin non lorem vitae, vestibulum pellentesque nulla. In lorem nisl, gravida ut justo vel, ultrices tempor massa. Proin commodo neque ac nunc dignissim pellentesque. Integer posuere, mi sit amet dictum dapibus, nulla urna rutrum purus, faucibus viverra ex urna ut lacus.
+                    size="2xl"
+                    textColor="red">lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at maximus lacus. Curabitur sit amet cursus purus. Pellentesque ac sem non mauris efficitur sodales et at lorem. Morbi sed accumsan neque, nec condimentum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas pulvinar sed urna et fermentum. Nam felis quam, congue vitae vulputate ultrices, molestie a dolor. Praesent posuere faucibus nibh quis fermentum. Nullam lectus nunc, sollicitudin non lorem vitae, vestibulum pellentesque nulla. In lorem nisl, gravida ut justo vel, ultrices tempor massa. Proin commodo neque ac nunc dignissim pellentesque. Integer posuere, mi sit amet dictum dapibus, nulla urna rutrum purus, faucibus viverra ex urna ut lacus.
                 </p>
             </>
             // <div

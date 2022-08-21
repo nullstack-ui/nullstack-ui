@@ -3,7 +3,8 @@ import { handleProps } from '#props/index';
 export const getNestedProps = ({
     childProps,
     propName,
-    theme
+    theme,
+    ...rest
 }) => {
     const handled = {};
     let handledProps;
@@ -12,7 +13,11 @@ export const getNestedProps = ({
         handled[`${propName}.${prop}`] = childProps[prop];
     }
 
-    handledProps = handleProps({ props: handled, theme });
+    handledProps = handleProps({
+        props: handled,
+        theme,
+        ...rest
+    });
 
     return Object.keys(handledProps.elementProps).map(propName => ({
         key: propName,

@@ -83,7 +83,10 @@ export const fontProps = {
         fn: fontFamily
     },
     'font.size': {
-        aliases: ['fontSize'],
+        aliases: [
+            'fontSize',
+            'size'
+        ],
         fn: fontSize,
         key: 'font-size'
     },

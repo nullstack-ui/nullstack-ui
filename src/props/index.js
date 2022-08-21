@@ -68,7 +68,7 @@ export const allProps = {
     'resize': {
         key: 'resize'
     },
-    ...sizeProps,
+    // ...sizeProps,
     ...spacingProps,
     ...textProps,
     ...transformProps,
