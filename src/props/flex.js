@@ -201,6 +201,27 @@ export const flexProps = {
         ],
         key: 'order'
     },
+    'flex.placeContent': {
+        aliases: [
+            'flexPlaceContent',
+            'placeContent'
+        ],
+        key: 'place-content'
+    },
+    'flex.placeItems': {
+        aliases: [
+            'flexPlaceItems',
+            'placeItems'
+        ],
+        key: 'place-items'
+    },
+    'flex.placeSelf': {
+        aliases: [
+            'flexPlaceSelf',
+            'placeSelf'
+        ],
+        key: 'place-self'
+    },
     'flex.reverse': {
         aliases: [
             'flexReverse',

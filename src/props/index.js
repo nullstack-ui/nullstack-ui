@@ -9,6 +9,7 @@ import { filterProps } from './filter';
 import { flexProps } from './flex';
 import { fontProps } from './font';
 import { marginProps } from './margin';
+import { otherProps } from './other';
 import { outlineProps } from './outline';
 import { overflowProps } from './overflow';
 import { paddingProps } from './padding';
@@ -62,6 +63,7 @@ export const allProps = {
         aliases: ['op'],
         key: 'opacity'
     },
+    ...otherProps,
     ...outlineProps,
     ...overflowProps,
     ...paddingProps,

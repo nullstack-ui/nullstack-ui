@@ -1,13 +1,16 @@
 import { getValue } from '../utils/getValue';
 
-const filter = ({ childProps }) => {
+const filter = ({
+    childProps,
+    key = 'filter'
+}) => {
     const valueAsArr = [];
 
     if (childProps) {
         for (let childProp of childProps) {
             const { fn, propName, value } = childProp;
             const propValue = typeof fn === 'function' ? fn(value) : value;
-            
+
             if (propValue != null) {
                 valueAsArr.push(`${propName}(${propValue})`);
             }
@@ -15,7 +18,7 @@ const filter = ({ childProps }) => {
     }
 
     return {
-        key: 'filter',
+        key,
         value: valueAsArr.join(' ')
     }
 }
@@ -56,7 +59,8 @@ export const filterProps = {
         parent: 'filter'
     },
     'filter': {
-        fn: filter
+        fn: filter,
+        key: 'filter'
     },
     'invert': {
         key: 'invert',
@@ -69,5 +73,47 @@ export const filterProps = {
     'sepia': {
         key: 'sepia',
         parent: 'filter'
+    },
+
+    // Bg filters
+    'bgBlur': {
+        fn: blur,
+        key: 'blur',
+        parent: 'bgFilter'
+    },
+    'bgBrightness': {
+        key: 'brightness',
+        parent: 'bgFilter'
+    },
+    'bgContrast': {
+        key: 'contrast',
+        parent: 'bgFilter'
+    },
+    'bgFilter': {
+        fn: filter,
+        key: 'backdrop-filter'
+    },
+    'bgGrayScale': {
+        aliases: ['grayscale'],
+        key: 'grayscale',
+        parent: 'bgFilter'
+    },
+    'bgHueRotate': {
+        aliases: ['hue'],
+        fn: hueRotate,
+        key: 'hue-rotate',
+        parent: 'bgFilter'
+    },
+    'bgInvert': {
+        key: 'invert',
+        parent: 'bgFilter'
+    },
+    'bgSaturate': {
+        key: 'saturate',
+        parent: 'bgFilter'
+    },
+    'bgSepia': {
+        key: 'sepia',
+        parent: 'bgFilter'
     },
 }

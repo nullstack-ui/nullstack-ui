@@ -31,7 +31,30 @@ export default class Components extends Nullstack {
         return (
             <>
                 <div
+                    ratio="1:1"
+                    relative={true}
+                    w={320}>
+                    <div
+                        absolute={true}
+                        bgBlur={5}
+                        inset={0} />
+                    <div
+                        bgImage="url(https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=320&h=320&q=80)"
+                        ratio="1:1"
+                        w={320}>
+
+                    </div>
+                </div>
+                <div
+                    color="cyan"
+                    ratio="5:6"
+                    width={250}>
+                    Test
+                </div>
+                <input caretColor="red" />
+                <div
                     bd="#ccc"
+                    antialiased={true}
                     p={3}
                     radius={.75}
                     shadow={true}>

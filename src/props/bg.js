@@ -45,6 +45,20 @@ export const bgProps = {
         ],
         key: 'background-attachment',
     },
+    'bgBlend': {
+        aliases: [
+            'bg.blend',
+            'bg.blendMode',
+            'bgBlendMode'
+        ],
+        key: 'background-blend-mode'  
+    },
+    'bgClip': {
+        aliases: [
+            'bg.clip'
+        ],
+        key: 'background-clip'  
+    },
     'bgImage': {
         aliases: [
             'bg.image',

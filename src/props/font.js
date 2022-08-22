@@ -54,6 +54,30 @@ const fontSize = ({ context, props, theme, value }) => {
     }
 }
 
+const fontSmoothing = ({ value }) => {
+    let mozSmoothing;
+    let webkitSmoothing;
+
+    if (typeof value === 'string') {
+        mozSmoothing = value;
+        webkitSmoothing = value;
+    } else if (typeof value === 'object') {
+        mozSmoothing = value.moz || 'auto';
+        webkitSmoothing = value.webkit || 'auto';
+    }
+
+    return [
+        {
+            key: '-moz-osx-font-smoothing',
+            value: mozSmoothing
+        },
+        {
+            key: '-webkit-font-smoothing',
+            value: webkitSmoothing
+        }
+    ]
+}
+
 // Methods
 const getFont = ({ context, props, theme, value }) => {
     const { globals } = theme || {};
@@ -66,6 +90,19 @@ const getFont = ({ context, props, theme, value }) => {
 }
 
 export const fontProps = {
+    'antialiased': {
+        aliases: [
+            'antiAliased'
+        ],
+        transform: {
+            props: {
+                fontSmoothing: {
+                    moz: 'grayscale',
+                    webkit: 'antialiased'
+                }
+            }
+        }
+    },
     'bold': {
         transform: {
             props: {
@@ -89,6 +126,13 @@ export const fontProps = {
         ],
         fn: fontSize,
         key: 'font-size'
+    },
+    'font.smoothing': {
+        aliases: [
+            'fontSmoothing'
+        ],
+        fn: fontSmoothing,
+        key: 'font-smoothing'
     },
     'font.style': {
         aliases: ['fontStyle'],
@@ -148,6 +192,19 @@ export const fontProps = {
         transform: {
             props: {
                 fontWeight: 600
+            }
+        }
+    },
+    'subpixel': {
+        aliases: [
+            'subPixel'
+        ],
+        transform: {
+            props: {
+                fontSmoothing: {
+                    moz: 'auto',
+                    webkit: 'auto'
+                }
             }
         }
     },
