@@ -76,7 +76,9 @@ const getThemeColor = props => {
     const { context, theme, value } = props;
     const { darkMode } = context || {};
 
-    if (darkMode && theme.colors['_dark']?.[value]) {
+    if (!theme?.colors) {
+        return '';
+    } else if (darkMode && theme.colors['_dark']?.[value]) {
         return theme.colors['_dark']?.[value];
     } else if (!darkMode && theme.colors['_light']?.[value]) {
         return theme.colors['_light']?.[value];
@@ -122,11 +124,13 @@ export const handleColor = props => {
 export const bgColor = ({
     key = 'background-color',
     theme,
-    value
+    value,
+    ...rest
 }) => {
     return {
         key,
         value: getColor({
+            ...rest,
             theme,
             value
         })
@@ -173,12 +177,13 @@ export const fadedColor = props => {
 }
 
 export const getActiveColors = params => {
-    const { props, ratio, theme } = params;
+    const { props, ratio, theme, ...rest } = params;
     const hoverProps = typeof props?._hover === 'function' ? props._hover(params) : props;
     const { bgColor, color, mixColors, textColor } = hoverProps || {};
 
     const getActiveColor = unhandledColor => {
         const color = getColor({
+            ...rest,
             theme,
             value: unhandledColor
         });
@@ -257,11 +262,12 @@ const getColorIntensity = props => {
 }
 
 export const getHoverColors = params => {
-    const { props, ratio, theme } = params;
+    const { props, ratio, theme, ...rest } = params;
     const { bgColor, color, mixColors, textColor } = props;
 
     const getHoverColor = unhandledColor => {
         const color = getColor({
+            ...rest,
             theme,
             value: unhandledColor
         });
@@ -305,11 +311,13 @@ export const opaqueColor = props => {
 export const textColor = ({
     key = 'color',
     theme,
-    value
+    value,
+    ...rest
 }) => {
     return {
         key,
         value: getColor({
+            ...rest,
             theme,
             value
         })

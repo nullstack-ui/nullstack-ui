@@ -23,34 +23,21 @@ class Home extends Nullstack {
   render({ project }) {
     return (
       <>
-        <Wrapper
-          bgColor={{
-            opacity: 1,
-            value: 'yellow'
-          }}
+        <div
+          // bgColor={{
+          //   opacity: 1,
+          //   value: 'yellow'
+          // }}
           border={{
             left: {
               style: 'solid',
               width: 2
             }
           }}
-          // borderLeft={{
-          //   style: 'solid',
-          //   width: 2
-          // }}
-          // bdB={{
-          //   color: 'green',
-          //   style: 'dashed',
-          //   width: 4
-          // }}
-          // bdRightColor={{
-          //   lighten: .5,
-          //   value: 'red'
-          // }}
-          // bdRightStyle="dotted"
           bdX="green"
           bdY="blue"
           borderRightWidth={16}
+          color="blue"
           flex={{
             alH: 'center',
             alV: 'center',
@@ -67,16 +54,18 @@ class Home extends Nullstack {
               value: 'blue'
             },
             bdRightStyle: 'dashed'
-          }}>
-          <Wrapper
+          }}
+          >
+            Teste
+          {/* <Wrapper
             border={{
               color: 'red',
               style: 'dashed',
               width: 2
             }}
             p={2}
-            width="25%">Wrapper</Wrapper>
-          <Button
+            width="25%">Wrapper</Wrapper> */}
+          {/* <Button
             bgColor={{
               faded: true,
               value: 'red'
@@ -89,10 +78,10 @@ class Home extends Nullstack {
             mt={1}
             size="lg">
             Button lg
-          </Button>
-        </Wrapper>
+          </Button> */}
+        </div>
 
-        <Wrapper
+        {/* <Wrapper
           _children={{
             _not: {
               _firstChild: {
@@ -104,9 +93,9 @@ class Home extends Nullstack {
           <button>Button 1</button>
           <button>Button 2</button>
           <button>Button 3</button>
-        </Wrapper>
+        </Wrapper> */}
 
-        <Wrapper
+        {/* <Wrapper
           alH="center"
           flex={{
             direction: 'column',
@@ -116,15 +105,15 @@ class Home extends Nullstack {
           <button>Button 1</button>
           <button>Button 2</button>
           <button>Button 3</button>
-        </Wrapper>
+        </Wrapper> */}
 
-        <Wrapper
+        {/* <Wrapper
           ellipsis={true}
           width={150}>
           This is a big text that will be cut by ellipsis prop
-        </Wrapper>
+        </Wrapper> */}
 
-        <Wrapper
+        {/* <Wrapper
           border={{
             color: {
               lighten: .75,
@@ -137,9 +126,9 @@ class Home extends Nullstack {
             alH: 'center',
             value: true
           }}
-          p={5}>
-          <Wrapper>
-            {Array(10).fill({}).map(() => (
+          p={5}> */}
+          {/* <Wrapper> */}
+            {/* {Array(10).fill({}).map(() => (
               <Wrapper
                 _after={{
                   absolute: true,
@@ -210,9 +199,9 @@ class Home extends Nullstack {
                 }}>
                 Wrapper
               </Wrapper>
-            ))}
-          </Wrapper>
-          <Button
+            ))} */}
+          {/* </Wrapper> */}
+          {/* <Button
             fixed={true}
             left={0}
             radius={0}
@@ -222,19 +211,10 @@ class Home extends Nullstack {
             compact={true}
             rounded={true}
             size="xs"
-            variant="success"
-          // color={{
-          //   lighten: .5,
-          //   value: 'blue'
-          // }}
-          // ml={15}
-          // margin={{
-          //   top: 15
-          // }}
-          >
+            variant="success">
             Teste
-          </Button>
-        </Wrapper>
+          </Button> */}
+        {/* </Wrapper> */}
       </>
     )
   }

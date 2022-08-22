@@ -177,11 +177,13 @@ const textDecoration = ({
 const textDecorationColor = ({
     key = 'text-decoration-color',
     theme,
-    value
+    value,
+    ...rest
 }) => {
     return {
         key,
         value: getColor({
+            ...rest,
             theme,
             value
         })

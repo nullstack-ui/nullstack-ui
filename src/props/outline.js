@@ -8,7 +8,8 @@ import { getNestedProps } from '#utils/getNestedProps';
 export const outline = ({
     key = 'outline',
     theme,
-    value
+    value,
+    ...rest
 }) => {
     if (value === 'none') {
         return {
@@ -21,7 +22,11 @@ export const outline = ({
             value: 'solid 1px #000'
         };
     } else if (typeof value === 'string') {
-        const outlineColor = getColor({ theme, value });
+        const outlineColor = getColor({
+            ...rest,
+            theme,
+            value
+        });
 
         return {
             key,
@@ -41,11 +46,13 @@ export const outline = ({
 export const outlineColor = ({
     key = 'outline-color',
     theme,
-    value
+    value,
+    ...rest
 }) => {
     return {
         key,
         value: getColor({
+            ...rest,
             theme,
             value
         })

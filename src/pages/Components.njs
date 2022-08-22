@@ -30,6 +30,13 @@ export default class Components extends Nullstack {
     render() {
         return (
             <>
+                <div
+                    bd="#ccc"
+                    p={3}
+                    radius={.75}
+                    shadow={true}>
+                    Card
+                </div>
                 <div p={5}>
                     <button
                         color={['secondary', 100]}>

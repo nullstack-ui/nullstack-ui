@@ -8,7 +8,8 @@ import { getNestedProps } from '#utils/getNestedProps';
 export const border = ({
     key = 'border',
     theme,
-    value
+    value,
+    ...rest
 }) => {
     if (value === 'none') {
         return {
@@ -21,7 +22,11 @@ export const border = ({
             value: 'solid 1px #000'
         };
     } else if (typeof value === 'string') {
-        const borderColor = getColor({ theme, value });
+        const borderColor = getColor({
+            ...rest,
+            theme,
+            value
+        });
 
         return {
             key,
@@ -41,11 +46,13 @@ export const border = ({
 export const borderColor = ({
     key = 'border-color',
     theme,
-    value
+    value,
+    ...rest
 }) => {
     return {
         key,
         value: getColor({
+            ...rest,
             theme,
             value
         })
