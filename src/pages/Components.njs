@@ -46,7 +46,25 @@ export default class Components extends Nullstack {
                     </div>
                 </div>
                 <div
-                    color="cyan"
+                    gradient={{
+                        colors: [
+                            {
+                                // percentage: 50,
+                                value: 'red'
+                            },
+                            {
+                                percentage: 10,
+                                value: 'blue'
+                            },
+                            {
+                                percentage: 20,
+                                value: 'yellow'
+                            }
+                        ],
+                        repeat: true,
+                        to: 'bottom',
+                        type: 'linear'
+                    }}
                     ratio="5:6"
                     width={250}>
                     Test

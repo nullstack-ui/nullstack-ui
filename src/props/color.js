@@ -1,5 +1,7 @@
 import Color from 'color';
 
+import { getValue } from '../utils/getValue';
+
 const defaultRatio = .5;
 
 export const getColor = props => {
@@ -120,7 +122,8 @@ export const handleColor = props => {
     return handledColor
 }
 
-// Manipulations
+
+// Props
 export const bgColor = ({
     key = 'background-color',
     theme,
@@ -161,6 +164,35 @@ export const color = props => {
     ]
 }
 
+export const gradient = ({ value, ...rest }) => {
+    const colorStops = [];
+    const direction = value?.to || 'bottom';
+    let type = value?.type || 'linear';
+
+    for (let color of value.colors) {
+        const handledColor = getColor({
+            ...rest,
+            value: color
+        });
+
+        if (typeof color === 'object' && color.percentage) {
+            colorStops.push(`${handledColor} ${getValue({ unit: '%', value: color.percentage })}`);
+        } else {
+            colorStops.push(handledColor);
+        }
+    }
+
+    if (value?.repeat) {
+        type = 'repeating-linear';
+    }
+
+    return {
+        key: 'background-image',
+        value: `${type}-gradient(to ${direction}, ${colorStops.join(', ')})`
+    }
+}
+
+// Manipulations
 export const darkenColor = props => {
     const { darken, ratio, value } = props;
     const lightness = Color(value).lightness();
@@ -337,6 +369,9 @@ export const colorProps = {
     },
     'color': {
         fn: color
+    },
+    'gradient': {
+        fn: gradient
     },
     'textColor': {
         fn: textColor
