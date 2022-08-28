@@ -25,7 +25,7 @@ const shadow = ({
     let color = 'rgba(0,0,0,.1)';
     let h = 0;
     let handledValue;
-    let inset = value.inset ? 'inset' : '';
+    let inset = '';
     let spread = '-1px';
     let v = '4px';
 
@@ -77,7 +77,6 @@ const shadow = ({
                 value: handledValue.v
             });
         }
-
     }
 
     return {

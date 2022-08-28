@@ -16,6 +16,7 @@ import { paddingProps } from './padding';
 import { positionProps } from './position';
 import { pseudoClasses } from './pseudoClasses';
 import { pseudoElements } from './pseudoElements';
+import { ringProps } from './ring';
 import { shadowProps } from './shadow';
 import { sizeProps } from './size';
 import { spacingProps } from './spacing';
@@ -71,7 +72,9 @@ export const allProps = {
     'resize': {
         key: 'resize'
     },
+    ...ringProps,
     ...shadowProps,
+    // ...sizeProps,
     ...spacingProps,
     ...textProps,
     ...transformProps,

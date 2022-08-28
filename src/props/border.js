@@ -4,6 +4,35 @@ import { getColor } from './color';
 // Utils
 import { getNestedProps } from '#utils/getNestedProps';
 
+const radiusUnit = 'em';
+
+const borderRadiusAliases = [
+    {
+        alias: '2xl',
+        value: `1${radiusUnit}`
+    },
+    {
+        alias: 'full',
+        value: '9999px'
+    },
+    {
+        alias: 'lg',
+        value: `.5${radiusUnit}`
+    },
+    {
+        alias: 'md',
+        value: `.375${radiusUnit}`
+    },
+    {
+        alias: 'sm',
+        value: `.125${radiusUnit}`
+    },
+    {
+        alias: 'xl',
+        value: `.75${radiusUnit}`
+    },
+]
+
 // Methods
 export const border = ({
     key = 'border',
@@ -61,17 +90,31 @@ export const borderColor = ({
 
 export const borderRadius = ({
     key = 'border-radius',
+    theme,
     value
 }) => {
-    if (typeof value === 'boolean') {
+    const alias = typeof value === 'string' ? borderRadiusAliases.find(({ alias }) => alias === value) : null;
+
+    if (alias) {
         return {
             key,
-            value: value ? '.5em' : 0
+            value: alias.value
         }
+    } else if (typeof value === 'boolean') {
+        return {
+            key,
+            value: value ? `.5${radiusUnit}` : 0
+        }
+    } else if (typeof value === 'object') {
+        return getNestedProps({
+            childProps: value,
+            propName: 'borderRadius',
+            theme
+        });
     } else {
         return {
             key,
-            value: isNaN(value) ? value : `${value}em`
+            value: isNaN(value) ? value : `${value}${radiusUnit}`
         }
     }
 }
@@ -127,6 +170,8 @@ export const borderProps = {
         fn: borderColor,
         key: 'border-color'
     },
+
+    // Border radius
     'border.radius': {
         aliases: [
             'bd.radius',
@@ -138,6 +183,22 @@ export const borderProps = {
         fn: borderRadius,
         key: 'border-radius'
     },
+    'border-radius.top': {
+        aliases: [
+            'bd.radius.top',
+            'bdRadius.top',
+            'borderRadius.top',
+            'radius.top',
+            'rounded.top'
+        ],
+        fn: borderRadius,
+        key: [
+            'border-top-left-radius',
+            'border-top-right-radius',
+        ]
+    },
+
+    // Border style
     'border.style': {
         aliases: [
             'bd.style',
@@ -370,13 +431,21 @@ export const borderProps = {
     },
 
     // Border X & Y
-    'borderX': {
-        aliases: ['bdX'],
+    'border.x': {
+        aliases: [
+            'bdX',
+            'bd.x',
+            'borderX',
+        ],
         fn: border,
         key: ['border-left', 'border-right']
     },
-    'borderY': {
-        aliases: ['bdY'],
+    'border.y': {
+        aliases: [
+            'bdY',
+            'bd.y',
+            'borderY'
+        ],
         fn: border,
         key: ['border-bottom', 'border-top']
     },

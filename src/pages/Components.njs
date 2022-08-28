@@ -30,6 +30,26 @@ export default class Components extends Nullstack {
     render() {
         return (
             <>
+                <button
+                    appearance="none"
+                    bgColor="blue"
+                    border="none"
+                    px={1}
+                    py={.375}
+                    radius={{
+                        top: 2
+                    }}
+                    _focus={{
+                        ring: {
+                            color: {
+                                opacity: .65,
+                                value: 'green'
+                            },
+                            width: 3
+                        }
+                    }}>
+                    Test
+                </button>
                 <div
                     ratio="1:1"
                     relative={true}
@@ -80,7 +100,8 @@ export default class Components extends Nullstack {
                 </div>
                 <div p={5}>
                     <button
-                        color={['secondary', 100]}>
+                        color={['secondary', 100]}
+                        ring={true}>
                         Button
                     </button>
 
