@@ -8,6 +8,7 @@ import { dimensionProps } from './dimension';
 import { filterProps } from './filter';
 import { flexProps } from './flex';
 import { fontProps } from './font';
+import { gridProps } from './grid';
 import { marginProps } from './margin';
 import { otherProps } from './other';
 import { outlineProps } from './outline';
@@ -58,6 +59,7 @@ export const allProps = {
     ...filterProps,
     ...flexProps,
     ...fontProps,
+    ...gridProps,
     ...groupProps,
     ...marginProps,
     'opacity': {

@@ -63,7 +63,11 @@ export const border = ({
         };
     } else if (typeof value === 'object') {
         return getNestedProps({
-            childProps: value,
+            childProps: {
+                style: 'solid',
+                width: 1,
+                ...value
+            },
             propName: 'border',
             theme
         });

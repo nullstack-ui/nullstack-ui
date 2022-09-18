@@ -1,6 +1,7 @@
 import Nullstack from 'nullstack';
 import Home from './Home';
 import Components from './pages/Components.njs';
+import Grid from './pages/Grid.njs';
 import HTMLELements from './pages/HTMLElements.njs';
 import NullstackProvider from './providers/NullstackProvider.njs';
 
@@ -80,6 +81,7 @@ class Application extends Nullstack {
         <main>
           <Head />
           <Components route="/components" />
+          <Grid route="/grid" />
           <HTMLELements route="/html" />
           <Home route="/" />
         </main>
