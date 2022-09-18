@@ -273,6 +273,10 @@ export const transformProps = {
         key: 'transform',
         fn: transform
     },
+    'transform.origin': {
+        aliases: ['transformOrigin'],
+        key: 'transform-origin'
+    },
     'translate3d': {
         key: 'translate3d',
         fn: translate3d,

@@ -73,23 +73,40 @@ export default class Components extends Nullstack {
                                 value: 'red'
                             },
                             {
-                                percentage: 10,
+                                // percentage: 10,
                                 value: 'blue'
                             },
                             {
-                                percentage: 20,
+                                // percentage: 20,
                                 value: 'yellow'
                             }
                         ],
                         repeat: true,
                         to: 'bottom',
-                        type: 'linear'
+                        // type: 'radial'
                     }}
                     ratio="5:6"
                     width={250}>
                     Test
                 </div>
-                <input caretColor="red" />
+                <input
+                    border={{
+                        color: 'green',
+                        width: 1
+                    }}
+                    caretColor="red"
+                    p={1}
+                    radius={.375}
+                    _focus={{
+                        outline: 'none',
+                        ring: {
+                            color: {
+                                opacity: .5,
+                                value: 'green'
+                            },
+                            width: 3
+                        }
+                    }} />
                 <div
                     bd="#ccc"
                     antialiased={true}

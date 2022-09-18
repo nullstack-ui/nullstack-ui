@@ -53,8 +53,32 @@ export const otherProps = {
     'listStyleType': {
         key: 'list-style-type'
     },
+    'mixBlend': {
+        aliases: [
+            'blend',
+            'mixBlendMode'
+        ],
+        key: 'mix-blend-mode'  
+    },
+    'objectFit': {
+        aliases: [
+            'fit',
+            'objFit'
+        ],
+        key: 'object-fit'
+    },
+    'objectPosition': {
+        aliases: [
+            'objPos',
+            'objPosition'
+        ],
+        key: 'object-position'
+    },
     'pointerEvents': {
         aliases: ['events'],
         key: 'pointer-events'
+    },
+    'userSelect': {
+        key: 'user-select'
     }
 }

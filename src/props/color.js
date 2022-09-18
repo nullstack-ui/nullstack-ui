@@ -182,13 +182,13 @@ export const gradient = ({ value, ...rest }) => {
         }
     }
 
-    if (value?.repeat) {
+    if (type !== 'radial' && value?.repeat) {
         type = 'repeating-linear';
     }
 
     return {
         key: 'background-image',
-        value: `${type}-gradient(to ${direction}, ${colorStops.join(', ')})`
+        value: `${type}-gradient(${type !== 'radial' ? `to ${direction}, ` : ''}${colorStops.join(', ')})`
     }
 }
 
@@ -371,6 +371,10 @@ export const colorProps = {
         fn: color
     },
     'gradient': {
+        aliases: [
+            'bg.gradient',
+            'gradient'
+        ],
         fn: gradient
     },
     'textColor': {
