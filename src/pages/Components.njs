@@ -108,11 +108,11 @@ export default class Components extends Nullstack {
                         }
                     }} />
                 <div
-                    bd="#ccc"
+                    bd="#DDD"
                     antialiased={true}
                     p={3}
                     radius={.75}
-                    shadow={true}>
+                    shadow="xl">
                     Card
                 </div>
                 <div p={5}>
