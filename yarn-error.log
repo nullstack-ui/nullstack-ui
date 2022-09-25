@@ -1,0 +1,56 @@
+Arguments: 
+  /opt/homebrew/Cellar/node/18.7.0/bin/node /usr/local/bin/yarn add jest
+
+PATH: 
+  /opt/homebrew/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.7.0
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  SyntaxError: /Users/macbookpro/Documents/Projetos/AE/nullstack-ui/package.json: Unexpected token } in JSON at position 193
+      at JSON.parse (<anonymous>)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "nullstack-ui",
+    "version": "0.0.1",
+    "description": "",
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+      "nullstack": "github:nullstack/nullstack#unstable-next",
+    },
+    "scripts": {
+      "start": "npx nullstack start --hot --mode=spa",
+      "build": "npx nullstack build --mode=ssr",
+      "build:test": "npx nullstack build --env=test",
+      "test": "npm run build:test && jest --runInBand"
+    },
+    "dependencies": {
+      "@emotion/css": "^11.9.0",
+      "color": "^4.2.3",
+      "uuid": "^8.3.2",
+      "uuidv4": "^6.2.13"
+    },
+    "imports": {
+      "#props/*": "./src/props/*",
+      "#utils/*": "./src/utils/*"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

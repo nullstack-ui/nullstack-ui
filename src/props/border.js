@@ -1,5 +1,6 @@
 import { handleProps } from '.';
 import { getColor } from './color';
+import { getValue } from '#utils/getValue';
 
 // Utils
 import { getNestedProps } from '#utils/getNestedProps';
@@ -118,7 +119,7 @@ export const borderRadius = ({
     } else {
         return {
             key,
-            value: isNaN(value) ? value : `${value}${radiusUnit}`
+            value: getValue({ unit: radiusUnit, value })
         }
     }
 }
@@ -154,7 +155,6 @@ export const rounded = ({
     } else {
         return borderRadius({ value });
     }
-
 }
 
 // Props
@@ -174,7 +174,6 @@ export const borderProps = {
         fn: borderColor,
         key: 'border-color'
     },
-
     // Border radius
     'border.radius': {
         aliases: [

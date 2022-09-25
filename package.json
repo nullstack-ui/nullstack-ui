@@ -5,15 +5,20 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nullstack": "github:nullstack/nullstack#unstable-next"
+    "jest-puppeteer": "^6.1.1",
+    "nullstack": "github:nullstack/nullstack#unstable-next",
+    "puppeteer": "^18.0.3"
   },
   "scripts": {
-    "start": "npx nullstack start --hot --mode=spa",
-    "build": "npx nullstack build --mode=ssr"
+    "start": "npx nullstack start --mode=spa --env=test",
+    "build": "npx nullstack build --mode=ssr",
+    "build:test": "npx nullstack build --env=test",
+    "test": "jest --watch"
   },
   "dependencies": {
     "@emotion/css": "^11.9.0",
     "color": "^4.2.3",
+    "jest": "^29.0.3",
     "uuid": "^8.3.2",
     "uuidv4": "^6.2.13"
   },

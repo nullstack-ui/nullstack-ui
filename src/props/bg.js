@@ -49,6 +49,10 @@ export const bgProps = {
         aliases: [
             'bg.blend',
             'bg.blendMode',
+            'background.blend',
+            'background.blendMode',
+            'backgroundBlend',
+            'backgroundBlendMode',
             'bgBlendMode'
         ],
         key: 'background-blend-mode'  
@@ -69,8 +73,12 @@ export const bgProps = {
     },
     'bgPosition': {
         aliases: [
+            'bgPos',
+            'bg.pos',
             'bg.position',
+            'background.pos',
             'background.position',
+            'backgroundPos',
             'backgroundPosition'
         ],
         key: 'background-position',
