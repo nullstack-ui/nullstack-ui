@@ -41,6 +41,7 @@ export const border = ({
     value,
     ...rest
 }) => {
+    console.log('value', value);
     if (value === 'none') {
         return {
             key,
@@ -64,12 +65,8 @@ export const border = ({
         };
     } else if (typeof value === 'object') {
         return getNestedProps({
-            childProps: {
-                style: 'solid',
-                width: 1,
-                ...value
-            },
-            propName: 'border',
+            childProps: value,
+            propName: key,
             theme
         });
     } else {
@@ -174,68 +171,13 @@ export const borderProps = {
         fn: borderColor,
         key: 'border-color'
     },
-    // Border radius
-    'border.radius': {
-        aliases: [
-            'bd.radius',
-            'bdRadius',
-            'borderRadius',
-            'radius',
-            'rounded'
-        ],
-        fn: borderRadius,
-        key: 'border-radius'
-    },
-    'border-radius.top': {
-        aliases: [
-            'bd.radius.top',
-            'bdRadius.top',
-            'borderRadius.top',
-            'radius.top',
-            'rounded.top'
-        ],
-        fn: borderRadius,
-        key: [
-            'border-top-left-radius',
-            'border-top-right-radius',
-        ]
-    },
-
-    // Border style
-    'border.style': {
-        aliases: [
-            'bd.style',
-            'bdStyle',
-            'borderStyle'
-        ],
-        fn: borderStyle,
-        key: 'border-style',
-    },
-    'border.width': {
-        aliases: [
-            'bd.width',
-            'bdWidth',
-            'borderWidth'
-        ],
-        fn: borderWidth,
-        key: 'border-width',
-    },
 
     // Border bottom
     'border.bottom': {
         aliases: [
-            'bd.bottom'
-        ],
-        fn: params => border({
-            ...params,
-            key: 'border-bottom'
-        })
-    },
-    'borderBottom': {
-        aliases: [
-            'borderB',
-            'bdB',
-            'bdBottom'
+            'bd.bottom',
+            'bdBottom',
+            'borderBottom',
         ],
         fn: params => border({
             ...params,
@@ -244,16 +186,31 @@ export const borderProps = {
     },
     'border-bottom.color': {
         aliases: [
+            'bdBottom.color',
+            'border.bottom.color',
             'bdBottomColor',
-            'borderBottomColor'
+            'borderBottomColor',
         ],
         fn: params => borderColor({
             ...params,
             key: 'border-bottom-color'
         })
     },
+    'border-bottom.radius': {
+        aliases: [
+            'border.bottom.radius',
+            'bdBottomRadius',
+            'borderBottomRadius'
+        ],
+        fn: borderRadius,
+        key: [
+            'border-bottom-left-radius',
+            'border-bottom-right-radius',
+        ]
+    },
     'border-bottom.style': {
         aliases: [
+            'border.bottom.style',
             'bdBottomStyle',
             'borderBottomStyle'
         ],
@@ -264,7 +221,7 @@ export const borderProps = {
     },
     'border-bottom.width': {
         aliases: [
-            'bdBW',
+            'border.bottom.width',
             'bdBottomWidth',
             'borderBottomWidth'
         ],
@@ -277,18 +234,9 @@ export const borderProps = {
     // Border left
     'border.left': {
         aliases: [
-            'bd.left'
-        ],
-        fn: params => border({
-            ...params,
-            key: 'border-left'
-        })
-    },
-    'borderLeft': {
-        aliases: [
-            'borderL',
+            'bd.left',
             'bdLeft',
-            'bdL'
+            'borderLeft'
         ],
         fn: params => border({
             ...params,
@@ -297,6 +245,7 @@ export const borderProps = {
     },
     'border-left.color': {
         aliases: [
+            'border.left.color',
             'bdLeftColor',
             'borderLeftColor'
         ],
@@ -305,8 +254,21 @@ export const borderProps = {
             key: 'border-left-color'
         })
     },
+    'border-left.radius': {
+        aliases: [
+            'border.left.radius',
+            'bdLeftRadius',
+            'borderLeftRadius'
+        ],
+        fn: borderRadius,
+        key: [
+            'border-bottom-left-radius',
+            'border-top-left-radius',
+        ]
+    },
     'border-left.style': {
         aliases: [
+            'border.left.style',
             'bdLeftStyle',
             'borderLeftStyle'
         ],
@@ -317,9 +279,11 @@ export const borderProps = {
     },
     'border-left.width': {
         aliases: [
-            'bdLWidth',
+            'bd.left.width',
+            'border.left.width',
+            'bdLeft',
             'bdLeftWidth',
-            'borderLeftmWidth'
+            'borderLeftWidth'
         ],
         fn: params => borderWidth({
             ...params,
@@ -453,9 +417,94 @@ export const borderProps = {
         key: ['border-bottom', 'border-top']
     },
 
-    // Rounded
-    'rounded': {
-        fn: rounded,
+    // Border radius
+    'border.radius': {
+        aliases: [
+            'bd.radius',
+            'bdRadius',
+            'borderRadius',
+            'radius',
+            'rounded'
+        ],
+        fn: borderRadius,
         key: 'border-radius'
-    }
+    },
+    'border-radius.bottom': {
+        aliases: [
+            'bd.radius.bottom',
+            'bdRadius.bottom',
+            'borderRadius.bottom',
+            'radius.bottom',
+            'rounded.bottom'
+        ],
+        fn: borderRadius,
+        key: [
+            'border-bottom-left-radius',
+            'border-bottom-right-radius',
+        ]
+    },
+    'border-radius.left': {
+        aliases: [
+            'bd.radius.left',
+            'bdRadius.left',
+            'borderRadius.left',
+            'radius.left',
+            'rounded.left'
+        ],
+        fn: borderRadius,
+        key: [
+            'border-bottom-left-radius',
+            'border-top-left-radius',
+        ]
+    },
+    'border-radius.right': {
+        aliases: [
+            'bd.radius.right',
+            'bdRadius.right',
+            'borderRadius.right',
+            'radius.right',
+            'rounded.right'
+        ],
+        fn: borderRadius,
+        key: [
+            'border-bottom-right-radius',
+            'border-top-right-radius',
+        ]
+    },
+    'border-radius.top': {
+        aliases: [
+            'bd.radius.top',
+            'bdRadius.top',
+            'borderRadius.top',
+            'radius.top',
+            'rounded.top'
+        ],
+        fn: borderRadius,
+        key: [
+            'border-top-left-radius',
+            'border-top-right-radius',
+        ]
+    },
+
+    // style
+    'border.style': {
+        aliases: [
+            'bd.style',
+            'bdStyle',
+            'borderStyle'
+        ],
+        fn: borderStyle,
+        key: 'border-style',
+    },
+
+    // width
+    'border.width': {
+        aliases: [
+            'bd.width',
+            'bdWidth',
+            'borderWidth'
+        ],
+        fn: borderWidth,
+        key: 'border-width',
+    },
 }

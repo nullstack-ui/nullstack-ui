@@ -2,11 +2,11 @@ const defaultOptions = {
     launch: {
         headless: true,
     },
-    server: {
-        command: 'npm run build && node .production/server.js',
-        port: 5000,
-        launchTimeout: 25000
-    },
+    // server: {
+    //     command: 'npm run build && node .production/server.js',
+    //     port: 3000,
+    //     launchTimeout: 25000
+    // },
     browserContext: 'incognito'
 }
 
@@ -22,11 +22,11 @@ const ciPipelineOptions = {
             '--disable-gpu'
         ]
     },
-    server: {
-        command: 'npm run build && node .production/server.js',
-        port: 5000,
-        launchTimeout: 25000
-    },
+    // server: {
+    //     command: 'npm run build && node .production/server.js',
+    //     port: 3000,
+    //     launchTimeout: 25000
+    // },
     browserContext: 'incognito'
 }
 
