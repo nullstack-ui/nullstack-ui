@@ -147,15 +147,15 @@ const lineHeight = ({
 }
 
 const text = ({
+    key = 'text',
     theme,
     value,
     ...rest
 }) => {
     return getNestedProps({
         childProps: value,
-        propName: 'text',
-        theme,
-        ...rest
+        propName: key,
+        theme
     });
 }
 

@@ -376,7 +376,9 @@ export const colorProps = {
         ],
         fn: gradient
     },
-    'textColor': {
-        fn: textColor
+    'text.color': {
+        aliases: ['textColor'],
+        fn: textColor,
+        key: 'color'
     },
 }
