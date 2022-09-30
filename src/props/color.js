@@ -290,7 +290,6 @@ const getColorIntensity = props => {
 
         return Color(previousColor).mix(Color(nextColor), mixIntensity).hex();
     }
-    // console.log('intensity', value);
 }
 
 export const getHoverColors = params => {

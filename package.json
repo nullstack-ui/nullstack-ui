@@ -23,6 +23,7 @@
     "uuidv4": "^6.2.13"
   },
   "imports": {
+    "#pages/*": "./src/pages/*",
     "#props/*": "./src/props/*",
     "#utils/*": "./src/utils/*"
   }
