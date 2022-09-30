@@ -41,7 +41,6 @@ export const border = ({
     value,
     ...rest
 }) => {
-    console.log('value', value);
     if (value === 'none') {
         return {
             key,
@@ -322,6 +321,18 @@ export const borderProps = {
             key: 'border-right-color'
         })
     },
+    'border-right.radius': {
+        aliases: [
+            'border.right.radius',
+            'bdRightRadius',
+            'borderRightRadius'
+        ],
+        fn: borderRadius,
+        key: [
+            'border-bottom-right-radius',
+            'border-top-right-radius',
+        ]
+    },
     'border-right.style': {
         aliases: [
             'bdRightStyle',
@@ -375,6 +386,18 @@ export const borderProps = {
             key: 'border-top-color'
         })
     },
+    'border-top.radius': {
+        aliases: [
+            'border.top.radius',
+            'bdTopRadius',
+            'borderTopRadius'
+        ],
+        fn: borderRadius,
+        key: [
+            'border-top-left-radius',
+            'border-top-right-radius',
+        ]
+    },
     'border-top.style': {
         aliases: [
             'bdTopStyle',
@@ -395,26 +418,6 @@ export const borderProps = {
             ...params,
             key: 'border-top-width'
         })
-    },
-
-    // Border X & Y
-    'border.x': {
-        aliases: [
-            'bdX',
-            'bd.x',
-            'borderX',
-        ],
-        fn: border,
-        key: ['border-left', 'border-right']
-    },
-    'border.y': {
-        aliases: [
-            'bdY',
-            'bd.y',
-            'borderY'
-        ],
-        fn: border,
-        key: ['border-bottom', 'border-top']
     },
 
     // Border radius
@@ -506,5 +509,25 @@ export const borderProps = {
         ],
         fn: borderWidth,
         key: 'border-width',
+    },
+
+    // Border X & Y
+    'border.x': {
+        aliases: [
+            'bdX',
+            'bd.x',
+            'borderX',
+        ],
+        fn: border,
+        key: ['border-left', 'border-right'],
+    },
+    'border.y': {
+        aliases: [
+            'bdY',
+            'bd.y',
+            'borderY'
+        ],
+        fn: border,
+        key: ['border-bottom', 'border-top']
     },
 }

@@ -283,7 +283,7 @@ export const handleProps = ({
                 value: props[key] || props[cssProp]
             })
         } else if (transform) {
-            const { props: transformProps, value: transformValue } = typeof transform === 'function' ? transform({ context, props, theme }) : transform;
+            const { props: transformProps, value: transformValue } = typeof transform === 'function' ? transform({ context, props, theme, value: propsWithCustomProps[cssProp] }) : transform;
             const stringifiedProps = transformValue ? JSON.stringify(transformProps).replace(/value/g, transformValue({
                 props,
                 theme,

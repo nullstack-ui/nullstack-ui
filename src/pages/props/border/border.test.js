@@ -7,7 +7,7 @@ describe('border props', () => {
         await page.goto('http://localhost:3000/props/border', { waitUntil: 'networkidle0' });
 
         // no border
-        getTestResults({
+        await getTestResults({
             id: 'noBorder',
             propName: 'border',
             total: 2
@@ -16,7 +16,7 @@ describe('border props', () => {
         }));
 
         // border (default)
-        getTestResults({
+        await getTestResults({
             id: 'defaultBorder',
             propName: [
                 'borderColor',
@@ -31,7 +31,7 @@ describe('border props', () => {
         }));
 
         // border color
-        getTestResults({
+        await getTestResults({
             id: 'borderColor',
             propName: 'borderColor',
             total: 4
@@ -39,8 +39,26 @@ describe('border props', () => {
             expect(result).toBe('rgb(255, 0, 0)');
         }));
 
+        // border style
+        await getTestResults({
+            id: 'borderStyle',
+            propName: 'borderStyle',
+            total: 4
+        }, results => results.forEach(result => {
+            expect(result).toBe('dashed');
+        }));
+
+        // border width
+        await getTestResults({
+            id: 'borderWidth',
+            propName: 'borderWidth',
+            total: 4
+        }, results => results.forEach(result => {
+            expect(result).toBe('10px');
+        }));
+
         // border bottom
-        getTestResults({
+        await getTestResults({
             id: 'borderBottom',
             propName: ['borderBottomColor', 'borderBottomStyle', 'borderBottomWidth'],
             total: 4
@@ -51,7 +69,7 @@ describe('border props', () => {
         }));
 
         // border bottom (color)
-        getTestResults({
+        await getTestResults({
             id: 'borderBottomColor',
             propName: ['borderBottomColor', 'borderLeftColor', 'borderRightColor', 'borderTopColor'],
             total: 6
@@ -63,7 +81,7 @@ describe('border props', () => {
         }));
 
         // border bottom (radius)
-        getTestResults({
+        await getTestResults({
             id: 'borderBottomRadius',
             propName: [
                 'borderBottomLeftRadius',
@@ -80,7 +98,7 @@ describe('border props', () => {
         }));
 
         // border bottom (style)
-        getTestResults({
+        await getTestResults({
             id: 'borderBottomStyle',
             propName: [
                 'borderBottomStyle',
@@ -97,7 +115,7 @@ describe('border props', () => {
         }));
 
         // border bottom (width)
-        getTestResults({
+        await getTestResults({
             id: 'borderBottomWidth',
             propName: [
                 'borderBottomWidth',
@@ -114,12 +132,12 @@ describe('border props', () => {
         }));
 
         // border left
-        getTestResults({
+        await getTestResults({
             id: 'borderLeft',
             propName: [
-                'borderLeftColor', 
+                'borderLeftColor',
 
-                'borderLeftStyle', 
+                'borderLeftStyle',
                 'borderLeftWidth'
             ],
             total: 4
@@ -130,7 +148,7 @@ describe('border props', () => {
         }));
 
         // border left (color)
-        getTestResults({
+        await getTestResults({
             id: 'borderLeftColor',
             propName: ['borderLeftColor', 'borderBottomColor', 'borderRightColor', 'borderTopColor'],
             total: 6
@@ -142,7 +160,7 @@ describe('border props', () => {
         }));
 
         // border left (radius)
-        getTestResults({
+        await getTestResults({
             id: 'borderLeftRadius',
             propName: [
                 'borderBottomLeftRadius',
@@ -160,7 +178,7 @@ describe('border props', () => {
         }));
 
         // border left (style)
-        getTestResults({
+        await getTestResults({
             id: 'borderLeftStyle',
             propName: [
                 'borderLeftStyle',
@@ -178,7 +196,7 @@ describe('border props', () => {
         }));
 
         // border left (width)
-        getTestResults({
+        await getTestResults({
             id: 'borderLeftWidth',
             propName: [
                 'borderLeftWidth',
@@ -195,55 +213,194 @@ describe('border props', () => {
             expect(result[3]).toBe('0px');
         }));
 
-        // border radius (no unit)
-        const borderRadiusNoUnit1 = await getTestProperty({ id: 'borderRadiusNoUnit', index: 0, propName: 'borderRadius' });
-        const borderRadiusNoUnit2 = await getTestProperty({ id: 'borderRadiusNoUnit', index: 1, propName: 'borderRadius' });
-        const borderRadiusNoUnit3 = await getTestProperty({ id: 'borderRadiusNoUnit', index: 2, propName: 'borderRadius' });
-        const borderRadiusNoUnit4 = await getTestProperty({ id: 'borderRadiusNoUnit', index: 3, propName: 'borderRadius' });
-        const borderRadiusNoUnit5 = await getTestProperty({ id: 'borderRadiusNoUnit', index: 4, propName: 'borderRadius' });
-        const borderRadiusNoUnit6 = await getTestProperty({ id: 'borderRadiusNoUnit', index: 5, propName: 'borderRadius' });
+        // border right
+        await getTestResults({
+            id: 'borderRight',
+            propName: [
+                'borderRightColor',
 
-        expect(borderRadiusNoUnit1).toBe('16px');
-        expect(borderRadiusNoUnit2).toBe('16px');
-        expect(borderRadiusNoUnit3).toBe('16px');
-        expect(borderRadiusNoUnit4).toBe('16px');
-        expect(borderRadiusNoUnit5).toBe('16px');
-        expect(borderRadiusNoUnit6).toBe('16px');
+                'borderRightStyle',
+                'borderRightWidth'
+            ],
+            total: 4
+        }, results => results.forEach(result => {
+            expect(result[0]).toBe('rgb(0, 0, 255)');
+            expect(result[1]).toBe('dashed');
+            expect(result[2]).toBe('5px');
+        }));
+
+        // border right (color)
+        await getTestResults({
+            id: 'borderRightColor',
+            propName: ['borderRightColor', 'borderBottomColor', 'borderLeftColor', 'borderTopColor'],
+            total: 6
+        }, results => results.forEach(result => {
+            expect(result[0]).toBe('rgb(0, 0, 255)');
+            expect(result[1]).toBe('rgb(0, 0, 0)');
+            expect(result[2]).toBe('rgb(0, 0, 0)');
+            expect(result[3]).toBe('rgb(0, 0, 0)');
+        }));
+
+        // border right (radius)
+        await getTestResults({
+            id: 'borderRightRadius',
+            propName: [
+                'borderBottomRightRadius',
+                'borderTopRightRadius',
+
+                'borderBottomLeftRadius',
+                'borderTopLeftRadius',
+            ],
+            total: 6
+        }, results => results.forEach(result => {
+            expect(result[0]).toBe('30px');
+            expect(result[1]).toBe('30px');
+            expect(result[2]).toBe('0px');
+            expect(result[3]).toBe('0px');
+        }));
+
+        // border right (style)
+        await getTestResults({
+            id: 'borderRightStyle',
+            propName: [
+                'borderRightStyle',
+
+                'borderBottomStyle',
+                'borderLeftStyle',
+                'borderTopStyle',
+            ],
+            total: 6
+        }, results => results.forEach(result => {
+            expect(result[0]).toBe('dashed');
+            expect(result[1]).not.toBe('dashed');
+            expect(result[2]).not.toBe('dashed');
+            expect(result[3]).not.toBe('dashed');
+        }));
+
+        // border right (width)
+        await getTestResults({
+            id: 'borderRightWidth',
+            propName: [
+                'borderRightWidth',
+
+                'borderBottomWidth',
+                'borderLeftWidth',
+                'borderTopWidth',
+            ],
+            total: 6
+        }, results => results.forEach(result => {
+            expect(result[0]).toBe('10px');
+            expect(result[1]).toBe('0px');
+            expect(result[2]).toBe('0px');
+            expect(result[3]).toBe('0px');
+        }));
+
+        // border top
+        await getTestResults({
+            id: 'borderTop',
+            propName: ['borderTopColor', 'borderTopStyle', 'borderTopWidth'],
+            total: 4
+        }, results => results.forEach(result => {
+            expect(result[0]).toBe('rgb(0, 0, 255)');
+            expect(result[1]).toBe('dashed');
+            expect(result[2]).toBe('5px');
+        }));
+
+        // border top (color)
+        await getTestResults({
+            id: 'borderTopColor',
+            propName: ['borderTopColor', 'borderBottomColor', 'borderLeftColor', 'borderRightColor'],
+            total: 6
+        }, results => results.forEach(result => {
+            expect(result[0]).toBe('rgb(0, 0, 255)');
+            expect(result[1]).toBe('rgb(0, 0, 0)');
+            expect(result[2]).toBe('rgb(0, 0, 0)');
+            expect(result[3]).toBe('rgb(0, 0, 0)');
+        }));
+
+        // border top (radius)
+        await getTestResults({
+            id: 'borderTopRadius',
+            propName: [
+                'borderTopLeftRadius',
+                'borderTopRightRadius',
+                'borderBottomLeftRadius',
+                'borderBottomRightRadius',
+            ],
+            total: 6
+        }, results => results.forEach(result => {
+            expect(result[0]).toBe('30px');
+            expect(result[1]).toBe('30px');
+            expect(result[2]).toBe('0px');
+            expect(result[3]).toBe('0px');
+        }));
+
+        // border top (style)
+        await getTestResults({
+            id: 'borderTopStyle',
+            propName: [
+                'borderTopStyle',
+                'borderBottomStyle',
+                'borderLeftStyle',
+                'borderRightStyle',
+            ],
+            total: 6
+        }, results => results.forEach(result => {
+            expect(result[0]).toBe('dashed');
+            expect(result[1]).not.toBe('dashed');
+            expect(result[2]).not.toBe('dashed');
+            expect(result[3]).not.toBe('dashed');
+        }));
+
+        // border top (width)
+        await getTestResults({
+            id: 'borderTopWidth',
+            propName: [
+                'borderTopWidth',
+                'borderBottomWidth',
+                'borderLeftWidth',
+                'borderRightWidth',
+            ],
+            total: 6
+        }, results => results.forEach(result => {
+            expect(result[0]).toBe('10px');
+            expect(result[1]).toBe('0px');
+            expect(result[2]).toBe('0px');
+            expect(result[3]).toBe('0px');
+        }));
+
+        // border radius (no unit)
+        await getTestResults({
+            id: 'borderRadiusNoUnit',
+            propName: 'borderRadius',
+            total: 6
+        }, results => results.forEach(result => {
+            expect(result).toBe('16px');
+        }));
 
         // border radius
-        const borderRadius1 = await getTestProperty({ id: 'borderRadius', index: 0, propName: 'borderRadius' });
-        const borderRadius2 = await getTestProperty({ id: 'borderRadius', index: 1, propName: 'borderRadius' });
-        const borderRadius3 = await getTestProperty({ id: 'borderRadius', index: 2, propName: 'borderRadius' });
-        const borderRadius4 = await getTestProperty({ id: 'borderRadius', index: 3, propName: 'borderRadius' });
-        const borderRadius5 = await getTestProperty({ id: 'borderRadius', index: 4, propName: 'borderRadius' });
-        const borderRadius6 = await getTestProperty({ id: 'borderRadius', index: 5, propName: 'borderRadius' });
-
-        expect(borderRadius1).toBe('30px');
-        expect(borderRadius2).toBe('30px');
-        expect(borderRadius3).toBe('30px');
-        expect(borderRadius4).toBe('30px');
-        expect(borderRadius5).toBe('30px');
-        expect(borderRadius6).toBe('30px');
+        await getTestResults({
+            id: 'borderRadius',
+            propName: 'borderRadius',
+            total: 6
+        }, results => results.forEach(result => {
+            expect(result).toBe('30px');
+        }));
 
         // border radius (alias)
-        const borderRadiusAlias1 = await getTestProperty({ id: 'borderRadiusAlias', index: 0, propName: 'borderRadius' });
-        const borderRadiusAlias2 = await getTestProperty({ id: 'borderRadiusAlias', index: 1, propName: 'borderRadius' });
-        const borderRadiusAlias3 = await getTestProperty({ id: 'borderRadiusAlias', index: 2, propName: 'borderRadius' });
-        const borderRadiusAlias4 = await getTestProperty({ id: 'borderRadiusAlias', index: 3, propName: 'borderRadius' });
-        const borderRadiusAlias5 = await getTestProperty({ id: 'borderRadiusAlias', index: 4, propName: 'borderRadius' });
-        const borderRadiusAlias6 = await getTestProperty({ id: 'borderRadiusAlias', index: 5, propName: 'borderRadius' });
+        await getTestResults({
+            id: 'borderRadiusAlias',
+            propName: 'borderRadius',
+            total: 6
+        }, results => results.forEach((result, index) => {
+            const values = ['16px', '9999px', '8px', '6px', '2px', '12px'];
 
-        expect(borderRadiusAlias1).toBe('16px');
-        expect(borderRadiusAlias2).toBe('9999px');
-        expect(borderRadiusAlias3).toBe('8px');
-        expect(borderRadiusAlias4).toBe('6px');
-        expect(borderRadiusAlias5).toBe('2px');
-        expect(borderRadiusAlias6).toBe('12px');
+            expect(result).toBe(values[index]);
+        }));
 
         // border radius (bottom)
-        const borderRadiusBottom1 = await getTestProperty({
+        await getTestResults({
             id: 'borderRadiusBottom',
-            index: 0,
             propName: [
                 'borderBottomLeftRadius',
                 'borderBottomRightRadius',
@@ -251,103 +408,18 @@ describe('border props', () => {
                 // Must be 0
                 'borderTopLeftRadius',
                 'borderTopRightRadius',
-            ]
-        });
-        const borderRadiusBottom2 = await getTestProperty({
-            id: 'borderRadiusBottom',
-            index: 1,
-            propName: [
-                'borderBottomLeftRadius',
-                'borderBottomRightRadius',
-
-                // Must be 0
-                'borderTopLeftRadius',
-                'borderTopRightRadius',
-            ]
-        });
-        const borderRadiusBottom3 = await getTestProperty({
-            id: 'borderRadiusBottom',
-            index: 2,
-            propName: [
-                'borderBottomLeftRadius',
-                'borderBottomRightRadius',
-
-                // Must be 0
-                'borderTopLeftRadius',
-                'borderTopRightRadius',
-            ]
-        });
-        const borderRadiusBottom4 = await getTestProperty({
-            id: 'borderRadiusBottom',
-            index: 3,
-            propName: [
-                'borderBottomLeftRadius',
-                'borderBottomRightRadius',
-
-                // Must be 0
-                'borderTopLeftRadius',
-                'borderTopRightRadius',
-            ]
-        });
-        const borderRadiusBottom5 = await getTestProperty({
-            id: 'borderRadiusBottom',
-            index: 4,
-            propName: [
-                'borderBottomLeftRadius',
-                'borderBottomRightRadius',
-
-                // Must be 0
-                'borderTopLeftRadius',
-                'borderTopRightRadius',
-            ]
-        });
-        const borderRadiusBottom6 = await getTestProperty({
-            id: 'borderRadiusBottom',
-            index: 5,
-            propName: [
-                'borderBottomLeftRadius',
-                'borderBottomRightRadius',
-
-                // Must be 0
-                'borderTopLeftRadius',
-                'borderTopRightRadius',
-            ]
-        });
-
-        expect(borderRadiusBottom1[0]).toBe('30px');
-        expect(borderRadiusBottom1[1]).toBe('30px');
-        expect(borderRadiusBottom1[2]).toBe('0px');
-        expect(borderRadiusBottom1[3]).toBe('0px');
-
-        expect(borderRadiusBottom2[0]).toBe('30px');
-        expect(borderRadiusBottom2[1]).toBe('30px');
-        expect(borderRadiusBottom2[2]).toBe('0px');
-        expect(borderRadiusBottom3[3]).toBe('0px');
-
-        expect(borderRadiusBottom3[0]).toBe('30px');
-        expect(borderRadiusBottom3[1]).toBe('30px');
-        expect(borderRadiusBottom3[2]).toBe('0px');
-        expect(borderRadiusBottom3[3]).toBe('0px');
-
-        expect(borderRadiusBottom4[0]).toBe('30px');
-        expect(borderRadiusBottom4[1]).toBe('30px');
-        expect(borderRadiusBottom4[2]).toBe('0px');
-        expect(borderRadiusBottom4[3]).toBe('0px');
-
-        expect(borderRadiusBottom5[0]).toBe('30px');
-        expect(borderRadiusBottom5[1]).toBe('30px');
-        expect(borderRadiusBottom5[2]).toBe('0px');
-        expect(borderRadiusBottom5[3]).toBe('0px');
-
-        expect(borderRadiusBottom6[0]).toBe('30px');
-        expect(borderRadiusBottom6[1]).toBe('30px');
-        expect(borderRadiusBottom6[2]).toBe('0px');
-        expect(borderRadiusBottom6[3]).toBe('0px');
+            ],
+            total: 6
+        }, results => results.forEach(result => {
+            expect(result[0]).toBe('30px');
+            expect(result[1]).toBe('30px');
+            expect(result[2]).toBe('0px');
+            expect(result[3]).toBe('0px');
+        }));
 
         // border radius (left)
-        const borderRadiusLeft1 = await getTestProperty({
+        await getTestResults({
             id: 'borderRadiusLeft',
-            index: 0,
             propName: [
                 'borderBottomLeftRadius',
                 'borderTopLeftRadius',
@@ -355,103 +427,18 @@ describe('border props', () => {
                 // Must be 0
                 'borderBottomRightRadius',
                 'borderTopRightRadius',
-            ]
-        });
-        const borderRadiusLeft2 = await getTestProperty({
-            id: 'borderRadiusLeft',
-            index: 1,
-            propName: [
-                'borderBottomLeftRadius',
-                'borderTopLeftRadius',
-
-                // Must be 0
-                'borderBottomRightRadius',
-                'borderTopRightRadius',
-            ]
-        });
-        const borderRadiusLeft3 = await getTestProperty({
-            id: 'borderRadiusLeft',
-            index: 2,
-            propName: [
-                'borderBottomLeftRadius',
-                'borderTopLeftRadius',
-
-                // Must be 0
-                'borderBottomRightRadius',
-                'borderTopRightRadius',
-            ]
-        });
-        const borderRadiusLeft4 = await getTestProperty({
-            id: 'borderRadiusLeft',
-            index: 3,
-            propName: [
-                'borderBottomLeftRadius',
-                'borderTopLeftRadius',
-
-                // Must be 0
-                'borderBottomRightRadius',
-                'borderTopRightRadius',
-            ]
-        });
-        const borderRadiusLeft5 = await getTestProperty({
-            id: 'borderRadiusLeft',
-            index: 4,
-            propName: [
-                'borderBottomLeftRadius',
-                'borderTopLeftRadius',
-
-                // Must be 0
-                'borderBottomRightRadius',
-                'borderTopRightRadius',
-            ]
-        });
-        const borderRadiusLeft6 = await getTestProperty({
-            id: 'borderRadiusLeft',
-            index: 5,
-            propName: [
-                'borderBottomLeftRadius',
-                'borderTopLeftRadius',
-
-                // Must be 0
-                'borderBottomRightRadius',
-                'borderTopRightRadius',
-            ]
-        });
-
-        expect(borderRadiusLeft1[0]).toBe('30px');
-        expect(borderRadiusLeft1[1]).toBe('30px');
-        expect(borderRadiusLeft1[2]).toBe('0px');
-        expect(borderRadiusLeft1[3]).toBe('0px');
-
-        expect(borderRadiusLeft2[0]).toBe('30px');
-        expect(borderRadiusLeft2[1]).toBe('30px');
-        expect(borderRadiusLeft2[2]).toBe('0px');
-        expect(borderRadiusLeft2[3]).toBe('0px');
-
-        expect(borderRadiusLeft3[0]).toBe('30px');
-        expect(borderRadiusLeft3[1]).toBe('30px');
-        expect(borderRadiusLeft3[2]).toBe('0px');
-        expect(borderRadiusLeft3[3]).toBe('0px');
-
-        expect(borderRadiusLeft4[0]).toBe('30px');
-        expect(borderRadiusLeft4[1]).toBe('30px');
-        expect(borderRadiusLeft4[2]).toBe('0px');
-        expect(borderRadiusLeft4[3]).toBe('0px');
-
-        expect(borderRadiusLeft5[0]).toBe('30px');
-        expect(borderRadiusLeft5[1]).toBe('30px');
-        expect(borderRadiusLeft5[2]).toBe('0px');
-        expect(borderRadiusLeft5[3]).toBe('0px');
-
-        expect(borderRadiusLeft6[0]).toBe('30px');
-        expect(borderRadiusLeft6[1]).toBe('30px');
-        expect(borderRadiusLeft6[2]).toBe('0px');
-        expect(borderRadiusLeft6[3]).toBe('0px');
+            ],
+            total: 6
+        }, results => results.forEach(result => {
+            expect(result[0]).toBe('30px');
+            expect(result[1]).toBe('30px');
+            expect(result[2]).toBe('0px');
+            expect(result[3]).toBe('0px');
+        }));
 
         // border radius (right)
-        const borderRadiusRight1 = await getTestProperty({
+        await getTestResults({
             id: 'borderRadiusRight',
-            index: 0,
             propName: [
                 'borderBottomRightRadius',
                 'borderTopRightRadius',
@@ -459,103 +446,18 @@ describe('border props', () => {
                 // Must be 0
                 'borderBottomLeftRadius',
                 'borderTopLeftRadius',
-            ]
-        });
-        const borderRadiusRight2 = await getTestProperty({
-            id: 'borderRadiusRight',
-            index: 1,
-            propName: [
-                'borderBottomRightRadius',
-                'borderTopRightRadius',
-
-                // Must be 0
-                'borderBottomLeftRadius',
-                'borderTopLeftRadius',
-            ]
-        });
-        const borderRadiusRight3 = await getTestProperty({
-            id: 'borderRadiusRight',
-            index: 2,
-            propName: [
-                'borderBottomRightRadius',
-                'borderTopRightRadius',
-
-                // Must be 0
-                'borderBottomLeftRadius',
-                'borderTopLeftRadius',
-            ]
-        });
-        const borderRadiusRight4 = await getTestProperty({
-            id: 'borderRadiusRight',
-            index: 3,
-            propName: [
-                'borderBottomRightRadius',
-                'borderTopRightRadius',
-
-                // Must be 0
-                'borderBottomLeftRadius',
-                'borderTopLeftRadius',
-            ]
-        });
-        const borderRadiusRight5 = await getTestProperty({
-            id: 'borderRadiusRight',
-            index: 4,
-            propName: [
-                'borderBottomRightRadius',
-                'borderTopRightRadius',
-
-                // Must be 0
-                'borderBottomLeftRadius',
-                'borderTopLeftRadius',
-            ]
-        });
-        const borderRadiusRight6 = await getTestProperty({
-            id: 'borderRadiusRight',
-            index: 5,
-            propName: [
-                'borderBottomRightRadius',
-                'borderTopRightRadius',
-
-                // Must be 0
-                'borderBottomLeftRadius',
-                'borderTopLeftRadius',
-            ]
-        });
-
-        expect(borderRadiusRight1[0]).toBe('30px');
-        expect(borderRadiusRight1[1]).toBe('30px');
-        expect(borderRadiusRight1[2]).toBe('0px');
-        expect(borderRadiusRight1[3]).toBe('0px');
-
-        expect(borderRadiusRight2[0]).toBe('30px');
-        expect(borderRadiusRight2[1]).toBe('30px');
-        expect(borderRadiusRight2[2]).toBe('0px');
-        expect(borderRadiusRight2[3]).toBe('0px');
-
-        expect(borderRadiusRight3[0]).toBe('30px');
-        expect(borderRadiusRight3[1]).toBe('30px');
-        expect(borderRadiusRight3[2]).toBe('0px');
-        expect(borderRadiusRight3[3]).toBe('0px');
-
-        expect(borderRadiusRight4[0]).toBe('30px');
-        expect(borderRadiusRight4[1]).toBe('30px');
-        expect(borderRadiusRight4[2]).toBe('0px');
-        expect(borderRadiusRight4[3]).toBe('0px');
-
-        expect(borderRadiusRight5[0]).toBe('30px');
-        expect(borderRadiusRight5[1]).toBe('30px');
-        expect(borderRadiusRight5[2]).toBe('0px');
-        expect(borderRadiusRight5[3]).toBe('0px');
-
-        expect(borderRadiusRight6[0]).toBe('30px');
-        expect(borderRadiusRight6[1]).toBe('30px');
-        expect(borderRadiusRight6[2]).toBe('0px');
-        expect(borderRadiusRight6[3]).toBe('0px');
+            ],
+            total: 6
+        }, results => results.forEach(result => {
+            expect(result[0]).toBe('30px');
+            expect(result[1]).toBe('30px');
+            expect(result[2]).toBe('0px');
+            expect(result[3]).toBe('0px');
+        }));
 
         // border radius (top)
-        const borderRadiusTop1 = await getTestProperty({
+        await getTestResults({
             id: 'borderRadiusTop',
-            index: 0,
             propName: [
                 'borderTopLeftRadius',
                 'borderTopRightRadius',
@@ -563,97 +465,55 @@ describe('border props', () => {
                 // Must be 0
                 'borderBottomLeftRadius',
                 'borderBottomRightRadius',
-            ]
-        });
-        const borderRadiusTop2 = await getTestProperty({
-            id: 'borderRadiusTop',
-            index: 1,
+            ],
+            total: 6
+        }, results => results.forEach(result => {
+            expect(result[0]).toBe('30px');
+            expect(result[1]).toBe('30px');
+            expect(result[2]).toBe('0px');
+            expect(result[3]).toBe('0px');
+        }));
+
+        // border x
+        await getTestResults({
+            id: 'borderX',
             propName: [
-                'borderTopLeftRadius',
-                'borderTopRightRadius',
+                // color
+                'borderLeftColor',
+                'borderRightColor',
+                // style
+                'borderLeftStyle',
+                'borderRightStyle',
+                // width
+                'borderLeftWidth',
+                'borderRightWidth',
 
-                // Must be 0
-                'borderBottomLeftRadius',
-                'borderBottomRightRadius',
-            ]
-        });
-        const borderRadiusTop3 = await getTestProperty({
-            id: 'borderRadiusTop',
-            index: 2,
-            propName: [
-                'borderTopLeftRadius',
-                'borderTopRightRadius',
+                // not apply on
+                // color
+                'borderBottomColor',
+                'borderTopColor',
+                // style
+                'borderBottomStyle',
+                'borderTopStyle',
+                // width
+                'borderBottomWidth',
+                'borderTopWidth'
+            ],
+            total: 2
+        }, results => results.forEach(result => {
+            expect(result[0]).toBe('rgb(255, 0, 0)');
+            expect(result[1]).toBe('rgb(255, 0, 0)');
+            expect(result[2]).toBe('dashed');
+            expect(result[3]).toBe('dashed');
+            expect(result[4]).toBe('10px');
+            expect(result[5]).toBe('10px');
 
-                // Must be 0
-                'borderBottomLeftRadius',
-                'borderBottomRightRadius',
-            ]
-        });
-        const borderRadiusTop4 = await getTestProperty({
-            id: 'borderRadiusTop',
-            index: 3,
-            propName: [
-                'borderTopLeftRadius',
-                'borderTopRightRadius',
-
-                // Must be 0
-                'borderBottomLeftRadius',
-                'borderBottomRightRadius',
-            ]
-        });
-        const borderRadiusTop5 = await getTestProperty({
-            id: 'borderRadiusTop',
-            index: 4,
-            propName: [
-                'borderTopLeftRadius',
-                'borderTopRightRadius',
-
-                // Must be 0
-                'borderBottomLeftRadius',
-                'borderBottomRightRadius',
-            ]
-        });
-        const borderRadiusTop6 = await getTestProperty({
-            id: 'borderRadiusTop',
-            index: 5,
-            propName: [
-                'borderTopLeftRadius',
-                'borderTopRightRadius',
-
-                // Must be 0
-                'borderBottomLeftRadius',
-                'borderBottomRightRadius',
-            ]
-        });
-
-        expect(borderRadiusTop1[0]).toBe('30px');
-        expect(borderRadiusTop1[1]).toBe('30px');
-        expect(borderRadiusTop1[2]).toBe('0px');
-        expect(borderRadiusTop1[3]).toBe('0px');
-
-        expect(borderRadiusTop2[0]).toBe('30px');
-        expect(borderRadiusTop2[1]).toBe('30px');
-        expect(borderRadiusTop2[2]).toBe('0px');
-        expect(borderRadiusTop2[3]).toBe('0px');
-
-        expect(borderRadiusTop3[0]).toBe('30px');
-        expect(borderRadiusTop3[1]).toBe('30px');
-        expect(borderRadiusTop3[2]).toBe('0px');
-        expect(borderRadiusTop3[3]).toBe('0px');
-
-        expect(borderRadiusTop4[0]).toBe('30px');
-        expect(borderRadiusTop4[1]).toBe('30px');
-        expect(borderRadiusTop4[2]).toBe('0px');
-        expect(borderRadiusTop4[3]).toBe('0px');
-
-        expect(borderRadiusTop5[0]).toBe('30px');
-        expect(borderRadiusTop5[1]).toBe('30px');
-        expect(borderRadiusTop5[2]).toBe('0px');
-        expect(borderRadiusTop5[3]).toBe('0px');
-
-        expect(borderRadiusTop6[0]).toBe('30px');
-        expect(borderRadiusTop6[1]).toBe('30px');
-        expect(borderRadiusTop6[2]).toBe('0px');
-        expect(borderRadiusTop6[3]).toBe('0px');
+            expect(result[6]).not.toBe('rgb(255, 0, 0)');
+            expect(result[7]).not.toBe('rgb(255, 0, 0)');
+            expect(result[8]).not.toBe('dashed');
+            expect(result[9]).not.toBe('dashed');
+            expect(result[10]).not.toBe('10px');
+            expect(result[11]).not.toBe('10px');
+        }));
     })
 });

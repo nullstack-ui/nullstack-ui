@@ -10,8 +10,14 @@ export const getNestedProps = ({
     let handledProps;
 
     for (let prop in childProps) {
-        console.log(`${propName}.${prop}`);
-        handled[`${propName}.${prop}`] = childProps[prop];
+        if (Array.isArray(propName)) {
+            for (let name of propName) {
+                handled[`${name}.${prop}`] = childProps[prop];
+            }
+        } else {
+            handled[`${propName}.${prop}`] = childProps[prop];
+        }
+        
     }
 
     handledProps = handleProps({
