@@ -1,4 +1,4 @@
-import { getColor } from './color';
+import { darkenColor, getColor } from './color';
 import { getValue } from '../utils/getValue';
 
 const ring = ({
@@ -17,6 +17,10 @@ const ring = ({
             key,
             value: 'none'
         }
+    } else if (value === true) {
+        // color = darkenColor({
+
+        // })
     } else if (typeof value === 'string') {
         color = getColor({
             ...rest,

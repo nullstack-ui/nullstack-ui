@@ -3,7 +3,7 @@ export const getSize = ({ baseSize, props, theme }) => {
     const { globals } = theme || {};
     const { sizeMultipliers, sizeRatio } = globals || {};
     const { xl, xs } = sizeMultipliers || {};
-    let multiplier = sizeMultipliers?.[size];
+    let multiplier = sizeMultipliers?.[size || 'md'];
 
     if (!multiplier && `${size}`?.indexOf('xs') > 0) {
         const power = parseInt(size.split('xs')[0]);

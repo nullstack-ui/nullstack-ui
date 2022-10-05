@@ -9,10 +9,9 @@ import {
     getHoverColors,
     lightenColor
 } from '../../props/color';
-import { ComponentStyle } from '../Component/Component.style';
 
 // Utils
-import { getSize } from '../../utils/getSize';
+import { getSize } from '#utils/getSize';
 
 const componentProps = {
     appearance: 'none',
@@ -33,9 +32,11 @@ const componentProps = {
     },
     px: '1.5em',
     radius: '.5em',
-    // py: '.5em',
-    // rounded: true,
-    // States
+    _focus: ({ props, theme }) => {
+        return {
+            ring: true
+        }
+    },
     _hover: ({ props, theme }) => {
         if (props) {
             const { bgColor, color, textColor } = getHoverColors({

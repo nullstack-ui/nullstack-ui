@@ -14,11 +14,25 @@ export const getColor = props => {
         });
 
         if (themeColor && typeof themeColor === 'function') {
-            return themeColor(props);
+            return handleColor({
+                ...props,
+                theme,
+                value: themeColor(props)
+            });
+
+            // return themeColor(props);
         } else if (themeColor && typeof themeColor === 'object') {
-            return getColorIntensity(props);
+            return handleColor({
+                ...props,
+                theme,
+                value: getColorIntensity(props)
+            });
         } else {
-            return themeColor || value;
+            return handleColor({
+                ...props,
+                theme,
+                value: themeColor || value
+            });
         }
     } else if (
         Array.isArray(value) &&
@@ -71,6 +85,11 @@ export const getColor = props => {
                 value: themeColor || value.value
             });
         }
+    } else if (typeof value === 'function') {
+        // return handleColor({
+        //     theme,
+        //     value: value({ })
+        // });
     }
 }
 
@@ -126,36 +145,46 @@ export const handleColor = props => {
 // Props
 export const bgColor = ({
     key = 'background-color',
+    props,
     theme,
     value,
     ...rest
 }) => {
+    const bgColor = getColor({
+        ...rest,
+        theme,
+        value
+    });
+    const handledBgColor = handleColor({
+        ...props,
+        value: bgColor
+    })
+
     return {
         key,
-        value: getColor({
-            ...rest,
-            theme,
-            value
-        })
+        value: handledBgColor
     };
 }
 
-export const color = props => {
-    const { value } = props;
-    const bgColor = getColor(props);
-
-    const textColor = Color(bgColor).isDark() ? lightenColor({
-        ratio: value?.ratio || .9,
+export const color = params => {
+    const { props, value } = params;
+    const bgColor = getColor(params);
+    const handledBgColor = handleColor({
+        ...props,
         value: bgColor
+    })
+    const textColor = Color(handledBgColor).isDark() ? lightenColor({
+        ratio: value?.ratio || .9,
+        value: handledBgColor
     }) : darkenColor({
         ratio: value?.ratio || .9,
-        value: bgColor
+        value: handledBgColor
     });
 
     return [
         {
             key: 'background-color',
-            value: bgColor
+            value: handledBgColor
         },
         {
             key: 'color',
@@ -212,6 +241,18 @@ export const getActiveColors = params => {
     const { props, ratio, theme, ...rest } = params;
     const hoverProps = typeof props?._hover === 'function' ? props._hover(params) : props;
     const { bgColor, color, mixColors, textColor } = hoverProps || {};
+    const handledBgColor = bgColor ? handleColor({
+        ...props,
+        value: bgColor
+    }) : null
+    const handledColor = color ? handleColor({
+        ...props,
+        value: color
+    }) : null
+    const handledTextColor = textColor ? handleColor({
+        ...props,
+        value: textColor
+    }) : null
 
     const getActiveColor = unhandledColor => {
         const color = getColor({
@@ -219,24 +260,25 @@ export const getActiveColors = params => {
             theme,
             value: unhandledColor
         });
+        const luminosity = Color(color).luminosity();
 
-        if (color && Color(color).isDark()) {
-            return lightenColor(({ ratio: ratio ? 1 - ratio : .35, value: color }));
-        } else if (color && Color(color).isLight()) {
-            return darkenColor(({ ratio: ratio ? 1 - ratio : .35, value: color }));
+        if (luminosity < .1) {
+            return lightenColor(({ ratio: ratio ? 1 - ratio : .1, value: color }));
+        } else {
+            return darkenColor(({ ratio: ratio ? 1 - ratio : .1, value: color }));
         }
     }
 
     if (mixColors) {
         return {
-            bgColor: getActiveColors(bgColor || props.bgColor),
-            textColor: Color(textColor).mix(Color(getActiveColor(bgColor)), .2).hex()
+            bgColor: getActiveColors(handledBgColor || props.bgColor),
+            textColor: Color(handledTextColor).mix(Color(getActiveColor(handledBgColor)), .2).hex()
         }
     } else {
         return {
-            bgColor: getActiveColor(bgColor),
-            color: getActiveColor(color),
-            textColor: getActiveColor(textColor)
+            bgColor: handledBgColor ? getActiveColor(handledBgColor) : '',
+            color: handledColor ? getActiveColor(handledColor) : '',
+            textColor: handledTextColor ? getActiveColor(handledTextColor) : ''
         }
     }
 }
@@ -295,31 +337,44 @@ const getColorIntensity = props => {
 export const getHoverColors = params => {
     const { props, ratio, theme, ...rest } = params;
     const { bgColor, color, mixColors, textColor } = props;
-
+    const handledBgColor = bgColor ? handleColor({
+        ...props,
+        value: bgColor
+    }) : null;
+    const handledColor = color ? handleColor({
+        ...props,
+        value: color
+    }) : null;
+    const handledTextColor = textColor ? handleColor({
+        ...props,
+        value: textColor
+    }) : null
+    
     const getHoverColor = unhandledColor => {
         const color = getColor({
             ...rest,
             theme,
             value: unhandledColor
         });
+        const luminosity = Color(color).luminosity();
 
-        if (color && Color(color).isDark()) {
+        if (luminosity < .9) {
             return lightenColor(({ ratio: ratio ? 1 - ratio : .2, value: color }));
-        } else if (color && Color(color).isLight()) {
+        } else { 
             return darkenColor(({ ratio: ratio ? 1 - ratio : .2, value: color }));
         }
     }
 
     if (mixColors) {
         return {
-            bgColor: getHoverColor(bgColor),
-            textColor: Color(textColor).mix(Color(getHoverColor(bgColor)), .2).hex()
+            bgColor: getHoverColor(handledBgColor),
+            textColor: Color(handledTextColor).mix(Color(getHoverColor(handledBgColor)), .2).hex()
         }
     } else {
         return {
-            bgColor: getHoverColor(bgColor),
-            color: getHoverColor(color),
-            textColor: getHoverColor(textColor)
+            bgColor: handledBgColor ? getHoverColor(handledBgColor) : '',
+            color: handledColor ? getHoverColor(handledColor) : '',
+            textColor: handledTextColor ? getHoverColor(handledTextColor) : ''
         }
     }
 }
@@ -341,17 +396,24 @@ export const opaqueColor = props => {
 
 export const textColor = ({
     key = 'color',
+    props,
     theme,
     value,
     ...rest
 }) => {
+    const textColor = getColor({
+        ...rest,
+        theme,
+        value
+    });
+    const handledTextColor = handleColor({
+        ...props,
+        value: textColor
+    })
+
     return {
         key,
-        value: getColor({
-            ...rest,
-            theme,
-            value
-        })
+        value: handledTextColor
     };
 }
 
