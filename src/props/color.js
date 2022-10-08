@@ -173,7 +173,7 @@ export const color = params => {
         ...props,
         value: bgColor
     })
-    const textColor = Color(handledBgColor).isDark() ? lightenColor({
+    const textColor = Color(handledBgColor).lightness() < 50 ? lightenColor({
         ratio: value?.ratio || .9,
         value: handledBgColor
     }) : darkenColor({
@@ -260,9 +260,9 @@ export const getActiveColors = params => {
             theme,
             value: unhandledColor
         });
-        const luminosity = Color(color).luminosity();
+        const lightness = Color(color).lightness();
 
-        if (luminosity < .1) {
+        if (lightness < 10) {
             return lightenColor(({ ratio: ratio ? 1 - ratio : .1, value: color }));
         } else {
             return darkenColor(({ ratio: ratio ? 1 - ratio : .1, value: color }));
@@ -356,9 +356,9 @@ export const getHoverColors = params => {
             theme,
             value: unhandledColor
         });
-        const luminosity = Color(color).luminosity();
+        const lightness = Color(color).lightness();
 
-        if (luminosity < .9) {
+        if (lightness < 90) {
             return lightenColor(({ ratio: ratio ? 1 - ratio : .2, value: color }));
         } else { 
             return darkenColor(({ ratio: ratio ? 1 - ratio : .2, value: color }));
