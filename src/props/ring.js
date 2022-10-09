@@ -1,3 +1,5 @@
+import Color from 'color';
+
 import { darkenColor, getColor } from './color';
 import { getValue } from '../utils/getValue';
 
@@ -41,6 +43,10 @@ const ring = ({
                 theme,
                 value: value.color
             });
+        }
+        
+        if (value.opacity != null) {
+            color = Color(color).fade(1 - value.opacity)
         }
 
         if (value.inset) {

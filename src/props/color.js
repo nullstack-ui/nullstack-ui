@@ -173,7 +173,7 @@ export const color = params => {
         ...props,
         value: bgColor
     })
-    const textColor = Color(handledBgColor).lightness() < 50 ? lightenColor({
+    const textColor = Color(handledBgColor).lightness() < 60 ? lightenColor({
         ratio: value?.ratio || .9,
         value: handledBgColor
     }) : darkenColor({
@@ -253,6 +253,7 @@ export const getActiveColors = params => {
         ...props,
         value: textColor
     }) : null
+    let output = {};
 
     const getActiveColor = unhandledColor => {
         const color = getColor({
@@ -280,6 +281,20 @@ export const getActiveColors = params => {
             color: handledColor ? getActiveColor(handledColor) : '',
             textColor: handledTextColor ? getActiveColor(handledTextColor) : ''
         }
+
+        if (handledBgColor) {
+            output.bgColor = getActiveColor(handledBgColor)
+        }
+
+        if (handledColor) {
+            output.color = getActiveColor(handledColor)
+        }
+
+        if (handledTextColor) {
+            output.textColor = getActiveColor(handledTextColor)
+        }
+        
+        return output
     }
 }
 
@@ -349,6 +364,7 @@ export const getHoverColors = params => {
         ...props,
         value: textColor
     }) : null
+    let output = {};
     
     const getHoverColor = unhandledColor => {
         const color = getColor({
@@ -358,7 +374,7 @@ export const getHoverColors = params => {
         });
         const lightness = Color(color).lightness();
 
-        if (lightness < 90) {
+        if (lightness < 50) {
             return lightenColor(({ ratio: ratio ? 1 - ratio : .2, value: color }));
         } else { 
             return darkenColor(({ ratio: ratio ? 1 - ratio : .2, value: color }));
@@ -376,6 +392,20 @@ export const getHoverColors = params => {
             color: handledColor ? getHoverColor(handledColor) : '',
             textColor: handledTextColor ? getHoverColor(handledTextColor) : ''
         }
+
+        if (handledBgColor) {
+            output.bgColor = getHoverColor(handledBgColor)
+        }
+
+        if (handledColor) {
+            output.color = getHoverColor(handledColor)
+        }
+
+        if (handledTextColor) {
+            output.textColor = getHoverColor(handledTextColor)
+        }
+        
+        return output
     }
 }
 

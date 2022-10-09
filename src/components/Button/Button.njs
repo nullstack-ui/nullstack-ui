@@ -32,38 +32,59 @@ const componentProps = {
     },
     px: '1.5em',
     radius: '.5em',
-    _focus: ({ props, theme }) => {
+    _focus: ({ props }) => {
         return {
-            ring: true
+            ring: {
+                color: props.color,
+                opacity: .4
+            }
         }
     },
     _hover: ({ props, theme }) => {
         if (props) {
-            const { bgColor, color, textColor } = getHoverColors({
+            const { color } = getHoverColors({
                 props,
                 theme
             });
+            let output = {}
 
-            return {
-                bgColor,
-                color,
-                textColor
-            };
+            // if (bgColor) {
+            //     output.bgColor = bgColor
+            // }
+
+            if (color) {
+                output.color = color
+            }
+
+            // if (textColor) {
+            //     output.textColor = textColor
+            // }
+
+            return output;
         }
     },
     _active: ({ initialProps, theme }) => {
         if (initialProps) {
-            const { bgColor, color, textColor } = getActiveColors({
+            const { color } = getActiveColors({
                 props: initialProps,
                 ratio: initialProps.ratio,
                 theme
             });
+            let output = {}
 
-            return {
-                bgColor,
-                color,
-                textColor
-            };
+            // if (bgColor) {
+            //     output.bgColor = bgColor
+            // }
+
+            if (color) {
+                output.color = color
+            }
+
+            // if (textColor) {
+            //     output.textColor = textColor
+            // }
+
+            return output;
         }
     },
 
@@ -84,44 +105,60 @@ const componentProps = {
                         bg: 'none',
                         bgColor: 'transparent',
                         border: ({ props }) => {
-                            return props.color;
+                            if (props.color) {
+                                return {
+                                    color: props.color,
+                                    style: 'solid',
+                                    width: 1
+                                };
+                            }
                         },
                         textColor: ({
                             initialProps,
                             theme
                         }) => {
-                            if (initialProps) {
+                            if (initialProps?.color) {
                                 return initialProps.color
                             }
                         },
-                        _hover: ({ initialProps }) => {
-                            if (initialProps) {
-                                const { bgColor, color, textColor } = initialProps;
-
+                        _hover: ({ initialProps, theme }) => {
+                            if (initialProps?.color) {
+                                const { color } = getHoverColors({
+                                    props: initialProps,
+                                    theme
+                                });
+                                const hoverProps = initialProps?._hover || {};
+                    
                                 return {
-                                    bgColor,
+                                    border: {
+                                        color,
+                                        style: 'solid',
+                                        width: 1
+                                    },
                                     color,
-                                    textColor
-                                }
+                                    ...hoverProps
+                                };
                             }
                         },
                         _active: ({ initialProps, theme }) => {
-                            if (initialProps) {
+                            if (initialProps?.color) {
                                 const {
-                                    bgColor,
-                                    color,
-                                    textColor
+                                    color
                                 } = getActiveColors({
                                     props: initialProps,
                                     ratio: initialProps.ratio,
                                     theme
                                 });
+                                const activeProps = initialProps?._active || {};
 
                                 return {
-                                    bgColor,
-                                    border: bgColor || color,
+                                    border: {
+                                        color,
+                                        style: 'solid',
+                                        width: 1
+                                    },
                                     color,
-                                    textColor
+                                    ...activeProps
                                 }
                             }
 

@@ -30,9 +30,18 @@ export default class Components extends Nullstack {
     render() {
         return (
             <>
-                <Button color={{ faded: true, value: 'red' }}>Button</Button>
-                <Button color="black" faded={true}>Button</Button>
-                <Button color={{ faded: true, value: 'black' }}>Button</Button>
+                <div mb={1}>
+                    <Button color={{ faded: true, value: 'red' }} variant="outline">Outline Button</Button>
+                    <Button color="blue" variant="outline"  _hover={{ textColor: 'red' }} _active={{ textColor: 'yellow'}}>Outline Button</Button>
+                    <Button color={{ faded: true, value: 'green' }} variant="outline">Outline Button</Button>
+                    <Button color="black" faded={.75}>Button</Button>
+                    <Button color={{ faded: true, value: 'black' }}>Button</Button>
+                </div>
+                <div mb={1} spX={.5}>
+                    <Button bgColor="red" _focus={{ ring: { color: 'red', opacity: .4, } }} _hover={{ bgColor: 'red', lighten: true, textColor: 'white' }}>Outline Button</Button>
+                    <Button color="blue" rounded={1}>Outline Button</Button>
+                    <Button color={{ faded: true, value: 'green' }}>Outline Button</Button>
+                </div>
                 <div>
                     <Button color="#000">Button</Button>
                     <Button color="#333">Button</Button>
@@ -43,7 +52,7 @@ export default class Components extends Nullstack {
                 </div>
 
                 <div>
-                    <Button color="#000" darken={true}>Button</Button>
+                    <Button color="#000" darken={true} variant="outline">Outline Button</Button>
                     <Button color="#333" darken={true}>Button</Button>
                     <Button color="#666" darken={true}>Button</Button>
                     <Button color="#999" darken={true}>Button</Button>
