@@ -113,7 +113,7 @@ const genericDimension = ({
 }
 
 // Props
-export const dimensionProps = {
+const dimensionProps = {
     height: {
         aliases: ['h'],
         fn: ({ value }) => genericDimension({
@@ -156,4 +156,10 @@ export const dimensionProps = {
             value
         })
     }
+}
+
+// Exports
+module.exports = {
+    dimensionProps,
+    sizeAliases
 }

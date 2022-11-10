@@ -149,8 +149,7 @@ const lineHeight = ({
 const text = ({
     key = 'text',
     theme,
-    value,
-    ...rest
+    value
 }) => {
     return getNestedProps({
         childProps: value,
