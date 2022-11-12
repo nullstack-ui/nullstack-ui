@@ -6,7 +6,7 @@
   "license": "ISC",
   "devDependencies": {
     "jest-puppeteer": "^6.1.1",
-    "nullstack": "github:nullstack/nullstack#unstable-next",
+    "nullstack": "~0.16.0",
     "puppeteer": "^18.0.3"
   },
   "scripts": {
@@ -26,5 +26,8 @@
     "#pages/*": "./src/pages/*",
     "#props/*": "./src/props/*",
     "#utils/*": "./src/utils/*"
-  }
+  },
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "source": "src/index.js"
 }

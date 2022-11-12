@@ -151,12 +151,6 @@ function match({ elements, node }) {
   )
 }
 
-// const NullstackUI = {
-//   transform,
-//   client: true,
-//   server: true
-// }
-
 class NullstackUI {
   constructor() {
     this.client = true;
