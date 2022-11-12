@@ -110,7 +110,7 @@ const getThemeColor = props => {
 
 // Handle color
 export const handleColor = props => {
-    let handledColor = props.value;
+    let handledColor = (typeof props.value === 'object' && props.value.DEFAULT) ? props.value.DEFAULT : props.value;
 
     if (props.darken) {
         handledColor = darkenColor(props);
