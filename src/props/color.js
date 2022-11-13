@@ -120,7 +120,7 @@ export const handleColor = props => {
         handledColor = fadedColor(props);
     }
 
-    if (props.intensity) {
+    if (Array.isArray(props.value) || props.intensity) {
         handledColor = getColorIntensity(props);
     }
 
@@ -224,10 +224,11 @@ export const gradient = ({ value, ...rest }) => {
 // Manipulations
 export const darkenColor = props => {
     const { darken, ratio, value } = props;
-    const lightness = Color(value).lightness();
+    const handledValue = handleColor({ value });
+    const lightness = Color(handledValue).lightness();
     const finalRatio = !isNaN(parseInt(darken)) ? darken : (ratio || defaultRatio);
 
-    return Color(value).lightness(lightness - lightness * finalRatio).hex();
+    return Color(handledValue).lightness(lightness - lightness * finalRatio).hex();
 }
 
 export const fadedColor = props => {
@@ -300,9 +301,11 @@ export const getActiveColors = params => {
 
 const getColorIntensity = props => {
     const { intensity, theme, value } = props;
-    const themeColor = theme?.colors?.[value];
-    const defaultColor = theme?.colors?.[value]?.DEFAULT;
-    const intensityColor = theme?.colors?.[value]?.[intensity];
+    const handledIntensity = Array.isArray(value) ? value[1] : intensity;
+    const handledValue = Array.isArray(value) ? value[0] : value;
+    const themeColor = theme?.colors?.[handledValue];
+    const defaultColor = theme?.colors?.[handledValue]?.DEFAULT;
+    const intensityColor = theme?.colors?.[value]?.[handledIntensity];
     let index;
     let mixIntensity;
     let next;
@@ -411,15 +414,16 @@ export const getHoverColors = params => {
 
 export const lightenColor = props => {
     const { lighten, ratio, value } = props;
-    const lightness = Color(value).lightness();
+    const handledValue = handleColor({ value });
+    const lightness = Color(handledValue).lightness();
     const finalRatio = !isNaN(parseInt(lighten)) ? lighten : (ratio || defaultRatio);
 
-    return Color(value).lightness(lightness + (100 - lightness) * finalRatio).hex()
+    return Color(handledValue).lightness(lightness + (100 - lightness) * finalRatio).hex()
 }
 
 export const opaqueColor = props => {
-    const { opacity, ratio } = props;
-    const handledValue = getColor(props);
+    const { opacity, ratio, value } = props;
+    const handledValue = handleColor({ value });
 
     return Color(handledValue).alpha(!isNaN(parseInt(opacity)) ? opacity : (ratio || defaultRatio)).hexa();
 }

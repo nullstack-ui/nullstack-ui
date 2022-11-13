@@ -3,6 +3,9 @@ import Test from './components/Test/Test.njs';
 // Props
 import { allProps, allStates, getPropByAlias } from './props';
 
+// Utils
+import { getSize } from './utils/getSize';
+
 // Styles
 import { ComponentStyle } from './components/Component/Component.style';
 
@@ -22,6 +25,7 @@ const acceptableTypes = [
     'p',
     'select',
     'span',
+    'strong',
     'textarea'
 ];
 
@@ -123,5 +127,6 @@ function match({ elements, node }) {
 
 export default NullstackUI
 export {
+    getSize,
     Test
 }

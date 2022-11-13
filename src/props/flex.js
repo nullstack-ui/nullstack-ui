@@ -36,6 +36,8 @@ export const flex = ({ theme, value }) => {
             key: propName,
             value: handledProps.elementProps[propName]
         }));
+    } else {
+        return {}
     }
 }
 
@@ -143,7 +145,7 @@ export const flexProps = {
             'alignSelf',
             'flex.alSelf'
         ],
-        key: 'align-selft'
+        key: 'align-self'
     },
     'flex.alignV': {
         aliases: [

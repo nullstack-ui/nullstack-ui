@@ -11,7 +11,7 @@ const group = ({ props, theme }) => {
             array.push(`&:${state} {`);
     
             for (let child of children) {
-                const { _group } = child.attributes;
+                const { _group } = child.attributes || {};
     
                 if (_group) {
                     if (_group[`_${state}`]) {

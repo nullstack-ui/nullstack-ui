@@ -40,6 +40,13 @@ export const allProps = {
         key: 'appearance'
     },
     ...bgProps,
+    'block': {
+        transform: {
+            props: {
+                d: 'block'
+            }
+        }
+    },
     ...borderProps,
     'boxSizing': {
         key: 'box-sizing'
