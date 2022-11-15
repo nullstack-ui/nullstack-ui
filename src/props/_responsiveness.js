@@ -18,11 +18,11 @@ const breakpoints = {
 }
 
 const breakpointsOrder = [
-    'xl',
-    'lg',
-    'md',
+    'xs',
     'sm',
-    'xs'
+    'md',
+    'lg',
+    'xl'
 ]
 
 export const genericProps = ({
