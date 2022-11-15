@@ -330,6 +330,13 @@ export const textProps = {
         aliases: ['textTransform'],
         key: 'text-transform'
     },
+    'underline': {
+        transform: {
+            props: {
+                textDecoration: 'underline'
+            }
+        }
+    },
     'upperCase': {
         aliases: ['uppercase'],
         transform: {
