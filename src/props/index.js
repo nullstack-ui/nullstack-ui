@@ -161,7 +161,11 @@ export const getCustomProps = ({
     }
 
     if (props?.customProps) {
-        allProps.push(...props?.customProps)
+        if (typeof props.customProps === 'function') {
+            allProps.push(...props?.customProps({ props }))
+        } else {
+            allProps.push(...props?.customProps)
+        }
     }
 
     for (let customProp of allProps) {
