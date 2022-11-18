@@ -152,7 +152,7 @@ export const pseudoClasses = {
     '_odd': {
         key: ':nth-child(odd)'
     },
-    '_only-child': {
+    '_onlyChild': {
         key: ':only-child'
     },
 }

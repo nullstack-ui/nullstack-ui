@@ -21,6 +21,7 @@ const acceptableTypes = [
     'h5',
     'h6',
     'i',
+    'img',
     'input',
     'p',
     'select',
