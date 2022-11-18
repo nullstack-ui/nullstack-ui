@@ -23,6 +23,7 @@ const acceptableTypes = [
     'i',
     'img',
     'input',
+    'label',
     'p',
     'select',
     'span',

@@ -78,6 +78,15 @@ export const allProps = {
     ...overflowProps,
     ...paddingProps,
     ...positionProps,
+    'reset': {
+        transform: {
+            props: {
+                appearance: 'none',
+                bg: 'none',
+                border: 'none'
+            }
+        }
+    },
     'resize': {
         key: 'resize'
     },
