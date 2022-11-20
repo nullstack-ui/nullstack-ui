@@ -47,8 +47,12 @@ class NullstackUI {
     }
 
     transform(params) {
+        if (!this.context) { return false }
+
         const { node } = params;
         let style;
+
+        if (!node) { return false; }
 
         if (acceptableTypes.indexOf(node.type) > -1) {
             this.storedElements.push(typeof node === 'object' ? {
@@ -62,6 +66,7 @@ class NullstackUI {
         })) { return false; };
 
         this.context.darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
         style = ComponentStyle({
             context: this.context,
             props: {
