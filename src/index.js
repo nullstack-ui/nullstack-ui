@@ -27,6 +27,7 @@ const acceptableTypes = [
     'p',
     'select',
     'span',
+    'small',
     'strong',
     'textarea'
 ];
