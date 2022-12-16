@@ -66,7 +66,9 @@ class NullstackUI {
             node
         })) { return false; };
 
-        this.context.darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (typeof window !== 'undefined' && window.matchMedia) {
+            this.context.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
 
         style = ComponentStyle({
             context: this.context,
@@ -82,11 +84,11 @@ class NullstackUI {
             }
         }
 
-        if (node.attributes) {
+        if (node.attributes && typeof window !== 'undefined' && window.matchMedia) {
             window
                 .matchMedia('(prefers-color-scheme: dark)')
                 .addEventListener('change', event => {
-                    context.darkMode = event.matches;
+                    this.context.darkMode = event.matches;
                 });
 
             node.attributes.class = [node?.attributes?.class, style].join(' ');
