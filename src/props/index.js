@@ -92,7 +92,7 @@ export const allProps = {
     },
     ...ringProps,
     ...shadowProps,
-    // ...sizeProps,
+    // // ...sizeProps,
     ...spacingProps,
     ...textProps,
     ...transformProps,
