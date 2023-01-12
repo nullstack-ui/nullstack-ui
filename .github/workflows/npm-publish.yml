@@ -26,8 +26,6 @@ jobs:
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
-      - name: install
-        uses: bahmutov/npm-install@v1
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
