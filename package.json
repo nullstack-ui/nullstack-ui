@@ -29,5 +29,9 @@
   },
   "main": "src/index.js",
   "module": "src/index.js",
-  "source": "src/index.js"
+  "source": "src/index.js",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  }
 }
