@@ -13,7 +13,7 @@
     "start": "npx nullstack start --mode=spa --env=test",
     "build": "npx nullstack build --mode=ssr",
     "build:test": "npx nullstack build --env=test",
-    "test": "jest --watch"
+    "test": "node ./test.js"
   },
   "dependencies": {
     "@emotion/css": "^11.9.0",
