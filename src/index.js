@@ -12,6 +12,7 @@ import { ComponentStyle } from './components/Component/Component.style';
 // Nullstack UI
 const acceptableTypes = [
     'a',
+    'body',
     'button',
     'div',
     'h1',

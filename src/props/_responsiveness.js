@@ -1,19 +1,27 @@
 import { handleProps } from '.';
 
+export const breakpointsWidths = {
+    xs: '576px',
+    sm: '768px',
+    md: '992px',
+    lg: '1200px',
+    xl: '1400px'
+}
+
 const breakpoints = {
     _down: {
-        xs: '@media screen and (max-width: 576px)',
-        sm: '@media screen and (max-width: 768px)',
-        md: '@media screen and (max-width: 992px)',
-        lg: '@media screen and (max-width: 1200px)',
-        xl: '@media screen and (max-width: 1400px)'
+        xs: `@media screen and (max-width: ${breakpointsWidths.xs})`,
+        sm: `@media screen and (max-width: ${breakpointsWidths.sm})`,
+        md: `@media screen and (max-width: ${breakpointsWidths.md})`,
+        lg: `@media screen and (max-width: ${breakpointsWidths.lg})`,
+        xl: `@media screen and (max-width: ${breakpointsWidths.xl})`
     },
     _up: {
-        xs: '@media screen and (min-width: 576px)',
-        sm: '@media screen and (min-width: 768px)',
-        md: '@media screen and (min-width: 992px)',
-        lg: '@media screen and (min-width: 1200px)',
-        xl: '@media screen and (min-width: 1400px)'
+        xs: `@media screen and (min-width: ${breakpointsWidths.xs})`,
+        sm: `@media screen and (min-width: ${breakpointsWidths.sm})`,
+        md: `@media screen and (min-width: ${breakpointsWidths.md})`,
+        lg: `@media screen and (min-width: ${breakpointsWidths.lg})`,
+        xl: `@media screen and (min-width: ${breakpointsWidths.xl})`
     }
 }
 
