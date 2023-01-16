@@ -2,10 +2,11 @@ import { handleProps } from '.';
 
 export const breakpointsWidths = {
     xs: '576px',
-    sm: '768px',
-    md: '992px',
-    lg: '1200px',
-    xl: '1400px'
+    sm: '640px',
+    md: '768px',
+    lg: '1024px',
+    xl: '1280px',
+    '2xl': '1536px'
 }
 
 const breakpoints = {
@@ -30,7 +31,8 @@ const breakpointsOrder = [
     'sm',
     'md',
     'lg',
-    'xl'
+    'xl',
+    '2xl'
 ]
 
 export const genericProps = ({

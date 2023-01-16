@@ -11,6 +11,9 @@ export const pseudoElements = {
     '_firstLine': {
         key: ':first-line'
     },
+    '_placeholder': {
+        key: '::placeholder'
+    },
     '_selection': {
         key: '::selection'
     }
