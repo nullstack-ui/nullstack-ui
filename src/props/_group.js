@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { handleProps } from '.';
 
 const group = ({ props, theme }) => {
@@ -33,23 +32,28 @@ const getChildren = ({ children, groupKey, state, theme }) => {
         const child = children[i];
         const { _group } = child.attributes || {};
 
+        if (!child?.attributes?.__self?.key) { continue; }
+
+        const childKey = `${child?.attributes?.__self?.key}${i}`
+
         if (_group) {
             if (_group[`_${state}`]) {
                 const { asArray } = handleProps({
                     props: _group[`_${state}`],
                     theme
                 });
+                
 
-                child.attributes['data-child-id'] = `${groupKey}${i}`;
+                child.attributes['data-child-id'] = `${groupKey}${childKey}`;
 
-                array.push(`[data-child-id="${groupKey}${i}"] {`);
+                array.push(`[data-child-id="${groupKey}${childKey}"] {`);
                 array.push(...asArray);
                 array.push('}');
             }
         }
 
         if (child?.children) {
-            const childrenCSS = getChildren({ children: child?.children, state, theme });
+            const childrenCSS = getChildren({ children: child?.children, groupKey: childKey, state, theme });
 
             array.push(...childrenCSS);
         }
