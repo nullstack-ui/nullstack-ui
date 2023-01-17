@@ -32,9 +32,7 @@ const getChildren = ({ children, groupKey, state, theme }) => {
         const child = children[i];
         const { _group } = child.attributes || {};
 
-        if (!child?.attributes?.__self?.key) { continue; }
-
-        const childKey = `${child?.attributes?.__self?.key}${i}`
+        const childKey = `${groupKey}${i}`
 
         if (_group) {
             if (_group[`_${state}`]) {
@@ -44,9 +42,9 @@ const getChildren = ({ children, groupKey, state, theme }) => {
                 });
                 
 
-                child.attributes['data-child-id'] = `${groupKey}${childKey}`;
+                child.attributes['data-child-id'] = `${childKey}`;
 
-                array.push(`[data-child-id="${groupKey}${childKey}"] {`);
+                array.push(`[data-child-id="${childKey}"] {`);
                 array.push(...asArray);
                 array.push('}');
             }
