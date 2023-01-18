@@ -74,6 +74,9 @@ class NullstackUI {
 
     attributesHaveChanged({ depth, node }) {
         const prevNode = depths[depth].node;
+
+        if (!node.attributes) { return true }
+        
         const { children: currentChildren, class: currentClass, 'data-id': currentDataID, __self: currentSelf, ...currentAttributes } = node.attributes;
         const { children: prevChildren, class: prevClass, 'data-id': prevDataID, __self: prevSelf, ...prevAttributes } = prevNode.attributes;
 
@@ -106,12 +109,6 @@ class NullstackUI {
         if (!node) { return false; }
 
         const attributesHaveChanged = depths[depth] ? this.attributesHaveChanged({ depth, node: { ...node } }) : true;
-
-        // if (depths[depth] && attributesHaveChanged) {
-        //     // console.log('have changed', depth)
-        // } else if (depths[depth] && !attributesHaveChanged) {
-        //     console.log('didn\'t change', depth)
-        // }
 
         if (!match({ node })) { return false; };
 
