@@ -244,5 +244,21 @@ export const flexProps = {
             'wrap'
         ],
         key: 'flex-wrap'
-    }
+    },
+    'flexCol': {
+        transform: {
+            props: {
+                flex: true,
+                flexDir: 'column'
+            },
+        }
+    },
+    'flexRow': {
+        transform: {
+            props: {
+                flex: true,
+                flexDir: 'row'
+            },
+        }
+    },
 }

@@ -28,14 +28,11 @@ export const position = ({
 
 export const positionProps = {
     'absolute': {
-        aliases: ['abs'],
-        fn: ({
-            value
-        }) => position({
-            subValue: 'absolute',
-            value
-        }),
-        key: 'position',
+        transform: {
+            props: {
+                position: 'absolute'
+            },
+        }
     },
     'bottom': {
         fn: ({ value }) => placement({
@@ -44,13 +41,11 @@ export const positionProps = {
         })
     },
     'fixed': {
-        fn: ({
-            value
-        }) => position({
-            subValue: 'fixed',
-            value
-        }),
-        key: 'position',
+        transform: {
+            props: {
+                position: 'fixed'
+            },
+        }
     },
     'inset': {
         fn: ({ value }) => placement({
@@ -74,13 +69,11 @@ export const positionProps = {
         key: 'position'
     },
     'relative': {
-        fn: ({
-            value
-        }) => position({
-            subValue: 'relative',
-            value
-        }),
-        key: 'position',
+        transform: {
+            props: {
+                position: 'relative'
+            },
+        }
     },
     'right': {
         fn: ({ value }) => placement({
@@ -89,13 +82,18 @@ export const positionProps = {
         })
     },
     'static': {
-        fn: ({
-            value
-        }) => position({
-            subValue: 'static',
-            value
-        }),
-        key: 'position'
+        transform: {
+            props: {
+                position: 'static'
+            },
+        }
+    },
+    'sticky': {
+        transform: {
+            props: {
+                position: 'sticky'
+            },
+        }
     },
     'top': {
         fn: ({ value }) => placement({
