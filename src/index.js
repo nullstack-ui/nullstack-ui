@@ -65,8 +65,9 @@ const attributeHasChanged = (current, previous) => {
 class NullstackUI {
     context;
 
-    constructor({ theme = {} }) {
+    constructor({ keepAttributes, theme = {} }) {
         this.client = true;
+        this.keepAttributes = keepAttributes;
         this.server = true;
         this.storedElements = [];
         this.theme = theme;
@@ -133,11 +134,14 @@ class NullstackUI {
             style
         };
 
-        for (let attribute in node.attributes) {
-            if (allProps[attribute] || allStates[attribute] || getPropByAlias(attribute)) {
-                delete node.attributes[attribute];
+        if (!this.keepAttributes) {
+            for (let attribute in node.attributes) {
+                if (allProps[attribute] || allStates[attribute] || getPropByAlias(attribute)) {
+                    delete node.attributes[attribute];
+                }
             }
         }
+        
 
         if (node.attributes && typeof window !== 'undefined' && window.matchMedia) {
             window
