@@ -1,5 +1,7 @@
 import { handleProps } from '.';
 
+import { getValue } from '../utils/getValue';
+
 export const breakpointsWidths = {
     xs: '576px',
     sm: '640px',
@@ -9,31 +11,42 @@ export const breakpointsWidths = {
     '2xl': '1536px'
 }
 
-const breakpoints = {
-    _down: {
-        xs: `@media screen and (max-width: ${breakpointsWidths.xs})`,
-        sm: `@media screen and (max-width: ${breakpointsWidths.sm})`,
-        md: `@media screen and (max-width: ${breakpointsWidths.md})`,
-        lg: `@media screen and (max-width: ${breakpointsWidths.lg})`,
-        xl: `@media screen and (max-width: ${breakpointsWidths.xl})`
-    },
-    _up: {
-        xs: `@media screen and (min-width: ${breakpointsWidths.xs})`,
-        sm: `@media screen and (min-width: ${breakpointsWidths.sm})`,
-        md: `@media screen and (min-width: ${breakpointsWidths.md})`,
-        lg: `@media screen and (min-width: ${breakpointsWidths.lg})`,
-        xl: `@media screen and (min-width: ${breakpointsWidths.xl})`
+const breakpoints = (theme = {}) => {
+    const { breakpoints = {} } = theme;
+    const widths = {
+        ...breakpointsWidths,
+        ...breakpoints
+    };
+
+    const allBreakpoints = {
+        _down: {},
+        _up: {}
+    };
+
+    for (let width in widths) {
+        const widthPx = getValue({ unit: 'px', value: widths[width] });
+
+        allBreakpoints._down[width] = `@media screen and (max-width: ${widthPx})`;
+        allBreakpoints._up[width] = `@media screen and (min-width: ${widthPx})`;
     }
+    
+    return allBreakpoints;
 }
 
-const breakpointsOrder = [
-    'xs',
-    'sm',
-    'md',
-    'lg',
-    'xl',
-    '2xl'
-]
+const breakpointsOrder = (theme = {}) => {
+    const { breakpoints = {} } = theme;
+    const widths = {
+        ...breakpointsWidths,
+        ...breakpoints
+    };
+    const widthArray = Object.keys(widths).map(breakpoint => ({
+        breakpoint,
+        width: widths[breakpoint]
+    }))
+    const sortedArray = widthArray.sort((a, b) => parseFloat(a.width) - parseFloat(b.width));
+
+    return sortedArray.map(({ breakpoint }) => breakpoint);
+}
 
 export const genericProps = ({
     context,
@@ -44,7 +57,7 @@ export const genericProps = ({
     const sortedProps = [];
 
     for (let bp in props[context]) {
-        const breakpointSelector = breakpoints[context][bp];
+        const breakpointSelector = breakpoints(theme)[context][bp];
         const { asArray, elementProps } = handleProps({
             props: props[context][bp],
             theme
@@ -64,7 +77,7 @@ export const genericProps = ({
         handledProps[bp].selector = breakpointSelector;
     }
 
-    for (let o of breakpointsOrder) {
+    for (let o of breakpointsOrder(theme)) {
         if (handledProps[o]) {
             sortedProps.push(handledProps[o]);
         }

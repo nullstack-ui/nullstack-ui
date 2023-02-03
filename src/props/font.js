@@ -79,9 +79,9 @@ const fontSmoothing = ({ value }) => {
 }
 
 // Methods
-const getFont = ({ context, props, theme, value }) => {
-    const { globals } = theme || {};
-    const { fonts } = globals || {};
+const getFont = ({ context, props, theme = {}, value }) => {
+    // const { globals } = theme || {};
+    const fonts = theme.fonts || theme.globals?.fonts || {};
     const defaultFont = typeof fonts?.DEFAULT === 'function' ? fonts.DEFAULT({ context, props, theme, value }) : fonts.DEFAULT;
     const font = typeof fonts?.[value] === 'function' ? fonts[value]({ context, props, theme, value }) : fonts[value];
     const fallbackFonts = fonts?.fallback || [];
