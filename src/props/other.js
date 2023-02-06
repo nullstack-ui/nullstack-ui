@@ -1,5 +1,3 @@
-import { getColor } from './color';
-
 const ratioAliases = [
     {
         alias: 'square',
@@ -21,22 +19,11 @@ const aspectRatio = ({ value }) => {
     }
 }
 
-const caretColor = props => {
-    return {
-        key: 'caret-color',
-        value: getColor(props)
-    }
-}
-
 export const otherProps = {
     'aspectRatio': {
         aliases: ['ratio'],
         fn: aspectRatio,
         key: 'aspect-ratio'
-    },
-    'caretColor': {
-        fn: caretColor,
-        key: 'caret-color'
     },
     'clear': {
         key: 'clear'

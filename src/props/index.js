@@ -30,9 +30,6 @@ import { responsiveness } from './_responsiveness';
 
 // All props
 export const allProps = {
-    'accentColor': {
-        key: 'accent-color'
-    },
     'all': {
         key: 'all'
     },

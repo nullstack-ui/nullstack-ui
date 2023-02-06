@@ -9,7 +9,7 @@ const bg = ({
         let handledProps;
 
         for (let key in value) {
-            bgProps[`background.${key}`] = value[key];
+            bgProps[`bg.${key}`] = value[key];
         }
 
         handledProps = handleProps({
@@ -31,17 +31,28 @@ const bg = ({
     }
 }
 
+const position = ({ value }) => {
+    return {
+        key: 'background-position',
+        value: Array.isArray(value) ? value.join(' ') : value
+    }
+}
+
+const url = ({ value }) => {
+    return {
+        key: 'background-image',
+        value: `url(${value})`
+    }
+}
+
 export const bgProps = {
     'bg': {
-        aliases: ['background'],
         fn: bg,
         key: 'background',
     },
     'bgAttachment': {
         aliases: [
             'bg.attachment',
-            'background.attachment',
-            'backgroundAttachment'
         ],
         key: 'background-attachment',
     },
@@ -49,26 +60,16 @@ export const bgProps = {
         aliases: [
             'bg.blend',
             'bg.blendMode',
-            'background.blend',
-            'background.blendMode',
-            'backgroundBlend',
-            'backgroundBlendMode',
             'bgBlendMode'
         ],
         key: 'background-blend-mode'  
     },
     'bgClip': {
-        aliases: [
-            'bg.clip'
-        ],
+        aliases: ['bg.clip'],
         key: 'background-clip'  
     },
     'bgImage': {
-        aliases: [
-            'bg.image',
-            'background.image',
-            'backgroundImage'
-        ],
+        aliases: ['bg.image'],
         key: 'background-image',
     },
     'bgPosition': {
@@ -76,27 +77,21 @@ export const bgProps = {
             'bgPos',
             'bg.pos',
             'bg.position',
-            'background.pos',
-            'background.position',
-            'backgroundPos',
-            'backgroundPosition'
         ],
+        fn: position,
         key: 'background-position',
     },
     'bgRepeat': {
-        aliases: [
-            'bg.repeat',
-            'background.repeat',
-            'backgroundRepeat'
-        ],
+        aliases: ['bg.repeat'],
         key: 'background-repeat',
     },
     'bgSize': {
-        aliases: [
-            'bg.size',
-            'background.size',
-            'backgroundSize'
-        ],
+        aliases: ['bg.size'],
         key: 'background-size',
     },
+    'bgUrl': {
+        aliases: ['bg.url'],
+        key: 'background-image',
+        fn: url
+    }
 }

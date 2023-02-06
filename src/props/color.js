@@ -453,6 +453,10 @@ export const textColor = ({
 
 // Color props
 export const colorProps = {
+    'accentColor': {
+        fn: bgColor,
+        key: 'accent-color'
+    },
     'bgColor': {
         aliases: [
             'bg.color',
@@ -461,6 +465,10 @@ export const colorProps = {
         ],
         fn: bgColor,
         key: 'background-color',
+    },
+    'caretColor': {
+        fn: bgColor,
+        key: 'caret-color'
     },
     'color': {
         fn: color
