@@ -18,6 +18,26 @@ export const flex = ({ theme, value }) => {
             key: 'display',
             value: 'flex'
         }
+    } else if (Array.isArray(value)) {
+        if (value[0] === true && typeof value[1] === 'object') {
+            const handled = {};
+            let handledProps;
+    
+            for (let key in value[1]) {
+                handled[`flex.${key}`] = value[1][key];
+            }
+    
+            handled.flex = true;
+    
+            handledProps = handleProps({ props: handled, theme });
+    
+            return Object.keys(handledProps.elementProps).map(propName => ({
+                key: propName,
+                value: handledProps.elementProps[propName]
+            }));
+        } else {
+            return {}
+        }
     } else if (typeof value === 'object') {
         const handled = {};
         let handledProps;
