@@ -1,4 +1,12 @@
 import { handleProps } from '.';
+import { getValue } from '../utils/getValue';
+
+const aliases = {
+    'end': 'flex-end',
+    'left': 'flex-start',
+    'right': 'flex-end',
+    'start': 'flex-start'
+}
 
 export const getFlexDirection = props => {
     const { flex, flexDir, flexDirection } = props;
@@ -61,31 +69,18 @@ export const flex = ({ theme, value }) => {
     }
 }
 
-export const flexAlign = ({ value }) => {
-    return [
-        {
-            key: 'align-items',
-            value
-        },
-        {
-            key: 'justify-content',
-            value
-        }
-    ]
-}
-
-export const flexAlignH = ({ props, value }) => {
+const flexAlignH = ({ props, value }) => {
     const direction = getFlexDirection(props)
 
     if (direction === 'column') {
         return {
             key: 'align-items',
-            value
+            value: aliases[value] || value
         }
     } else {
         return {
             key: 'justify-content',
-            value
+            value: aliases[value] || value
         }
     }
 }
@@ -96,12 +91,12 @@ export const flexAlignV = ({ props, value }) => {
     if (direction === 'column') {
         return {
             key: 'justify-content',
-            value
+            value: aliases[value] || value
         }
     } else {
         return {
             key: 'align-items',
-            value
+            value: aliases[value] || value
         }
     }
 }
@@ -122,6 +117,23 @@ export const flexReverse = ({ props }) => {
     }
 }
 
+const handleFlexAlign = ({
+    key,
+    value
+}) => {
+    if (Array.isArray(key)) {
+        return key.map(k => ({
+            key: k,
+            value: aliases[value] || value
+        }))
+    } else {
+        return {
+            key,
+            value: aliases[value] || value
+        }
+    }
+}
+
 // Props
 export const flexProps = {
     'flex': {
@@ -133,7 +145,10 @@ export const flexProps = {
             'align',
             'flex.al'
         ],
-        fn: flexAlign
+        fn: ({ value }) => handleFlexAlign({
+            key: ['align-items', 'justify-content'],
+            value
+        })
     },
     'flex.alignContent': {
         aliases: [
@@ -141,6 +156,10 @@ export const flexProps = {
             'alignContent',
             'flex.alContent'
         ],
+        fn: ({ value }) => handleFlexAlign({
+            key: 'align-content',
+            value
+        }),
         key: 'align-content'
     },
     'flex.alignH': {
@@ -157,6 +176,10 @@ export const flexProps = {
             'alignItems',
             'flex.alItems'
         ],
+        fn: ({ value }) => handleFlexAlign({
+            key: 'align-items',
+            value
+        }),
         key: 'align-items'
     },
     'flex.alignSelf': {
@@ -165,6 +188,10 @@ export const flexProps = {
             'alignSelf',
             'flex.alSelf'
         ],
+        fn: ({ value }) => handleFlexAlign({
+            key: 'align-self',
+            value
+        }),
         key: 'align-self'
     },
     'flex.alignV': {
@@ -180,6 +207,10 @@ export const flexProps = {
             'basis',
             'flexBasis'
         ],
+        fn: ({ value }) => ({
+            key: 'flex-basis',
+            value: getValue({ unit: 'px', value })
+        }),
         key: 'flex-basis'
     },
     'flex.direction': {
@@ -195,6 +226,10 @@ export const flexProps = {
             'flexFlow',
             'flow'
         ],
+        fn: ({ value }) => ({
+            key: 'flex-flow',
+            value: Array.isArray(value) ? value.join(' ') : value
+        }),
         key: 'flex-flow'
     },
     'flex.grow': {

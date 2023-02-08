@@ -40,15 +40,27 @@ export const filterProps = {
         parent: 'filter'
     },
     'brightness': {
+        fn: value => getValue({
+            unit: '%',
+            value
+        }),
         key: 'brightness',
         parent: 'filter'
     },
     'contrast': {
+        fn: value => getValue({
+            unit: '%',
+            value
+        }),
         key: 'contrast',
         parent: 'filter'
     },
     'grayScale': {
         aliases: ['grayscale'],
+        fn: value => getValue({
+            unit: '%',
+            value
+        }),
         key: 'grayscale',
         parent: 'filter'
     },
@@ -63,14 +75,26 @@ export const filterProps = {
         key: 'filter'
     },
     'invert': {
+        fn: value => getValue({
+            unit: '%',
+            value
+        }),
         key: 'invert',
         parent: 'filter'
     },
     'saturate': {
+        fn: value => getValue({
+            unit: '%',
+            value
+        }),
         key: 'saturate',
         parent: 'filter'
     },
     'sepia': {
+        fn: value => getValue({
+            unit: '%',
+            value
+        }),
         key: 'sepia',
         parent: 'filter'
     },
@@ -82,10 +106,18 @@ export const filterProps = {
         parent: 'bgFilter'
     },
     'bgBrightness': {
+        fn: value => getValue({
+            unit: '%',
+            value
+        }),
         key: 'brightness',
         parent: 'bgFilter'
     },
     'bgContrast': {
+        fn: value => getValue({
+            unit: '%',
+            value
+        }),
         key: 'contrast',
         parent: 'bgFilter'
     },
@@ -94,7 +126,11 @@ export const filterProps = {
         key: 'backdrop-filter'
     },
     'bgGrayScale': {
-        aliases: ['grayscale'],
+        aliases: ['bgGrayscale'],
+        fn: value => getValue({
+            unit: '%',
+            value
+        }),
         key: 'grayscale',
         parent: 'bgFilter'
     },
@@ -105,14 +141,26 @@ export const filterProps = {
         parent: 'bgFilter'
     },
     'bgInvert': {
+        fn: value => getValue({
+            unit: '%',
+            value
+        }),
         key: 'invert',
         parent: 'bgFilter'
     },
     'bgSaturate': {
+        fn: value => getValue({
+            unit: '%',
+            value
+        }),
         key: 'saturate',
         parent: 'bgFilter'
     },
     'bgSepia': {
+        fn: value => getValue({
+            unit: '%',
+            value
+        }),
         key: 'sepia',
         parent: 'bgFilter'
     },
