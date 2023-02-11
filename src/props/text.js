@@ -30,38 +30,38 @@ const letterSpacingAliases = [
 ];
 
 const lineHeightAliases = [
-    {
-        alias: '3',
-        value: '.75rem'
-    },
-    {
-        alias: '4',
-        value: '1rem'
-    },
-    {
-        alias: '5',
-        value: '1.25rem'
-    },
-    {
-        alias: '6',
-        value: '1.5rem'
-    },
-    {
-        alias: '7',
-        value: '1.75rem'
-    },
-    {
-        alias: '8',
-        value: '2rem'
-    },
-    {
-        alias: '9',
-        value: '2.25rem'
-    },
-    {
-        alias: '10',
-        value: '1rem'
-    },
+    // {
+    //     alias: '3',
+    //     value: '.75rem'
+    // },
+    // {
+    //     alias: '4',
+    //     value: '1rem'
+    // },
+    // {
+    //     alias: '5',
+    //     value: '1.25rem'
+    // },
+    // {
+    //     alias: '6',
+    //     value: '1.5rem'
+    // },
+    // {
+    //     alias: '7',
+    //     value: '1.75rem'
+    // },
+    // {
+    //     alias: '8',
+    //     value: '2rem'
+    // },
+    // {
+    //     alias: '9',
+    //     value: '2.25rem'
+    // },
+    // {
+    //     alias: '10',
+    //     value: '1rem'
+    // },
     {
         alias: 'none',
         value: 1
@@ -196,6 +196,9 @@ export const textProps = {
                 textTransform: 'capitalize'
             },
         }
+    },
+    'direction': {
+        key: 'direction'
     },
     'ellipsis': {
         transform: {

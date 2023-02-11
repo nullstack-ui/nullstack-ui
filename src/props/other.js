@@ -59,6 +59,9 @@ export const otherProps = {
             'objPos',
             'objPosition'
         ],
+        fn: ({ value }) => {
+            return Array.isArray(value) ? value.join(' ') : value
+        },
         key: 'object-position'
     },
     'pointerEvents': {

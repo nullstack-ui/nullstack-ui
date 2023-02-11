@@ -10,8 +10,13 @@ const aliases = {
 
 export const getFlexDirection = props => {
     const { flex, flexDir, flexDirection } = props;
+    let direction;
 
-    return flex?.dir || flex?.direction || flexDir || flexDirection || 'row';
+    if (Array.isArray(flex)) {
+        direction = flex[1].dir || flex[1].direction;
+    }
+
+    return direction || flex?.dir || flex?.direction || flexDir || flexDirection || 'row';
 }
 
 export const isReverse = props => {
