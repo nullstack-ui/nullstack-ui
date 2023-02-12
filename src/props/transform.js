@@ -1,6 +1,3 @@
-// Utils
-import { getNestedProps } from '#utils/getNestedProps';
-
 const genericTransform = ({
     axis,
     includeAngle,
@@ -178,6 +175,25 @@ const transform = ({
     }
 }
 
+const transformOrigin = ({
+    value
+}) => {
+    let handledValue;
+
+    if (Array.isArray(value)) {
+        handledValue = value.join(' ');
+    } else if (typeof value === 'object') {
+        handledValue = `${value.x} ${value.y}`;
+    } else {
+        handledValue = getValue({ unit: 'px', value });
+    }
+    
+    return {
+        key: 'transform-origin',
+        value: handledValue
+    }
+}
+
 const translate = value => {
     return genericTransform({
         axis: 'xy',
@@ -275,7 +291,8 @@ export const transformProps = {
     },
     'transform.origin': {
         aliases: ['transformOrigin'],
-        key: 'transform-origin'
+        fn: transformOrigin,
+        key: 'transform-origin',
     },
     'translate3d': {
         key: 'translate3d',

@@ -85,9 +85,15 @@ const auto = ({
     value
 }) => {
     const alias = typeof value === 'string' ? autoAliases.find(({ alias }) => alias === value) : null;
+    let handledValue = alias?.value || value;
+
+    if (!isNaN(handledValue)) {
+        handledValue = getValue({ unit: 'px', value: handledValue });
+    }
 
     return {
-        key: alias?.value || value
+        key,
+        value: handledValue
     }
 }
 
@@ -151,6 +157,12 @@ export const gridProps = {
         ],
         fn: auto,
         key: 'grid-auto-columns'
+    },
+    'grid.autoFlow': {
+        aliases: [
+            'autoFlow'
+        ],
+        key: 'grid-auto-flow'
     },
     'grid.autoRows': {
         aliases: [

@@ -36,9 +36,9 @@ const fontFamily = ({ context, props, theme, value }) => {
     }
 }
 
-const fontSize = ({ context, props, theme, value }) => {
+const fontSize = ({ context, props, rel, theme, value }) => {
     const size = getSize({
-        baseSize: '1rem',
+        baseSize: rel ? '1em' : '1rem',
         context,
         props: {
             ...props,
@@ -118,6 +118,17 @@ export const fontProps = {
         aliases: ['fontFamily'],
         key: 'font-family',
         fn: fontFamily
+    },
+    'font.relSize': {
+        aliases: [
+            'fontRelSize',
+            'relSize'
+        ],
+        fn: params => fontSize({
+            ...params,
+            rel: true
+        }),
+        key: 'font-size'
     },
     'font.size': {
         aliases: [

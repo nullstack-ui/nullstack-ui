@@ -359,6 +359,10 @@ export const textProps = {
         key: 'white-space'
     },
     'wordSpacing': {
+        fn: ({ value }) => ({
+            key: 'word-spacing',
+            value: getValue({ unit: 'px', value })
+        }),
         key: 'word-spacing'
     }
 }

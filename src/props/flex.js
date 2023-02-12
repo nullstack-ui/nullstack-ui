@@ -303,6 +303,10 @@ export const flexProps = {
             'flexWrap',
             'wrap'
         ],
+        fn: ({ value }) => ({
+            key: 'flex-wrap',
+            value: typeof value === 'boolean' ? (value ? 'wrap' : 'nowrap') : value
+        }),
         key: 'flex-wrap'
     },
     'flexCol': {
