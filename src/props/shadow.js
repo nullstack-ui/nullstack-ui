@@ -163,6 +163,7 @@ const shadow = ({
     if (!alias && typeof value === 'boolean') {
         handledValue = getShadow({
             ...rest,
+            key,
             theme,
             value: {}
         });
@@ -175,48 +176,69 @@ const shadow = ({
 
         handledValue = getShadow({
             ...rest,
+            key,
             theme,
             value: {
                 color
             },
         });
-    } else if (Array.isArray(alias.value) || Array.isArray(value)) {
+    } else if (Array.isArray(alias?.value) || Array.isArray(value)) {
         handledValue = getShadow({
             ...rest,
+            key,
             theme,
-            value: alias.value || value
+            value: alias?.value || value
         });
     } else if (alias || typeof value === 'object') {
         handledValue = getShadow({
             ...rest,
+            key,
             theme,
-            value: alias.value || value
+            value: alias?.value || value
         });
     }
 
     if (Array.isArray(handledValue)) {
         return {
             key,
-            value: handledValue.map(v => [
-                v.inset,
-                v.h,
-                v.v,
-                v.blur,
-                v.spread,
-                v.color
-            ].join(' ').trim()).join(', ').trim()
+            value: handledValue.map(v => {
+                const valueArray = key === 'box-shadow' ? [
+                    v.inset,
+                    v.h,
+                    v.v,
+                    v.blur,
+                    v.spread,
+                    v.color
+                ] : [
+                    v.inset,
+                    v.h,
+                    v.v,
+                    v.blur,
+                    v.color
+                ];
+
+                return valueArray.join(' ').trim()
+            }).join(', ').trim()
         }
     } else {
+        const valueArray = key === 'box-shadow' ? [
+            handledValue.inset,
+            handledValue.h,
+            handledValue.v,
+            handledValue.blur,
+            handledValue.spread,
+            handledValue.color
+        ] : [
+            handledValue.inset,
+            handledValue.h,
+            handledValue.v,
+            handledValue.blur,
+            handledValue.color
+        ];
+
         return {
             key,
-            value: [
-                handledValue.inset,
-                handledValue.h,
-                handledValue.v,
-                handledValue.blur,
-                handledValue.spread,
-                handledValue.color
-            ].join(' ').trim()
+            value: valueArray.join(' ').trim()
         }
     }
 }
