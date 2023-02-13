@@ -124,7 +124,7 @@ const cell = ({
 const columns = ({ value }) => {
     return {
         key: 'grid-template-columns',
-        value: `repeat(${value}, minmax(0, 1fr))`
+        value: !isNaN(value) ? `repeat(${value}, minmax(0, 1fr))` : value
     }
 }
 
@@ -175,9 +175,11 @@ export const gridProps = {
     },
     'grid.columns': {
         aliases: [
+            'gridCols',
             'grid.cols',
             'grid.templateCols',
-            'grid.templateColumns'
+            'grid.templateColumns',
+            'templateCols'
         ],
         fn: columns
     },

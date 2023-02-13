@@ -43,8 +43,8 @@ export const getColor = props => {
             ...props,
             value: value[0]
         });
-        const handledValue = typeof themeColor === 'function' ? themeColor(props) : value[0];
-
+        const handledValue = typeof themeColor === 'function' ? themeColor(props) : themeColor;
+        
         return handleColor({
             theme,
             ...value[1],
