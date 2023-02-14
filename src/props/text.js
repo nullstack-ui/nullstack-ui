@@ -136,7 +136,7 @@ const lineHeight = ({
 
         return {
             key: 'line-height',
-            value: alias?.value || 1
+            value: alias?.value ?? value ?? 1
         }
     } else {
         return {
@@ -163,8 +163,36 @@ const textDecoration = ({
     value,
     ...rest
 }) => {
-    if (typeof value === 'object') {
+    let color = '#000';
+    let line = 'underline';
+    let style = 'solid';
+    let thickness = '1px';
 
+    if (typeof value === 'object') {
+        if (value.color) {
+            color = getColor({
+                ...rest,
+                theme,
+                value: value.color
+            });
+        }
+
+        if (value.line) {
+            line = value.line;
+        }
+
+        if (value.style) {
+            style = value.style;
+        }
+
+        if (value.thickness ?? value.width) {
+            thickness = getValue({ unit: 'px', value: value.thickness ?? value.width });
+        }
+
+        return {
+            key: 'text-decoration',
+            value: `${color} ${line} ${style} ${thickness}`
+        }
     } else {
         return {
             key: 'text-decoration',
