@@ -72,6 +72,14 @@ export const bgProps = {
         aliases: ['bg.image'],
         key: 'background-image',
     },
+    'bgOrigin': {
+        aliases: ['bg.origin'],
+        fn: ({ value }) => ({
+            key: 'background-origin',
+            value: `${value}-box`
+        }),
+        key: 'background-origin',
+    },
     'bgPosition': {
         aliases: [
             'bgPos',
