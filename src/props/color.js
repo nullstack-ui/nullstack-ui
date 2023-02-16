@@ -43,7 +43,7 @@ export const getColor = props => {
             ...props,
             value: value[0]
         });
-        const handledValue = typeof themeColor === 'function' ? themeColor(props) : themeColor;
+        const handledValue = typeof themeColor === 'function' ? themeColor(props) : (themeColor || value[0]);
         
         return handleColor({
             theme,
@@ -172,7 +172,7 @@ export const color = params => {
     const handledBgColor = handleColor({
         ...props,
         value: bgColor
-    })
+    });
     const textColor = Color(handledBgColor).lightness() < 60 ? lightenColor({
         ratio: value?.ratio || .9,
         value: handledBgColor
@@ -440,6 +440,11 @@ export const textColor = ({
         theme,
         value
     });
+
+    if (Array.isArray(value) && !!value[1].opacity) {
+        console.log('textColor', textColor)
+    }
+
     const handledTextColor = handleColor({
         ...props,
         value: textColor
