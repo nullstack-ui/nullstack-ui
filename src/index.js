@@ -116,8 +116,9 @@ class NullstackUI {
 
         if (!node) { return false; }
 
+        const identifier = depth
         const { columnNumber, fileName, lineNumber } = node?.attributes?.__source || {}
-        const identifier = fileName ? `${fileName}@${lineNumber}:${columnNumber}` : ''
+        const tempIdentifier = fileName ? `${fileName}@${lineNumber}:${columnNumber}` : ''
 
         if (identifier && !nodes[identifier]) {
             if (!nodes[identifier]) {
@@ -130,6 +131,7 @@ class NullstackUI {
         const attributesChanged = nodes[identifier] ? attributesHaveChanged({ current: { ...node }, previous: nodes[identifier] }) : true;
 
         if (!attributesChanged) {
+            console.log('no attributes changed', tempIdentifier)
             return false;
         }
 
@@ -145,8 +147,6 @@ class NullstackUI {
                 },
                 theme: this.theme
             });
-        } else {
-            style = depths[depth].style
         }
 
         if (nodes[identifier]) {
