@@ -77,9 +77,15 @@ export const genericProps = ({
         handledProps[bp].selector = breakpointSelector;
     }
 
-    for (let o of breakpointsOrder(theme)) {
-        if (handledProps[o]) {
-            sortedProps.push(handledProps[o]);
+    if (theme?.useBreakpointPropsOrder) {
+        for (let bp in handledProps) {
+            sortedProps.push(handledProps[bp]);
+        }
+    } else {
+        for (let o of breakpointsOrder(theme)) {
+            if (handledProps[o]) {
+                sortedProps.push(handledProps[o]);
+            }
         }
     }
 
