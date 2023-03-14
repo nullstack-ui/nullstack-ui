@@ -36,6 +36,8 @@ const acceptableTypes = [
 ];
 const depths = {}
 
+let nodes = {}
+
 const attributeHasChanged = (current, previous) => {
     if (typeof current !== typeof previous) {
         return true
@@ -62,6 +64,34 @@ const attributeHasChanged = (current, previous) => {
     return false
 }
 
+
+const attributesHaveChanged = ({ current, previous }) => {
+    const prevNode = previous?.node
+
+    if (!current?.attributes || !prevNode?.attributes) { return true }
+    
+    const { bind: currentBind, children: currentChildren, class: currentClass, 'data-id': currentDataID, __self: currentSelf, __source: currentSource, ...currentAttributes } = current.attributes;
+    const { bind: prevBind, children: prevChildren, class: prevClass, 'data-id': prevDataID, __self: prevSelf, __source: prevSource, ...prevAttributes } = prevNode.attributes;
+
+    for (const attributeName in currentAttributes) {
+        if (typeof prevAttributes[attributeName] === 'function') {
+            continue
+        }
+
+        if (prevAttributes[attributeName] == null) {
+            return true
+        }
+
+        const hasChanged = attributeHasChanged(currentAttributes[attributeName], prevAttributes[attributeName])
+
+        if (hasChanged) {
+            return true;
+        }
+    }
+
+    return false
+}
+
 class NullstackUI {
     context;
 
@@ -71,29 +101,6 @@ class NullstackUI {
         this.server = true;
         this.storedElements = [];
         this.theme = theme;
-    }
-
-    attributesHaveChanged({ depth, node }) {
-        const prevNode = depths[depth].node;
-
-        if (!node.attributes) { return true }
-        
-        const { children: currentChildren, class: currentClass, 'data-id': currentDataID, __self: currentSelf, ...currentAttributes } = node.attributes;
-        const { children: prevChildren, class: prevClass, 'data-id': prevDataID, __self: prevSelf, ...prevAttributes } = prevNode.attributes;
-
-        for (const attributeName in currentAttributes) {
-            if (prevAttributes[attributeName] == null) {
-                return true
-            }
-
-            const hasChanged = attributeHasChanged(currentAttributes[attributeName], prevAttributes[attributeName])
-
-            if (hasChanged) {
-                return true;
-            }
-        }
-
-        return true
     }
 
     load(context) {
@@ -109,15 +116,28 @@ class NullstackUI {
 
         if (!node) { return false; }
 
-        const attributesHaveChanged = depths[depth] ? this.attributesHaveChanged({ depth, node: { ...node } }) : true;
+        const { columnNumber, fileName, lineNumber } = node?.attributes?.__source || {}
+        const identifier = fileName ? `${fileName}@${lineNumber}:${columnNumber}` : ''
+
+        if (identifier && !nodes[identifier]) {
+            if (!nodes[identifier]) {
+                nodes[identifier] = {}
+            }
+        }
 
         if (!match({ node })) { return false; };
+
+        const attributesChanged = nodes[identifier] ? attributesHaveChanged({ current: { ...node }, previous: nodes[identifier] }) : true;
+
+        if (!attributesChanged) {
+            return false;
+        }
 
         if (typeof window !== 'undefined' && window.matchMedia) {
             this.context.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
         }
 
-        if (attributesHaveChanged) {
+        if (attributesChanged) {
             style = ComponentStyle({
                 context: this.context,
                 props: {
@@ -127,6 +147,13 @@ class NullstackUI {
             });
         } else {
             style = depths[depth].style
+        }
+
+        if (nodes[identifier]) {
+            nodes[identifier] = {
+                node: { ...node },
+                style
+            }
         }
 
         depths[depth] = {
