@@ -194,10 +194,6 @@ export const getCustomProps = ({
                 }
             }
         }
-
-        if (componentProp === 'outline') {
-            // console.log('!!!', customProps);
-        }
     }
 
 
@@ -215,12 +211,15 @@ export const getPropByAlias = alias => {
 }
 
 const handleAllProps = ({
+    depth,
     initialProps,
     parentProps,
     props,
     theme
 }) => {
-    const handledProps = {};
+    const handledProps = {
+        depth: props.depth
+    };
 
     for (let key in props) {
         const value = props?.[key] != null ? props?.[key] : null;
@@ -236,6 +235,7 @@ const handleAllProps = ({
 
         if (typeof value === 'function') {
             handledValue = value({
+                depth,
                 initialProps,
                 parentProps,
                 props,
@@ -255,12 +255,14 @@ const handleAllProps = ({
 
 export const handleProps = ({
     context,
+    depth,
     parentProps,
     props,
     theme
 }) => {
     const customProps = getCustomProps({ props, theme });
     const propsWithCustomProps = handleAllProps({
+        depth,
         initialProps: props,
         parentProps,
         props: {
@@ -270,7 +272,7 @@ export const handleProps = ({
         theme
     });
     const cssProps = Object.keys(propsWithCustomProps).filter(prop => prop.indexOf('_') !== 0);
-    const cssStates = props ? Object.keys(props).filter(prop => prop.indexOf('_') === 0) : [];
+    const cssStates = props ? Object.keys(props).filter(prop => prop.indexOf('_') === 0 && !['__self', '__source'].includes(prop)) : [];
     const cssAsArray = [];
     const groups = {};
 
@@ -300,14 +302,16 @@ export const handleProps = ({
                 value: props[key] || props[cssProp]
             })
         } else if (transform) {
-            const { props: transformProps, value: transformValue } = typeof transform === 'function' ? transform({ context, props, theme, value: propsWithCustomProps[cssProp] }) : transform;
+            const { props: transformProps, value: transformValue } = typeof transform === 'function' ? transform({ context, depth, props, theme, value: propsWithCustomProps[cssProp] }) : transform;
             const stringifiedProps = transformValue ? JSON.stringify(transformProps).replace(/value/g, transformValue({
+                depth,
                 props,
                 theme,
                 value: propsWithCustomProps[cssProp]
             })) : '';
             const { asArray } = handleProps({
                 context,
+                depth,
                 props: transformValue ? JSON.parse(stringifiedProps) : transformProps,
                 theme
             });
@@ -318,6 +322,7 @@ export const handleProps = ({
         } else if (key && value) {
             elementProps[key] = typeof value === 'function' ? value({
                 context,
+                depth,
                 initialProps: props,
                 props: propsWithCustomProps,
                 theme
@@ -325,6 +330,7 @@ export const handleProps = ({
         } else if (fn && typeof fn === 'function' && propsWithCustomProps[cssProp] != null) {
             const handledProp = fn({
                 context,
+                depth,
                 key,
                 props: propsWithCustomProps,
                 theme,
@@ -339,6 +345,7 @@ export const handleProps = ({
                 for (let prop of handledProp) {
                     elementProps[prop.key] = typeof prop.value === 'function' ? prop.value({
                         context,
+                        depth,
                         initialProps: props,
                         props: propsWithCustomProps,
                         theme
@@ -349,6 +356,7 @@ export const handleProps = ({
                     for (let key of handledProp.key) {
                         elementProps[key] = typeof handledProp.value === 'function' ? handledProp.value({
                             context,
+                            depth,
                             initialProps: props,
                             props: propsWithCustomProps,
                             theme
@@ -357,6 +365,7 @@ export const handleProps = ({
                 } else if (typeof handledProp.key === 'string') {
                     elementProps[handledProp.key] = typeof handledProp.value === 'function' ? handledProp.value({
                         context,
+                        depth,
                         initialProps: props,
                         props: propsWithCustomProps,
                         theme
@@ -374,6 +383,7 @@ export const handleProps = ({
 
                 handledProps = handleProps({
                     context,
+                    depth,
                     props: newProps,
                     theme
                 });
@@ -388,6 +398,7 @@ export const handleProps = ({
         const { childProps } = groups[groupName];
         const handledProp = fn({
             childProps,
+            depth,
             context,
             key: parentKey,
             props: propsWithCustomProps,
@@ -443,6 +454,7 @@ export const handleProps = ({
         } else if (key) {
             const customProps = getCustomProps({ props: _props, theme });
             const propsWithCustomProps = handleAllProps({
+                depth,
                 props: {
                     ..._props,
                     ...customProps
@@ -451,6 +463,7 @@ export const handleProps = ({
             });
             const { asArray, elementProps: stateProps } = handleProps({
                 context,
+                depth,
                 props: typeof propsWithCustomProps[state] === 'function' ? propsWithCustomProps[state]({
                     initialProps: props,
                     props: propsWithCustomProps,
@@ -467,6 +480,7 @@ export const handleProps = ({
         } else if (fn) {
             const { asArray } = fn({
                 context,
+                depth,
                 key,
                 props,
                 theme

@@ -1,10 +1,10 @@
 import { handleProps } from '.';
 
-const group = ({ props, theme }) => {
-    const { children, group, __self = {} } = props;
+const group = ({ depth, props, theme }) => {
+    const { children, group = {}, __self = {} } = props;
     const array = [];
     const states = ['hover', 'active', 'focus'];
-    const { key } = __self;
+    const key = depth;
 
     if (group) {
         for (let state of states) {
@@ -41,7 +41,6 @@ const getChildren = ({ children, groupKey, state, theme }) => {
                     theme
                 });
                 
-
                 child.attributes['data-child-id'] = `${childKey}`;
 
                 array.push(`[data-child-id="${childKey}"] {`);
@@ -50,7 +49,7 @@ const getChildren = ({ children, groupKey, state, theme }) => {
             }
         }
 
-        if (child?.children) {
+        if (child?.children?.length) {
             const childrenCSS = getChildren({ children: child?.children, groupKey: childKey, state, theme });
 
             array.push(...childrenCSS);

@@ -38,16 +38,50 @@ const depths = {}
 
 let nodes = {}
 
-const attributeHasChanged = (current, previous) => {
+const attributeHasChanged = ({
+    context,
+    current,
+    currentNode,
+    previous,
+    previousNode,
+    theme
+}) => {
     if (typeof current !== typeof previous) {
         return true
     } else if (typeof current === 'string' && current !== previous) {
         return true
+    } else if (typeof current === 'function') {
+        const currentObj = current({ context, props: currentNode.attributes, theme })
+        const previousObj = previous({ context, props: previousNode.attributes, theme })
+
+        for (let attributeName in currentObj) {
+            if (!previousObj[attributeName]) {
+                return true
+            }
+
+            const hasChanged = attributeHasChanged({
+                context,
+                current: currentObj[attributeName],
+                currentNode,
+                previous: previousObj[attributeName],
+                previousNode,
+                theme
+            })
+
+            if (hasChanged) { return true; }
+        }
     } else if (Array.isArray(current)) {
         for (let i = 0; i < current.length; i++) {
-            const hasChanged = attributeHasChanged(current[i], previous[i]);
+            const hasChanged = attributeHasChanged({
+                context,
+                current: current[i],
+                currentNode,
+                previous: previous[i],
+                previousNode,
+                theme
+            });
 
-            if (!hasChanged) { return true; }
+            if (hasChanged) { return true; }
         }
     } else if (typeof current === 'object') {
         for (let attributeName in current) {
@@ -55,9 +89,16 @@ const attributeHasChanged = (current, previous) => {
                 return true
             }
 
-            const hasChanged = attributeHasChanged(current[attributeName], previous[attributeName])
+            const hasChanged = attributeHasChanged({
+                context,
+                current: current[attributeName], 
+                currentNode,
+                previous: previous[attributeName],
+                previousNode,
+                theme
+            })
 
-            if (!hasChanged) { return true; }
+            if (hasChanged) { return true; }
         }
     }
 
@@ -65,7 +106,12 @@ const attributeHasChanged = (current, previous) => {
 }
 
 
-const attributesHaveChanged = ({ current, previous }) => {
+const attributesHaveChanged = ({ 
+    context,
+    current, 
+    previous,
+    theme
+}) => {
     const prevNode = previous?.node
 
     if (!current?.attributes || !prevNode?.attributes) { return true }
@@ -78,11 +124,18 @@ const attributesHaveChanged = ({ current, previous }) => {
             continue
         }
 
-        if (prevAttributes[attributeName] == null) {
+        if (prevAttributes[attributeName] == null && currentAttributes[attributeName] != null) {
             return true
         }
 
-        const hasChanged = attributeHasChanged(currentAttributes[attributeName], prevAttributes[attributeName])
+        const hasChanged = attributeHasChanged({
+            context,
+            current: currentAttributes[attributeName], 
+            currentNode: current.attributes,
+            previous: prevAttributes[attributeName],
+            previousNode: prevNode.attributes,
+            theme
+        })
 
         if (hasChanged) {
             return true;
@@ -90,6 +143,28 @@ const attributesHaveChanged = ({ current, previous }) => {
     }
 
     return false
+}
+
+const storeChildIds = ({ node }) => {
+    const groupChildren = node?.children
+
+    for (let i = 0; i < groupChildren?.length; i++) {
+        const child = groupChildren[i]
+        const { key } = child.attributes?.__self || {}
+        
+        if (child.attributes?.['data-child-id']) { 
+            console.log("WOT???")
+            if (!nodes[key]) {
+                nodes[key] = {}
+            }
+
+            nodes[key]['data-child-id'] = child.attributes['data-child-id']
+        }
+        
+        if (child.children) {
+            storeChildIds({ node: child })
+        }
+    }
 }
 
 class NullstackUI {
@@ -120,65 +195,67 @@ class NullstackUI {
         const { columnNumber, fileName, lineNumber } = node?.attributes?.__source || {}
         const tempIdentifier = fileName ? `${fileName}@${lineNumber}:${columnNumber}` : ''
 
-        if (identifier && !nodes[identifier]) {
-            if (!nodes[identifier]) {
-                nodes[identifier] = {}
-            }
-        }
-
         if (!match({ node })) { return false; };
 
-        const attributesChanged = nodes[identifier] ? attributesHaveChanged({ current: { ...node }, previous: nodes[identifier] }) : true;
-
-        if (!attributesChanged) {
-            console.log('no attributes changed', tempIdentifier)
-            return false;
+        if (!nodes[identifier]) {
+            nodes[identifier] = {}
         }
+
+        const attributesChanged = nodes[identifier] ? attributesHaveChanged({ 
+            context: this.context,
+            current: {...node}, 
+            previous: nodes[identifier],
+            theme: this.theme
+        }) : true;
+        // const forceChange = !!node.attributes?._group || !!node.attributes?.group
+        const forceChange = false
 
         if (typeof window !== 'undefined' && window.matchMedia) {
             this.context.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
         }
 
-        if (attributesChanged) {
+        if (attributesChanged || forceChange) {
             style = ComponentStyle({
                 context: this.context,
-                props: {
-                    ...node.attributes
-                },
+                depth,
+                props: node.attributes,
                 theme: this.theme
             });
+        } else {
+            if (nodes[identifier]['data-child-id']) {
+                node.attributes['data-child-id'] = nodes[identifier]['data-child-id']
+            }
+
+            style = nodes[identifier].style
+        }
+
+        if (node.attributes.group || node.attributes._group) {
+            storeChildIds({ node })
         }
 
         if (nodes[identifier]) {
-            nodes[identifier] = {
-                node: { ...node },
-                style
-            }
+            nodes[identifier]['data-child-id'] = node.attributes?.['data-child-id']
+            nodes[identifier].node = {...node}
+            nodes[identifier].style = style
         }
 
-        depths[depth] = {
-            node: { ...node },
-            style
-        };
-
-        if (!this.keepAttributes) {
-            for (let attribute in node.attributes) {
-                if (allProps[attribute] || allStates[attribute] || getPropByAlias(attribute)) {
-                    delete node.attributes[attribute];
-                }
-            }
-        }
-        
+        // if (!this.keepAttributes) {
+        //     for (let attribute in node.attributes) {
+        //         if (allProps[attribute] || allStates[attribute] || getPropByAlias(attribute)) {
+        //             delete node.attributes[attribute];
+        //         }
+        //     }
+        // }
 
         if (node.attributes && typeof window !== 'undefined' && window.matchMedia) {
             window
                 .matchMedia('(prefers-color-scheme: dark)')
                 .addEventListener('change', event => {
                     this.context.darkMode = event.matches;
-                });
-
-            node.attributes.class = [node?.attributes?.class, style].join(' ');
+                }); 
         }
+
+        node.attributes.class = [node?.attributes?.class, style].join(' ');
     }
 }
 
