@@ -1,10 +1,10 @@
 import { handleProps } from '.';
 
 const group = ({ depth, props, theme }) => {
-    const { children, group = {}, __self = {} } = props;
+    const { children, group, __self = {} } = props;
     const array = [];
     const states = ['hover', 'active', 'focus'];
-    const key = depth;
+    let key = depth;
 
     if (group) {
         for (let state of states) {

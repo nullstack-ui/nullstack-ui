@@ -145,6 +145,21 @@ const attributesHaveChanged = ({
     return false
 }
 
+'0-0-0-1'
+'0-0-1'
+'0-0-1-2-3-4-5-6'
+'0-0-1-2-3-4-5-6-0-1'
+
+const findParent = ({ identifier }) => {
+    for (const nodeIdentifier in nodes) {
+        const isGroup  = nodes[nodeIdentifier]?.group
+
+        if (isGroup && identifier.indexOf(nodeIdentifier) === 0) {
+            return nodes[nodeIdentifier]
+        }
+    }
+}
+
 const storeChildIds = ({ node }) => {
     const groupChildren = node?.children
 
@@ -153,7 +168,6 @@ const storeChildIds = ({ node }) => {
         const { key } = child.attributes?.__self || {}
         
         if (child.attributes?.['data-child-id']) { 
-            console.log("WOT???")
             if (!nodes[key]) {
                 nodes[key] = {}
             }
@@ -207,14 +221,12 @@ class NullstackUI {
             previous: nodes[identifier],
             theme: this.theme
         }) : true;
-        // const forceChange = !!node.attributes?._group || !!node.attributes?.group
-        const forceChange = false
 
         if (typeof window !== 'undefined' && window.matchMedia) {
             this.context.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
         }
 
-        if (attributesChanged || forceChange) {
+        if (attributesChanged) {
             style = ComponentStyle({
                 context: this.context,
                 depth,
@@ -222,30 +234,25 @@ class NullstackUI {
                 theme: this.theme
             });
         } else {
-            if (nodes[identifier]['data-child-id']) {
-                node.attributes['data-child-id'] = nodes[identifier]['data-child-id']
-            }
-
             style = nodes[identifier].style
         }
 
-        if (node.attributes.group || node.attributes._group) {
-            storeChildIds({ node })
-        }
-
-        if (nodes[identifier]) {
-            nodes[identifier]['data-child-id'] = node.attributes?.['data-child-id']
-            nodes[identifier].node = {...node}
-            nodes[identifier].style = style
-        }
-
-        // if (!this.keepAttributes) {
-        //     for (let attribute in node.attributes) {
-        //         if (allProps[attribute] || allStates[attribute] || getPropByAlias(attribute)) {
-        //             delete node.attributes[attribute];
-        //         }
-        //     }
+        // if (node.attributes?._group) {
+        //     const parent = findParent({ identifier })
         // }
+
+        if (nodes[identifier]['data-child-id']) {
+            node.attributes['data-child-id'] = nodes[identifier]['data-child-id']
+        }
+
+        nodes[identifier]['data-child-id'] = node.attributes?.['data-child-id']
+        nodes[identifier].group = node.attributes?.group
+        nodes[identifier].node = {...node}
+        nodes[identifier].style = style
+
+        if (node.attributes?.group) {
+            nodes[identifier].groupChildren = node.children.filter(child => child.attributes).map(child => ({...child}))
+        }
 
         if (node.attributes && typeof window !== 'undefined' && window.matchMedia) {
             window
