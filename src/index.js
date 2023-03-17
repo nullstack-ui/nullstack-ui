@@ -237,10 +237,6 @@ class NullstackUI {
             style = nodes[identifier].style
         }
 
-        // if (node.attributes?._group) {
-        //     const parent = findParent({ identifier })
-        // }
-
         if (nodes[identifier]['data-child-id']) {
             node.attributes['data-child-id'] = nodes[identifier]['data-child-id']
         }
