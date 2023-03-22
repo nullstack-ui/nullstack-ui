@@ -57,9 +57,10 @@ export const allProps = {
     },
     ...dimensionProps,
     'display': {
-        aliases: ['d'],
         key: 'display'
     },
+    'd': { aliasFor: 'display' },
+
     ...filterProps,
     ...flexProps,
     ...fontProps,
@@ -67,9 +68,9 @@ export const allProps = {
     ...groupProps,
     ...marginProps,
     'opacity': {
-        aliases: ['op'],
         key: 'opacity'
     },
+    'op': { aliasFor: 'opacity' },
     ...otherProps,
     ...outlineProps,
     ...overflowProps,

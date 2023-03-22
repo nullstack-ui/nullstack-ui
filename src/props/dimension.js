@@ -115,40 +115,45 @@ const genericDimension = ({
 // Props
 const dimensionProps = {
     height: {
-        aliases: ['h'],
         fn: ({ value }) => genericDimension({
             key: 'height',
             value
         })
     },
+    h: { aliasFor: 'height' },
+
     maxHeight: {
-        aliases: ['maxH'],
         fn: ({ value }) => genericDimension({
             key: 'max-height',
             value
         })
     },
+    maxH: { aliasFor: 'maxHeight' },
+
     maxWidth: {
-        aliases: ['maxW'],
         fn: ({ value }) => genericDimension({
             key: 'max-width',
             value
         })
     },
+    maxW: { aliasFor: 'maxWidth' },
+
     minHeight: {
-        aliases: ['minH'],
         fn: ({ value }) => genericDimension({
             key: 'min-height',
             value
         })
     },
+    minH: { aliasFor: 'minHeight' },
+
     minWidth: {
-        aliases: ['minW'],
         fn: ({ value }) => genericDimension({
             key: 'min-width',
             value
         })
     },
+    minW: { aliasFor: 'minWidth' },
+
     width: {
         fn: ({ value }) => genericDimension({
             key: 'width',

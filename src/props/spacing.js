@@ -10,10 +10,6 @@ const spacing = ({
 
 export const spacingProps = {
     'space.x': {
-        aliases: [
-            'spX',
-            'spaceX'
-        ],
         transform: ({ props }) => {
             if (props.reverse) {
                 return {
@@ -44,11 +40,10 @@ export const spacingProps = {
             }
         }
     },
+    'spX': { aliasFor: 'space.x' },
+    'spaceX': { aliasFor: 'space.x' },
+
     'space.y': {
-        aliases: [
-            'spY',
-            'spaceY'
-        ],
         transform: ({ props }) => {
             if (props.reverse) {
                 return {
@@ -79,4 +74,6 @@ export const spacingProps = {
             }
         }
     },
+    'spY': { aliasFor: 'space.y' },
+    'spaceY': { aliasFor: 'space.y' },
 }

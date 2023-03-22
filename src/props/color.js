@@ -283,19 +283,6 @@ export const getActiveColors = params => {
             textColor: handledTextColor ? getActiveColor(handledTextColor) : ''
         }
 
-        if (handledBgColor) {
-            output.bgColor = getActiveColor(handledBgColor)
-        }
-
-        if (handledColor) {
-            output.color = getActiveColor(handledColor)
-        }
-
-        if (handledTextColor) {
-            output.textColor = getActiveColor(handledTextColor)
-        }
-        
-        return output
     }
 }
 
@@ -396,19 +383,6 @@ export const getHoverColors = params => {
             textColor: handledTextColor ? getHoverColor(handledTextColor) : ''
         }
 
-        if (handledBgColor) {
-            output.bgColor = getHoverColor(handledBgColor)
-        }
-
-        if (handledColor) {
-            output.color = getHoverColor(handledColor)
-        }
-
-        if (handledTextColor) {
-            output.textColor = getHoverColor(handledTextColor)
-        }
-        
-        return output
     }
 }
 
@@ -463,14 +437,13 @@ export const colorProps = {
         key: 'accent-color'
     },
     'bgColor': {
-        aliases: [
-            'bg.color',
-            'background.color',
-            'backgroundColor'
-        ],
         fn: bgColor,
         key: 'background-color',
     },
+    'bg.color': { aliasFor: 'bgColor' },
+    'background.color': { aliasFor: 'bgColor' },
+    'backgroundColor': { aliasFor: 'bgColor' },
+
     'caretColor': {
         fn: bgColor,
         key: 'caret-color'
@@ -479,12 +452,10 @@ export const colorProps = {
         fn: color
     },
     'gradient': {
-        aliases: [
-            'bg.gradient',
-            'gradient'
-        ],
         fn: gradient
     },
+    'bg.gradient': { aliasFor: 'gradient' },
+
     'text.color': {
         fn: textColor,
         key: 'color'

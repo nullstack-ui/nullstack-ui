@@ -290,10 +290,11 @@ export const transformProps = {
         fn: transform
     },
     'transform.origin': {
-        aliases: ['transformOrigin'],
         fn: transformOrigin,
         key: 'transform-origin',
     },
+    'transformOrigin': { aliasFor: 'transform.origin' },
+
     'translate3d': {
         key: 'translate3d',
         fn: translate3d,

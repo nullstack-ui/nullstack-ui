@@ -21,10 +21,11 @@ const aspectRatio = ({ value }) => {
 
 export const otherProps = {
     'aspectRatio': {
-        aliases: ['ratio'],
         fn: aspectRatio,
         key: 'aspect-ratio'
     },
+    'ratio': { aliasFor: 'aspectRatio' },
+
     'clear': {
         key: 'clear'
     },
@@ -41,33 +42,31 @@ export const otherProps = {
         key: 'list-style-type'
     },
     'mixBlend': {
-        aliases: [
-            'blend',
-            'mixBlendMode'
-        ],
         key: 'mix-blend-mode'  
     },
+    'blend': { aliasFor: 'mixBlend' },
+    'mixBlendMode': { aliasFor: 'mixBlend' },
+
     'objectFit': {
-        aliases: [
-            'fit',
-            'objFit'
-        ],
         key: 'object-fit'
     },
+    'fit': { aliasFor: 'objectFit' },
+    'objFit': { aliasFor: 'objectFit' },
+
     'objectPosition': {
-        aliases: [
-            'objPos',
-            'objPosition'
-        ],
         fn: ({ value }) => {
             return Array.isArray(value) ? value.join(' ') : value
         },
         key: 'object-position'
     },
+    'objPos': { aliasFor: 'objectPosition' },
+    'objPosition': { aliasFor: 'objectPosition' },
+
     'pointerEvents': {
-        aliases: ['events'],
         key: 'pointer-events'
     },
+    'events': { aliasFor: 'pointerEvents' },
+
     'userSelect': {
         key: 'user-select'
     }

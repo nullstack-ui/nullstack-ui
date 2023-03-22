@@ -228,11 +228,6 @@ export const borderProps = {
 
     // Border left
     'border.left': {
-        aliases: [
-            'bd.left',
-            'bdLeft',
-            'borderLeft'
-        ],
         fn: params => border({
             ...params,
             key: 'border-left'

@@ -65,9 +65,10 @@ export const positionProps = {
         })
     },
     'position': {
-        aliases: ['pos'],
         key: 'position'
     },
+    'pos': { aliasFor: 'position' },
+
     'relative': {
         transform: {
             props: {
@@ -102,7 +103,7 @@ export const positionProps = {
         })
     },
     'zIndex': {
-        aliases: ['z'],
         key: 'z-index'
-    }
+    },
+    'z': { aliasFor: 'zIndex' },
 }

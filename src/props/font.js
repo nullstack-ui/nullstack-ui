@@ -91,9 +91,6 @@ const getFont = ({ context, props, theme = {}, value }) => {
 
 export const fontProps = {
     'antialiased': {
-        aliases: [
-            'antiAliased'
-        ],
         transform: {
             props: {
                 fontSmoothing: {
@@ -103,6 +100,8 @@ export const fontProps = {
             }
         }
     },
+    'antiAliased': { aliasFor: 'antialiased' },
+
     'bold': {
         transform: {
             props: {
@@ -115,45 +114,40 @@ export const fontProps = {
         fn: font
     },
     'font.family': {
-        aliases: ['fontFamily'],
         key: 'font-family',
         fn: fontFamily
     },
+    'fontFamily': { aliasFor: 'font.family' },
+
     'font.relSize': {
-        aliases: [
-            'fontRelSize',
-            'relSize'
-        ],
         fn: params => fontSize({
             ...params,
             rel: true
         }),
         key: 'font-size'
     },
+    'fontRelSize': { aliasFor: 'font.relSize' },
+    'relSize': { aliasFor: 'font.relSize' },
+
     'font.size': {
-        aliases: [
-            'fontSize',
-            'size'
-        ],
         fn: fontSize,
         key: 'font-size'
     },
+    'fontSize': { aliasFor: 'font.size' },
+    'size': { aliasFor: 'font.size' },
+
     'font.smoothing': {
-        aliases: [
-            'fontSmoothing'
-        ],
         fn: fontSmoothing,
         key: 'font-smoothing'
     },
+    'fontSmoothing': { aliasFor: 'font.smoothing' },
+
     'font.style': {
-        aliases: ['fontStyle'],
         key: 'font-style'
     },
+    'fontStyle': { aliasFor: 'font.style' },
+
     'font.weight': {
-        aliases: [
-            'fontWeight',
-            'weight'
-        ],
         key: 'font-weight'
     },
     'fontWeight': { aliasFor: 'font.weight' },
@@ -202,17 +196,15 @@ export const fontProps = {
         }
     },
     'semibold': {
-        aliases: ['semiBold'],
         transform: {
             props: {
                 fontWeight: 600
             }
         }
     },
+    'semiBold': { aliasFor: 'semibold' },
+
     'subpixel': {
-        aliases: [
-            'subPixel'
-        ],
         transform: {
             props: {
                 fontSmoothing: {
@@ -222,4 +214,5 @@ export const fontProps = {
             }
         }
     },
+    'subPixel': { aliasFor: 'subpixel' },
 }
