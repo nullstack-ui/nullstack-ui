@@ -5,6 +5,7 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, na
     const { __self, __source, ...componentProps } = props
 
     const allProps = handleProps({
+        addToCache,
         cache,
         context,
         darkMode,
@@ -15,8 +16,6 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, na
         },
         theme
     });
-
-    console.log('ALLPROPS', allProps)
 
     let allCSS = ''
 
@@ -29,25 +28,42 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, na
             allCSS += `${breakpointSelector} {`;
         }
 
-        if (selector) {
-            allCSS += `&${selector} {`;
+        if (Array.isArray(selector)) {
+            for (let s of selector) {
+                allCSS += `&${s.selector} {`;
+
+                allCSS += getStyle({
+                    addToCache,
+                    breakpoint,
+                    breakpointSelector,
+                    initialValue,
+                    prop,
+                    style: s.style
+                })
+
+                allCSS += '}';
+            }
         } else {
-            allCSS += `& {`;
-        }
-
-        allCSS += getStyle({
-            addToCache,
-            breakpoint,
-            breakpointSelector,
-            initialValue,
-            prop,
-            style
-        })
-
-        allCSS += '}';
-
-        if (breakpointSelector) {
+            if (selector) {
+                allCSS += `&${selector} {`;
+            } else {
+                allCSS += `& {`;
+            }
+    
+            allCSS += getStyle({
+                addToCache,
+                breakpoint,
+                breakpointSelector,
+                initialValue,
+                prop,
+                style
+            })
+    
             allCSS += '}';
+    
+            if (breakpointSelector) {
+                allCSS += '}';
+            }
         }
     }
 

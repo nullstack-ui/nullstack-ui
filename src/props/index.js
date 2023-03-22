@@ -215,15 +215,33 @@ const getStateStyleProps = state => {
 
 }
 
-export const getStateSelector = params => {
-    const { state, stateData } = params;
+export const getStateSelector = ({
+    cache,
+    context,
+    props,
+    state,
+    stateData,
+    theme,
+}) => {
     let selector = stateData.key;
 
     for (let stateKey of Object.keys(state)) {
         const isState = !!allStates[stateKey];
 
         if (isState) {
-            selector += `${allStates[stateKey].key}`
+            if (typeof allStates[stateKey].fn === 'function') {
+                const { selector: fnSelector } = allStates[stateKey].fn({
+                    cache,
+                    context,
+                    props,
+                    theme,
+                });
+
+                console.log('a function with selector', fnSelector)
+            } else {
+                selector += `${allStates[stateKey].key}`
+            }
+
         }
     }
 
@@ -233,6 +251,7 @@ export const getStateSelector = params => {
 }
 
 export const handleProps = ({
+    addToCache,
     cache,
     context,
     depth,
@@ -272,6 +291,8 @@ export const handleProps = ({
                 };
 
                 continue;
+            } else {
+                console.log('cache miss', prop, initialValue)
             }
 
             const alias = allProps[prop].aliasFor;
@@ -333,7 +354,7 @@ export const handleProps = ({
                 handledProps[prop] = {
                     initialValue: propsWithCustomProps[prop],
                     selector,
-                    style: Array.isArray(propList) ? propList : [propList]
+                    style: Array.isArray(propList) ? propList : [propList],
                 }
             }
         } else if (allStates[prop]) {
@@ -368,21 +389,34 @@ export const handleProps = ({
                                 breakpointSelector,
                                 key: res.style[0]?.key,
                                 value: res.style[0]?.value
-                            }))
+                            })),
                         }
                     }
                 }
             } else {
                 const { fn } = allStates[prop];
                 const stateSelector = getStateSelector({
+                    cache,
+                    context,
+                    props: propsWithCustomProps,
                     stateData: allStates[prop],
-                    state: propsWithCustomProps[prop]
+                    state: propsWithCustomProps[prop],
+                    theme,
                 })
                 const stateStyleProps = getStateStyleProps(propsWithCustomProps[prop]);
                 const handledStateProps = handleProps({ cache, context, depth, props: stateStyleProps, selector: stateSelector, theme });
 
                 if (fn) {
+                    const { selector } = typeof fn === 'function' ? fn({
+                        ...fnProps,
+                        cache,
+                        props: propsWithCustomProps
+                    }) : handleProps({ cache, context, depth, props: propsWithCustomProps[prop], selector: key, theme });
 
+                    handledProps[prop] = {
+                        selector,
+                        state: true
+                    }
                 } else {
                     handledProps[prop] = {
                         selector: stateSelector,

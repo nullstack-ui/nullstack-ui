@@ -7,14 +7,14 @@ export const not = ({
     theme
 }) => {
     const { _not } = props;
-    const array = [];
     const selectors = [];
 
     for (let _n in _not) {
-        const handledProps = handleProps({ cache, context, props: _not, theme });
         const { key } = allStates[_n] || {};
 
         if (key) {
+            const handledProps = handleProps({ cache, context, props: _not[_n], theme });
+
             selectors.push({
                 selector: `:not(${key})`,
                 style: Object.values(handledProps).map(res => ({
@@ -23,21 +23,6 @@ export const not = ({
                 }))
             });
         }
-
-        // if (key) {
-        //     array.push(`&:not(${key}) {`);
-
-        //     for (let line of styleAsArray) {
-        //         if (
-        //             !line.endsWith('}') &&
-        //             !line.startsWith('&')
-        //         ) {
-        //             array.push(line);
-        //         }
-        //     }
-
-        //     array.push('}');
-        // }
     }
 
     return {
