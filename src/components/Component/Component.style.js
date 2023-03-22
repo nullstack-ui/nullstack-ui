@@ -29,43 +29,22 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, na
             allCSS += `${breakpointSelector} {`;
         }
 
-        if (Array.isArray(selector)) {
-            for (let s of selector) {
-                allCSS += `&${s} {`;
-                allCSS += getStyle({
-                    addToCache,
-                    breakpoint,
-                    breakpointSelector,
-                    initialValue,
-                    prop,
-                    style
-                })
-                allCSS += '}';
-            }
-
-            console.log('selector css', allCSS)
+        if (selector) {
+            allCSS += `&${selector} {`;
         } else {
-            if (selector) {
-                allCSS += `&${selector} {`;
-            } else {
-                allCSS += `& {`;
-            }
-
-            allCSS += getStyle({
-                addToCache,
-                breakpoint,
-                breakpointSelector,
-                initialValue,
-                prop,
-                style
-            })
-
-            allCSS += '}';
-
-            if (selector) {
-                allCSS += '}';
-            }
+            allCSS += `& {`;
         }
+
+        allCSS += getStyle({
+            addToCache,
+            breakpoint,
+            breakpointSelector,
+            initialValue,
+            prop,
+            style
+        })
+
+        allCSS += '}';
 
         if (breakpointSelector) {
             allCSS += '}';

@@ -202,14 +202,21 @@ export const getCustomProps = ({
     return customProps;
 }
 
-const getStyle = () => {
-    
+const getStateStyleProps = state => {
+    let result = {};
+
+    for (let stateKey of Object.keys(state)) {
+        if (!allStates[stateKey]) {
+            result[stateKey] = state[stateKey];
+        }
+    }
+
+    return result
+
 }
 
-export const handleState = params => {
-    const { state, stateData, stateName } = params;
-    const handledData = typeof stateData === 'function' ? stateData(params) : stateData;
-    const styles = [];
+export const getStateSelector = params => {
+    const { state, stateData } = params;
     let selector = stateData.key;
 
     for (let stateKey of Object.keys(state)) {
@@ -217,10 +224,10 @@ export const handleState = params => {
 
         if (isState) {
             selector += `${allStates[stateKey].key}`
-        } else {
-            
         }
     }
+
+    return selector
 
     // console.log('selector', selector)
 }
@@ -367,13 +374,36 @@ export const handleProps = ({
                 }
             } else {
                 const { fn } = allStates[prop];
-                let stateProps = {};
-
-                handleState({
+                const stateSelector = getStateSelector({
                     stateData: allStates[prop],
-                    stateName: prop,
                     state: propsWithCustomProps[prop]
                 })
+                const stateStyleProps = getStateStyleProps(propsWithCustomProps[prop]);
+                const handledStateProps = handleProps({ cache, context, depth, props: stateStyleProps, selector: stateSelector, theme });
+
+                if (fn) {
+
+                } else {
+                    handledProps[prop] = {
+                        selector: stateSelector,
+                        state: true,
+                        style: Object.values(handledStateProps).map(res => ({
+                            key: res.style[0]?.key,
+                            value: res.style[0]?.value
+                        }))
+                    }
+                }
+                // console.log('handledProps', prop, handledProps);
+                // console.log('stateSelectors', stateSelectors);
+                // console.log('stateStyleProps', stateStyleProps);
+
+                // let stateProps = {};
+
+                // handleState({
+                //     stateData: allStates[prop],
+                //     stateName: prop,
+                //     state: propsWithCustomProps[prop]
+                // })
 
                 // if (fn) {
                 //     const { selector } = typeof fn === 'function' ? fn({
