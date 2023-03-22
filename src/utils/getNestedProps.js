@@ -17,8 +17,9 @@ export const getNestedProps = ({
         } else {
             handled[`${propName}.${prop}`] = childProps[prop];
         }
-        
     }
+
+    console.log('handled', handled)
 
     handledProps = handleProps({
         props: handled,

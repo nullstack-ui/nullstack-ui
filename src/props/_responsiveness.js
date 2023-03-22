@@ -101,7 +101,7 @@ export const responsiveness = {
         responsiveness: true
     },
     '_up': {
-        fn: ({ props, theme }) => genericProps({
+        fn: ({ cache, props, theme }) => genericProps({
             cache,
             context: '_up',
             props,

@@ -16,60 +16,113 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, na
         theme
     });
 
+    console.log('ALLPROPS', allProps)
+
     let allCSS = ''
 
     for (const prop in allProps) {
         const { breakpoint, breakpointSelector, initialValue, selector, style } = allProps[prop] || {};
 
-        if (!style) { continue; }
+        if (!Array.isArray(selector) && !style) { continue; }
 
-        for (let { key, value } of style) {
-            if (!key || value == null) { continue; }
+        if (breakpointSelector) {
+            allCSS += `${breakpointSelector} {`;
+        }
 
-            const cssLine = `${key}: ${value};`;
-
-            if (breakpointSelector) {
-                allCSS += `${breakpointSelector} {`;
-            }
-
-            if (selector) {
-                allCSS += `&${selector} {`;
-            }
-
-            allCSS += cssLine;
-
-            if (selector) {
-                allCSS += '}';
-            }
-
-            if (breakpointSelector) {
-                allCSS += '}';
-            }
-
-            if (typeof initialValue === 'object') {
-                const handledValue = breakpointSelector ? initialValue[breakpoint] : initialValue;
-
-                for (let i = 0; i < Object.keys(handledValue).length; i++) {
-                    const propToCache = Object.keys(handledValue)[i];
-                    const styleToCache = style[i];
-                    const valueToCache = Object.values(handledValue)[i];
-
-                    addToCache({
-                        initialValue: valueToCache,
-                        prop: propToCache,
-                        style: Array.isArray(styleToCache) ? styleToCache : [styleToCache]
-                    });
-                }
-            } else {
-                addToCache({
+        if (Array.isArray(selector)) {
+            for (let s of selector) {
+                allCSS += `&${s} {`;
+                allCSS += getStyle({
+                    addToCache,
+                    breakpoint,
+                    breakpointSelector,
                     initialValue,
                     prop,
-                    style,
+                    style
                 })
+                allCSS += '}';
             }
+
+            console.log('selector css', allCSS)
+        } else {
+            if (selector) {
+                allCSS += `&${selector} {`;
+            } else {
+                allCSS += `& {`;
+            }
+
+            allCSS += getStyle({
+                addToCache,
+                breakpoint,
+                breakpointSelector,
+                initialValue,
+                prop,
+                style
+            })
+
+            allCSS += '}';
+
+            if (selector) {
+                allCSS += '}';
+            }
+        }
+
+        if (breakpointSelector) {
+            allCSS += '}';
         }
     }
 
     return css(allCSS)
     // return css(asString);
+}
+
+const getStyle = ({
+    addToCache,
+    breakpoint,
+    breakpointSelector,
+    initialValue,
+    prop,
+    style
+}) => {
+    let allCSS = '';
+
+    for (let { key, value } of style) {
+        let cssLine = '';
+
+        if (!key || value == null || value == false) { continue; }
+
+        if (Array.isArray(key)) {
+            for (let k of key) {
+                cssLine += `${k}: ${value};`;
+            }
+        } else {
+            cssLine = `${key}: ${value};`;
+        }
+
+        allCSS += cssLine;
+
+        if (typeof initialValue === 'object') {
+            const handledValue = breakpointSelector ? initialValue[breakpoint] : initialValue;
+
+            for (let i = 0; i < Object.keys(handledValue).length; i++) {
+                const propToCache = Object.keys(handledValue)[i];
+                const styleToCache = style[i];
+                const valueToCache = Object.values(handledValue)[i];
+
+                addToCache({
+                    initialValue: valueToCache,
+                    prop: propToCache,
+                    style: Array.isArray(styleToCache) ? styleToCache : [styleToCache]
+                });
+            }
+        } else {
+            addToCache({
+                initialValue,
+                prop,
+                style,
+            })
+        }
+    }
+
+    return allCSS;
 }

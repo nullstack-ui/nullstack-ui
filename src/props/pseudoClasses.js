@@ -1,67 +1,48 @@
 import { allStates, handleProps } from '.';
 
-const children = ({
-    props,
-    theme
-}) => {
-    const { _children } = props;
-    const array = [];
-
-    for (let _c in _children) {
-        const { asArray } = handleProps({ props: _children, theme });
-        const { key } = allStates[_c] || {};
-
-        if (key) {
-            array.push(`& > * {`);
-
-            for (let line of asArray) {
-                if (
-                    !line.endsWith('}') &&
-                    !line.startsWith('&')
-                ) {
-                    array.push(line);
-                }
-            }
-
-            array.push('}');
-        }
-    }
-
-    return {
-        asArray: array
-    };
-}
-
 export const not = ({
+    cache,
+    context,
     props,
     theme
 }) => {
     const { _not } = props;
     const array = [];
+    const selectors = [];
 
     for (let _n in _not) {
-        const { asArray } = handleProps({ props: _not, theme });
+        const handledProps = handleProps({ cache, context, props: _not, theme });
         const { key } = allStates[_n] || {};
 
         if (key) {
-            array.push(`&:not(${key}) {`);
-
-            for (let line of asArray) {
-                if (
-                    !line.endsWith('}') &&
-                    !line.startsWith('&')
-                ) {
-                    array.push(line);
-                }
-            }
-
-            array.push('}');
+            selectors.push({
+                selector: `:not(${key})`,
+                style: Object.values(handledProps).map(res => ({
+                    key: res.style[0]?.key,
+                    value: res.style[0]?.value
+                }))
+            });
         }
+
+        // if (key) {
+        //     array.push(`&:not(${key}) {`);
+
+        //     for (let line of styleAsArray) {
+        //         if (
+        //             !line.endsWith('}') &&
+        //             !line.startsWith('&')
+        //         ) {
+        //             array.push(line);
+        //         }
+        //     }
+
+        //     array.push('}');
+        // }
     }
 
     return {
-        asArray: array
-    };
+        selector: selectors,
+    }
 }
 
 const nthChild = ({
@@ -119,7 +100,7 @@ export const pseudoClasses = {
         key: ':last-of-type'
     },
     '_not': {
-        fn: not
+        fn: not,
     },
     '_nthChild': {
         fn: params => nthChild({

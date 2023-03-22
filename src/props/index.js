@@ -202,14 +202,27 @@ export const getCustomProps = ({
     return customProps;
 }
 
-export const getPropByAlias = alias => {
-    for (let key in allProps) {
-        const prop = allProps[key];
+const getStyle = () => {
+    
+}
 
-        if (prop.aliases?.indexOf(alias) > -1) {
-            return prop;
+export const handleState = params => {
+    const { state, stateData, stateName } = params;
+    const handledData = typeof stateData === 'function' ? stateData(params) : stateData;
+    const styles = [];
+    let selector = stateData.key;
+
+    for (let stateKey of Object.keys(state)) {
+        const isState = !!allStates[stateKey];
+
+        if (isState) {
+            selector += `${allStates[stateKey].key}`
+        } else {
+            
         }
     }
+
+    // console.log('selector', selector)
 }
 
 export const handleProps = ({
@@ -217,6 +230,7 @@ export const handleProps = ({
     context,
     depth,
     props,
+    selector,
     theme
 }) => {
     const customProps = getCustomProps({ props, theme });
@@ -226,16 +240,18 @@ export const handleProps = ({
         ...customProps
     }
 
-    const cssProps = Object.keys(propsWithCustomProps).filter(prop => prop.indexOf('_') !== 0);
-    const cssStates = props ? Object.keys(props).filter(prop => prop.indexOf('_') === 0 && !['__self', '__source'].includes(prop)) : [];
-    const cssAsArray = [];
     const groups = {};
-    const output = {};
+    const handledProps = {};
 
-    let elementProps = {};
+    const fnProps = {
+        context,
+        depth,
+        theme
+    }
 
     // New loop
     for (let prop of Object.keys(propsWithCustomProps)) {
+
         if (allProps[prop]) {
             const initialValue = typeof propsWithCustomProps[prop] === 'function' ? propsWithCustomProps[prop]({
                 props: propsWithCustomProps,
@@ -243,75 +259,76 @@ export const handleProps = ({
             }) : propsWithCustomProps[prop];
 
             if (cache?.[prop]?.[initialValue]) {
-                output[prop] = {
+                handledProps[prop] = {
                     initialValue,
                     style: cache[prop][initialValue]
                 };
 
                 continue;
-            } else {
-                console.log('cache miss', prop, initialValue)
             }
 
             const alias = allProps[prop].aliasFor;
+
             const {
                 fn,
                 key,
                 transform,
                 value: unhandledValue
             } = alias ? allProps[alias] : allProps[prop]
-            const fnProps = {
-                context,
-                depth,
-                theme
+
+            let propList;
+
+            if (!handledProps[prop]) {
+                handledProps[prop] = {};
             }
 
-            let result;
-
-            output[prop] = {};
-
             if (transform) {
-                const transformProps = typeof transform === 'function' ? transform({
-                    ...fnProps,
-                    props: propsWithCustomProps,
-                    value: initialValue
-                }) : transform;
+                const { props: transformProps, value: transformValue } = typeof transform === 'function' ? transform({ context, depth, props, theme, value: propsWithCustomProps[prop] }) : transform;
+                const stringifiedProps = transformValue ? JSON.stringify(transformProps).replace(/value/g, transformValue({
+                    depth,
+                    props,
+                    theme,
+                    value: propsWithCustomProps[prop]
+                })) : '';
+                const parsedProps = transformValue ? JSON.parse(stringifiedProps) : transformProps;
 
-                if (transformProps == null || typeof transformProps !== 'object' || !transformProps.props) {
+                if (parsedProps == null || typeof parsedProps !== 'object') {
                     continue;
                 }
 
-                result = handleProps({ cache, context, depth, props: transformProps.props, theme });
+                propList = handleProps({ cache, context, depth, props: parsedProps, selector, theme });
             } else if (fn && typeof fn === 'function') {
-                result = fn({
+                propList = fn({
                     ...fnProps,
+                    key,
                     props: propsWithCustomProps,
                     value: initialValue
                 });
             } else if (unhandledValue != null) {
-                result = typeof unhandledValue === 'function' ? unhandledValue({ context, props: propsWithCustomProps, theme }) : unhandledValue;
+                propList = typeof unhandledValue === 'function' ? unhandledValue({ context, props: propsWithCustomProps, theme }) : unhandledValue;
             } else {
-                result = {
+                propList = {
                     key,
                     value: propsWithCustomProps[prop]
                 };
             }
 
             if (transform) {
-                output[prop] = {
+                handledProps[prop] = {
+                    selector,
                     initialValue: propsWithCustomProps[prop],
-                    style: Object.values(result).map(res => ({
+                    style: Object.values(propList).map(res => ({
                         key: res.style[0].key,
                         value: res.style[0].value
-                    }))
+                    })),
                 }
             } else {
-                output[prop] = {
+                handledProps[prop] = {
                     initialValue: propsWithCustomProps[prop],
-                    style: Array.isArray(result) ? result : [result]
+                    selector,
+                    style: Array.isArray(propList) ? propList : [propList]
                 }
             }
-
         } else if (allStates[prop]) {
             const alias = allStates[prop].aliasFor;
             const {
@@ -328,7 +345,7 @@ export const handleProps = ({
                     theme
                 });
 
-                output[prop] = {
+                handledProps[prop] = {
                     initialValue: propsWithCustomProps[prop],
                     selector: key,
                 }
@@ -337,11 +354,11 @@ export const handleProps = ({
                     for (let rp of responsivenessProps) {
                         const { breakpoint, breakpointSelector, elementProps } = rp;
 
-                        output[prop] = {
-                            breakpoint,
-                            breakpointSelector,
+                        handledProps[prop] = {
                             initialValue: propsWithCustomProps[prop],
                             style: Object.values(elementProps).map(res => ({
+                                breakpoint,
+                                breakpointSelector,
                                 key: res.style[0]?.key,
                                 value: res.style[0]?.value
                             }))
@@ -349,16 +366,94 @@ export const handleProps = ({
                     }
                 }
             } else {
-                const stateProps = handleProps({ cache, context, depth, props: propsWithCustomProps[prop], theme });
+                const { fn } = allStates[prop];
+                let stateProps = {};
 
-                output[prop] = {
-                    initialValue: propsWithCustomProps[prop],
-                    selector: key,
-                    style: Object.values(stateProps).map(res => ({
-                        key: res.style[0]?.key,
-                        value: res.style[0]?.value
-                    }))
-                }
+                handleState({
+                    stateData: allStates[prop],
+                    stateName: prop,
+                    state: propsWithCustomProps[prop]
+                })
+
+                // if (fn) {
+                //     const { selector } = typeof fn === 'function' ? fn({
+                //         ...fnProps,
+                //         cache,
+                //         props: propsWithCustomProps
+                //     }) : handleProps({ cache, context, depth, props: propsWithCustomProps[prop], selector: key, theme });
+
+                //     console.log('selector', selector)
+                //     handledProps[prop] = {
+                //         selector,
+                //         state: true
+                //     }
+
+                //     // console.log(prop, handledProps[prop])
+                // } else {
+                //     let selector = key;
+                //     for (const stateProp in propsWithCustomProps[prop]) {
+                //         if (allStates[stateProp]) {
+
+                //         } else {
+                //             // stateProps = {
+                //             //     ...stateProps,
+                //             //     ...handleProps({ cache, context, depth, props: propsWithCustomProps[prop], selector: key, theme })
+                //             // };
+                //         }
+                //     }
+
+                //     // handledProps[prop] = {
+                //     //     selector: key,
+                //     //     style: Object.values(stateProps).map(res => ({
+                //     //         key: res.style?.[0]?.key,
+                //     //         value: res.style?.[0]?.value
+                //     //     })),
+                //     //     state: true
+                //     // }
+
+                //     // console.log('stateProps', stateProps)
+                //     // console.log('state', propsWithCustomProps[prop])
+                //     // stateProps = handleProps({ cache, context, depth, props: propsWithCustomProps[prop], selector: key, theme });
+
+                //     // for (const stateProp in stateProps) {
+                //     //     if (allStates[stateProp]) {
+                //     //         console.log('isState', stateProp)
+                //     //     }
+                //     // }
+
+                //     // if (prop === '_children') {
+                //     //     console.log('!CHILDREN!', stateProps)
+                //     // }
+
+                //     // handledProps[prop] = {
+                //     //     selector: key,
+                //     //     style: Object.values(stateProps).map(res => ({
+                //     //         key: res.style?.[0]?.key,
+                //     //         value: res.style?.[0]?.value
+                //     //     })),
+                //     //     state: true
+                //     // }
+                // }
+
+
+                // const { selector } = typeof fn === 'function' ? fn({
+                //     ...fnProps,
+                //     cache,
+                //     props: propsWithCustomProps
+                // }) : handleProps({ cache, context, depth, props: propsWithCustomProps[prop], selector: key, theme });
+
+                // if (Array.isArray(selector)) {
+                //     console.log('An array!', selector)
+                // } else {
+                //     handledProps[prop] = {
+                //         initialValue: propsWithCustomProps[prop],
+                //         selector: selector ? `${selector}${key}` : key,
+                //         // style: Object.values(handledProps).map(res => ({
+                //         //     key: res.style[0]?.key,
+                //         //     value: res.style[0]?.value
+                //         // }))
+                //     }
+                // }    
             }
             // console.log('is state', prop)
         } else {
@@ -371,7 +466,9 @@ export const handleProps = ({
     //     // cssAsArray.push(`${propName}: ${elementProps[propName]}`);
     // }
 
-    return output
+    // console.log('handledProps', handledProps)
+
+    return handledProps
 
     // for (let cssProp of cssProps) {
     //     const {
