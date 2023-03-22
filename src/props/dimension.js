@@ -150,12 +150,12 @@ const dimensionProps = {
         })
     },
     width: {
-        aliases: ['w'],
         fn: ({ value }) => genericDimension({
             key: 'width',
             value
-        })
-    }
+        }),
+    },
+    w: { aliasFor: 'width' },
 }
 
 // Exports

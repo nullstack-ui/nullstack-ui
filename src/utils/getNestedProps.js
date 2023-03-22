@@ -26,8 +26,8 @@ export const getNestedProps = ({
         ...rest
     });
 
-    return Object.keys(handledProps.elementProps).map(propName => ({
-        key: propName,
-        value: handledProps.elementProps[propName]
-    }));
+    return Object.values(handledProps).map(prop => ({
+        key: prop.style[0].key,
+        value: prop.style[0].value
+    }))
 }

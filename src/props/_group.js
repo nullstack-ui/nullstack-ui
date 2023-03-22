@@ -36,7 +36,7 @@ const getChildren = ({ children, groupKey, state, theme }) => {
 
         if (_group) {
             if (_group[`_${state}`]) {
-                const { asArray } = handleProps({
+                const handledProps = handleProps({
                     props: _group[`_${state}`],
                     theme
                 });
@@ -44,7 +44,7 @@ const getChildren = ({ children, groupKey, state, theme }) => {
                 child.attributes['data-child-id'] = `${childKey}`;
 
                 array.push(`[data-child-id="${childKey}"] {`);
-                array.push(...asArray);
+                // array.push(...asArray);
                 array.push('}');
             }
         }

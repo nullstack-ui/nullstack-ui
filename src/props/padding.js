@@ -21,9 +21,10 @@ export const padding = ({
 
 export const paddingProps = {
     'padding': {
-        aliases: ['p'],
         fn: padding
     },
+    'p': { aliasFor: 'padding' },
+
     'padding.bottom': {
         aliases: [
             'pb',

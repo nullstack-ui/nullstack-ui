@@ -45,15 +45,14 @@ export const marginProps = {
         key: 'margin-left'
     },
     'margin.right': {
-        aliases: [
-            'mr',
-            'mR',
-            'marginR',
-            'marginRight'
-        ],
         fn: margin,
         key: 'margin-right'
     },
+    'mr': { aliasFor: 'margin.right' },
+    'mR': { aliasFor: 'margin.right' },
+    'marginR': { aliasFor: 'margin.right' },
+    'marginRight': { aliasFor: 'margin.right' },
+
     'margin.top': {
         aliases: [
             'mt',

@@ -1,32 +1,11 @@
 import { css } from '@emotion/css';
 import { handleProps } from '../../props';
 
-export const ComponentStyle = ({ context, darkMode, depth, name, props, theme }) => {
-    const componentProps = { ...props };
-    const themeProps = theme?.components?.[name] || {};
+export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, name, props, theme }) => {
+    const { __self, __source, ...componentProps } = props
 
-    for (let key in themeProps) {
-        const prop = componentProps[key];
-        const themeProp = themeProps[key];
-
-        if (!prop) {
-            componentProps[key] = themeProp;
-        } else {
-            if (Array.isArray(themeProp)) {
-                componentProps[key] = [
-                    ...prop,
-                    ...themeProp
-                ];
-            } else if (typeof themeProp === 'object') {
-                componentProps[key] = {
-                    ...prop,
-                    ...themeProp
-                };
-            }
-        }
-    }
-
-    const { asString } = handleProps({
+    const allProps = handleProps({
+        cache,
         context,
         darkMode,
         depth,
@@ -37,5 +16,37 @@ export const ComponentStyle = ({ context, darkMode, depth, name, props, theme })
         theme
     });
 
-    return css(asString);
+    let allCSS = ''
+
+    for (const prop in allProps) {
+        const { initialValue, selector, style } = allProps[prop] || {};
+
+        if (!style) { continue; }
+
+        for (let { key, value } of style) {
+            if (!key || value == null) { continue; }
+
+            const cssLine = `${key}: ${value};`;
+
+
+            if (selector) {
+                allCSS += `&${selector} {`;
+            }
+
+            allCSS += cssLine;
+
+            if (selector) {
+                allCSS += '}';
+            }
+
+            addToCache({
+                initialValue,
+                prop,
+                style,
+            })
+        }
+    }
+
+    return css(allCSS)
+    // return css(asString);
 }

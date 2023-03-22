@@ -19,10 +19,10 @@ export const transition = ({ theme, value }) => {
             theme
         });
 
-        return Object.keys(handledProps.elementProps).map(propName => ({
-            key: propName,
-            value: handledProps.elementProps[propName]
-        }));
+        return Object.values(handledProps).map(prop => ({
+            key: prop.style[0].key,
+            value: prop.style[0].value
+        }))
     } else if (typeof value === 'object') {
         const handled = {};
 
@@ -32,10 +32,10 @@ export const transition = ({ theme, value }) => {
 
         handledProps = handleProps({ props: handled, theme });
 
-        return Object.keys(handledProps.elementProps).map(propName => ({
-            key: propName,
-            value: handledProps.elementProps[propName]
-        }));
+        return Object.values(handledProps).map(prop => ({
+            key: prop.style[0].key,
+            value: prop.style[0].value
+        }))
     }
 }
 

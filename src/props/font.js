@@ -22,10 +22,10 @@ const font = ({ context, props, theme, value }) => {
             theme
         });
 
-        return Object.keys(handledProps.elementProps).map(propName => ({
-            key: propName,
-            value: handledProps.elementProps[propName]
-        }));
+        return Object.values(handledProps).map(prop => ({
+            key: prop.style[0].key,
+            value: prop.style[0].value
+        }))
     }
 }
 
@@ -156,6 +156,9 @@ export const fontProps = {
         ],
         key: 'font-weight'
     },
+    'fontWeight': { aliasFor: 'font.weight' },
+    'weight': { aliasFor: 'font.weight' },
+    
     'italic': {
         transform: {
             props: {
