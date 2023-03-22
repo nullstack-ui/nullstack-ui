@@ -19,7 +19,7 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, na
     let allCSS = ''
 
     for (const prop in allProps) {
-        const { initialValue, selector, style } = allProps[prop] || {};
+        const { breakpointSelector, initialValue, selector, style } = allProps[prop] || {};
 
         if (!style) { continue; }
 
@@ -28,6 +28,9 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, na
 
             const cssLine = `${key}: ${value};`;
 
+            if (breakpointSelector) {
+                allCSS += `${breakpointSelector} {`;
+            }
 
             if (selector) {
                 allCSS += `&${selector} {`;
@@ -39,11 +42,29 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, na
                 allCSS += '}';
             }
 
-            addToCache({
-                initialValue,
-                prop,
-                style,
-            })
+            if (breakpointSelector) {
+                allCSS += '}';
+            }
+
+            if (typeof initialValue === 'object') {
+                for (let i = 0; i < Object.keys(initialValue).length; i++) {
+                    const propToCache = Object.keys(initialValue)[i];
+                    const styleToCache = style[i];
+                    const valueToCache = Object.values(initialValue)[i];
+
+                    addToCache({
+                        initialValue: valueToCache,
+                        prop: propToCache,
+                        style: Array.isArray(styleToCache) ? styleToCache : [styleToCache]
+                    });
+                }
+            } else {
+                addToCache({
+                    initialValue,
+                    prop,
+                    style,
+                })
+            }
         }
     }
 

@@ -2,6 +2,7 @@ import Nullstack from 'nullstack';
 import './Home.css';
 
 class Home extends Nullstack {
+  test = ''
 
   prepare({ project, page }) {
     page.title = `${project.name} - Nulla-chan te dá as boas vindas!`;
@@ -19,27 +20,37 @@ class Home extends Nullstack {
 
   render({ project }) {
     return (
-      <div 
-        bgColor="blue" 
-        bold
-        compact={true}
-        flexRow
-        p={2}
-        rounded="full"
-        customProps={[
-          {
-            name: 'compact',
-            props: {
-              w: '50%'
+      <>
+        <div
+          bgColor="blue"
+          bold
+          compact={true}
+          flexRow
+          font="body"
+          p={2}
+          rounded="full"
+          customProps={[
+            {
+              name: 'compact',
+              props: {
+                w: '50%'
+              }
             }
-          }
-        ]}
-        _hover={{
-          bgColor: 'green',
-          textColor: 'white'
-        }}>
-        Test
-      </div>
+          ]}
+          _hover={{
+            bgColor: 'green',
+            textColor: 'white'
+          }}
+          _down={{
+            md: {
+              bgColor: 'red',
+              textColor: 'yellow'
+            }
+          }}>
+          Test
+        </div>
+        <input bgColor="#CCC" bind={this.test} placeholder="Enter text" />
+      </>
     )
   }
 

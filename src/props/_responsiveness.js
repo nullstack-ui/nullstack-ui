@@ -29,7 +29,7 @@ const breakpoints = (theme = {}) => {
         allBreakpoints._down[width] = `@media screen and (max-width: ${widthPx})`;
         allBreakpoints._up[width] = `@media screen and (min-width: ${widthPx})`;
     }
-    
+
     return allBreakpoints;
 }
 
@@ -58,23 +58,23 @@ export const genericProps = ({
 
     for (let bp in props[context]) {
         const breakpointSelector = breakpoints(theme)[context][bp];
-        const { asArray, elementProps } = handleProps({
+        const elementProps = handleProps({
             props: props[context][bp],
             theme
         });
 
         if (!handledProps[bp]) {
             handledProps[bp] = {
-                asArray: [],
                 breakpoint: bp,
+                breakpointSelector,
                 context,
-                elementProps: {}
+                elementProps
             }
         }
 
-        handledProps[bp].asArray.push(...asArray);
-        handledProps[bp].elementProps = elementProps;
-        handledProps[bp].selector = breakpointSelector;
+        // handledProps[bp].asArray.push(...asArray);
+        // handledProps[bp].elementProps = elementProps;
+        // handledProps[bp].selector = breakpointSelector;
     }
 
     if (theme?.useBreakpointPropsOrder) {

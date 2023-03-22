@@ -282,8 +282,6 @@ export const handleProps = ({
 
     // New loop
     for (let prop of Object.keys(propsWithCustomProps)) {
-        const isState = allStates[prop];
-
         if (allProps[prop]) {
             const initialValue = typeof propsWithCustomProps[prop] === 'function' ? propsWithCustomProps[prop]({
                 props: propsWithCustomProps,
@@ -291,7 +289,6 @@ export const handleProps = ({
             }) : propsWithCustomProps[prop];
 
             if (cache?.[prop]?.[initialValue]) {
-                console.log('cache detected, bypassing prop', prop)
                 output[prop] = {
                     initialValue,
                     style: cache[prop][initialValue]
@@ -328,7 +325,7 @@ export const handleProps = ({
                     continue;
                 }
 
-                result = handleProps({ context, depth, props: transformProps.props, theme });
+                result = handleProps({ cache, context, depth, props: transformProps.props, theme });
             } else if (fn && typeof fn === 'function') {
                 result = fn({
                     ...fnProps,
@@ -362,6 +359,7 @@ export const handleProps = ({
         } else if (allStates[prop]) {
             const alias = allStates[prop].aliasFor;
             const {
+                fn,
                 key,
                 responsiveness
             } = alias ? allStates[alias] : allStates[prop];
@@ -371,29 +369,43 @@ export const handleProps = ({
             // };
 
             if (responsiveness) {
-                // const responsivenessProps = fn({
-                //     key,
-                //     props,
-                //     theme
-                // });
+                const responsivenessProps = fn({
+                    key,
+                    props: propsWithCustomProps,
+                    theme
+                });
 
-                // if (responsivenessProps) {
-                //     for (let rp of responsivenessProps) {
-                //         const { asArray, breakpoint, context, elementProps, selector } = rp;
+                output[prop] = {
+                    initialValue: propsWithCustomProps[prop],
+                    selector: key,
+                }
 
-                //         cssAsArray.push(`${selector} {`);
-                //         cssAsArray.push(...asArray);
-                //         cssAsArray.push('}');
+                if (responsivenessProps?.length) {
+                    for (let rp of responsivenessProps) {
+                        const { breakpointSelector, elementProps } = rp;
 
-                //         if (!props[context]) {
-                //             props[context] = {};
-                //         }
+                        output[prop] = {
+                            breakpointSelector,
+                            initialValue: propsWithCustomProps[prop],
+                            style: Object.values(elementProps).map(res => ({
+                                key: res.style[0]?.key,
+                                value: res.style[0]?.value
+                            }))
+                        }
 
-                //         props[context][breakpoint] = elementProps;
-                //     }
-                // }
+                        // cssAsArray.push(`${selector} {`);
+                        // cssAsArray.push(...asArray);
+                        // cssAsArray.push('}');
+
+                        // if (!props[context]) {
+                        //     props[context] = {};
+                        // }
+
+                        // props[context][breakpoint] = elementProps;
+                    }
+                }
             } else {
-                const stateProps = handleProps({ context, depth, props: propsWithCustomProps[prop], theme });
+                const stateProps = handleProps({ cache, context, depth, props: propsWithCustomProps[prop], theme });
 
                 output[prop] = {
                     initialValue: propsWithCustomProps[prop],
