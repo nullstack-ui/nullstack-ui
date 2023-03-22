@@ -19,7 +19,7 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, na
     let allCSS = ''
 
     for (const prop in allProps) {
-        const { breakpointSelector, initialValue, selector, style } = allProps[prop] || {};
+        const { breakpoint, breakpointSelector, initialValue, selector, style } = allProps[prop] || {};
 
         if (!style) { continue; }
 
@@ -47,10 +47,12 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, na
             }
 
             if (typeof initialValue === 'object') {
-                for (let i = 0; i < Object.keys(initialValue).length; i++) {
-                    const propToCache = Object.keys(initialValue)[i];
+                const handledValue = breakpointSelector ? initialValue[breakpoint] : initialValue;
+
+                for (let i = 0; i < Object.keys(handledValue).length; i++) {
+                    const propToCache = Object.keys(handledValue)[i];
                     const styleToCache = style[i];
-                    const valueToCache = Object.values(initialValue)[i];
+                    const valueToCache = Object.values(handledValue)[i];
 
                     addToCache({
                         initialValue: valueToCache,

@@ -211,45 +211,6 @@ export const getPropByAlias = alias => {
     }
 }
 
-const handleAllProps = ({
-    depth,
-    props,
-    theme
-}) => {
-    const handledProps = {
-        depth: props.depth
-    };
-
-    for (let key in props) {
-        const value = props?.[key] != null ? props?.[key] : null;
-        let handledValue;
-
-        if (
-            !getPropByAlias(key) &&
-            Object.keys(allProps).indexOf(key) === -1 &&
-            Object.keys(allStates).indexOf(key) === -1
-        ) {
-            continue;
-        }
-
-        if (typeof value === 'function') {
-            handledValue = value({
-                depth,
-                props,
-                theme
-            });
-        } else {
-            handledValue = value;
-        }
-
-        if (handledValue != null) {
-            handledProps[key] = handledValue;
-        }
-    }
-
-    return props;
-}
-
 export const handleProps = ({
     cache,
     context,
@@ -258,14 +219,6 @@ export const handleProps = ({
     theme
 }) => {
     const customProps = getCustomProps({ props, theme });
-    // const propsWithCustomProps = handleAllProps({
-    //     depth,
-    //     props: {
-    //         ...props,
-    //         ...customProps
-    //     },
-    //     theme
-    // });
     const propsWithCustomProps = {
         depth,
         ...props,
@@ -295,6 +248,8 @@ export const handleProps = ({
                 };
 
                 continue;
+            } else {
+                console.log('cache miss', prop, initialValue)
             }
 
             const alias = allProps[prop].aliasFor;
@@ -364,12 +319,9 @@ export const handleProps = ({
                 responsiveness
             } = alias ? allStates[alias] : allStates[prop];
 
-            // output[prop] = {
-            //     selector: key
-            // };
-
             if (responsiveness) {
                 const responsivenessProps = fn({
+                    cache,
                     key,
                     props: propsWithCustomProps,
                     theme
@@ -382,9 +334,10 @@ export const handleProps = ({
 
                 if (responsivenessProps?.length) {
                     for (let rp of responsivenessProps) {
-                        const { breakpointSelector, elementProps } = rp;
+                        const { breakpoint, breakpointSelector, elementProps } = rp;
 
                         output[prop] = {
+                            breakpoint,
                             breakpointSelector,
                             initialValue: propsWithCustomProps[prop],
                             style: Object.values(elementProps).map(res => ({
@@ -392,16 +345,6 @@ export const handleProps = ({
                                 value: res.style[0]?.value
                             }))
                         }
-
-                        // cssAsArray.push(`${selector} {`);
-                        // cssAsArray.push(...asArray);
-                        // cssAsArray.push('}');
-
-                        // if (!props[context]) {
-                        //     props[context] = {};
-                        // }
-
-                        // props[context][breakpoint] = elementProps;
                     }
                 }
             } else {

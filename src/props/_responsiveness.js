@@ -49,6 +49,7 @@ const breakpointsOrder = (theme = {}) => {
 }
 
 export const genericProps = ({
+    cache,
     context,
     props,
     theme
@@ -59,6 +60,7 @@ export const genericProps = ({
     for (let bp in props[context]) {
         const breakpointSelector = breakpoints(theme)[context][bp];
         const elementProps = handleProps({
+            cache,
             props: props[context][bp],
             theme
         });
@@ -71,10 +73,6 @@ export const genericProps = ({
                 elementProps
             }
         }
-
-        // handledProps[bp].asArray.push(...asArray);
-        // handledProps[bp].elementProps = elementProps;
-        // handledProps[bp].selector = breakpointSelector;
     }
 
     if (theme?.useBreakpointPropsOrder) {
@@ -94,7 +92,8 @@ export const genericProps = ({
 
 export const responsiveness = {
     '_down': {
-        fn: ({ props, theme }) => genericProps({
+        fn: ({ cache, props, theme }) => genericProps({
+            cache,
             context: '_down',
             props,
             theme
@@ -103,6 +102,7 @@ export const responsiveness = {
     },
     '_up': {
         fn: ({ props, theme }) => genericProps({
+            cache,
             context: '_up',
             props,
             theme
