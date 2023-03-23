@@ -18,7 +18,6 @@ import { pseudoClasses } from './pseudoClasses';
 import { pseudoElements } from './pseudoElements';
 import { ringProps } from './ring';
 import { shadowProps } from './shadow';
-import { sizeProps } from './size';
 import { spacingProps } from './spacing';
 import { textProps } from './text';
 import { transformProps } from './transform';
