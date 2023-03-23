@@ -103,11 +103,10 @@ export const fontProps = {
     'antiAliased': { aliasFor: 'antialiased' },
 
     'bold': {
-        transform: {
-            props: {
-                fontWeight: 700
-            }
-        }
+        fn: () => ({
+            key: 'font-weight',
+            value: 700
+        })
     },
     'font': {
         key: 'font',
@@ -154,65 +153,51 @@ export const fontProps = {
     'weight': { aliasFor: 'font.weight' },
     
     'italic': {
-        transform: {
-            props: {
-                fontStyle: 'italic'
-            }
-        }
+        fn: () => ({
+            key: 'font-style',
+            value: 'italic'
+        })
     },
     'light': {
-        transform: {
-            props: {
-                fontWeight: 300
-            }
-        }
+        fn: () => ({
+            key: 'font-weight',
+            value: 300
+        })
     },
     'medium': {
-        transform: {
-            props: {
-                fontWeight: 500
-            }
-        }
+        fn: () => ({
+            key: 'font-weight',
+            value: 500
+        })
     },
     'normal': {
-        transform: {
-            props: {
-                fontStyle: 'normal'
-            }
-        }
+        fn: () => ({
+            key: 'font-style',
+            value: 'normal'
+        })
     },
     'oblique': {
-        transform: {
-            props: {
-                fontStyle: 'oblique'
-            }
-        }
+        fn: () => ({
+            key: 'font-style',
+            value: 'oblique'
+        })
     },
     'regular': {
-        transform: {
-            props: {
-                fontWeight: 400
-            }
-        }
+        fn: () => ({
+            key: 'font-weight',
+            value: 400
+        })
     },
     'semibold': {
-        transform: {
-            props: {
-                fontWeight: 600
-            }
-        }
+        fn: () => ({
+            key: 'font-weight',
+            value: 600
+        })
     },
     'semiBold': { aliasFor: 'semibold' },
 
     'subpixel': {
-        transform: {
-            props: {
-                fontSmoothing: {
-                    moz: 'auto',
-                    webkit: 'auto'
-                }
-            }
-        }
+        fn: params => fontSmoothing({...params, value: 'auto' })
     },
     'subPixel': { aliasFor: 'subpixel' },
 }

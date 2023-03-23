@@ -95,7 +95,7 @@ export const pseudoClasses = {
         key: ':last-of-type'
     },
     '_not': {
-        fn: not,
+        selectorFn: key => `:not(${key})`,
     },
     '_nthChild': {
         fn: params => nthChild({

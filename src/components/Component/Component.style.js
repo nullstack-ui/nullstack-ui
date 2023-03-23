@@ -80,17 +80,9 @@ const getState = ({
         const stateProp = stateProps[prop];
 
         if (stateProp?.state) {
-            // const { selector } = stateProps[prop] || {};
-
-            // console.log('stateProp', stateProp)
-
-            // allCSS += `& ${selector} {`;
-
             allCSS += getState({
                 stateProp
             })
-
-            // allCSS += '}';
         } else {
             if (stateProp.selector) {
                 allCSS += `&${stateProp.selector} {`;
@@ -110,22 +102,7 @@ const getState = ({
                 allCSS += '}';
             }
         }
-        // if (allStates[prop]) {
-
-        // } else if (allProps[prop]) {
-        //     if (Array.isArray(stateProps[prop])) {
-        //         for (let s of stateProps[prop]) {
-        //             allCSS += `${s.key}: ${s.value};`
-        //         }
-        //     } else if (typeof stateProps[prop] === 'object' && stateProps[prop].cssProps) {
-        //         allCSS += getStyle({
-        //             cssProps: stateProps[prop].cssProps
-        //         })
-        //     }
-        // }
     }
-
-    console.log('allCSS', allCSS)
 
     return allCSS;
 }

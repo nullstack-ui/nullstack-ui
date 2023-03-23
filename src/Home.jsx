@@ -22,9 +22,11 @@ class Home extends Nullstack {
     return (
       <>
         <div>
-          <div bgColor="blue" _hover={{ bgColor: 'red' }} _firstChild={{ _hover: { bgColor: 'yellow' } }} _not={{ _lastChild: { bgColor: '#CCC' } }}>
-            Teste
+          <div spY={3}>
+            {Array(3).fill(0).map((_, index) => (<div bd>{index}</div>))}
           </div>
+
+          <div bold mx={5}>Teste</div>
           {/* <div _children={{ _hover: { bgColor: 'red' }}} spY={3}>
           {Array(10).fill(0).map((_, index) => (<div _firstChild={{bgColor: 'blue'}}>{index}</div>))}
 
