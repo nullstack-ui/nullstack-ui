@@ -158,6 +158,8 @@ export const allStates = {
     ...responsiveness
 }
 
+let cachedProps;
+
 // Methods
 export const getCustomProps = ({
     props,
@@ -532,18 +534,19 @@ export const handleProps = ({
     bypass,
     cache,
     context,
-    customProps: cachedCustomProps,
     depth,
     props,
     theme
 }) => {
-    const customProps = cachedCustomProps || getCustomProps({ props, theme });
+    const customProps = cachedProps || getCustomProps({ props, theme });
     const propsWithCustomProps = {
         depth,
         ...props,
         ...customProps
     }
     let handledProps = {};
+
+    if (!cachedProps) { cachedProps = customProps }
 
     // New loop
     for (let prop of Object.keys(propsWithCustomProps)) {
