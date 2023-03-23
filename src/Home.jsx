@@ -21,71 +21,16 @@ class Home extends Nullstack {
   render({ project }) {
     return (
       <>
-        <div>
-          <div spY={3}>
+        <div flex={[true, { dir: 'row' }]} font={{ family: 'body' }}>
+          {Array(3).fill(0).map((_, index) => (<div _nthChild={[1, { bgColor: 'blue' }]} mr={1}>{index}</div>))}
+        </div>
+        {/* <div>
+          <div font={{ family: 'body', weight: 600 }} spY={3}>
             {Array(3).fill(0).map((_, index) => (<div bd _nthChild={[1, { bgColor: 'blue' }]}>{index}</div>))}
           </div>
 
           <div bold mx={5}>Teste</div>
-          {/* <div _children={{ _hover: { bgColor: 'red' }}} spY={3}>
-          {Array(10).fill(0).map((_, index) => (<div _firstChild={{bgColor: 'blue'}}>{index}</div>))}
-
-          <div _hover={{bgColor: 'red'}}>Teste</div>
-        </div> */}
-          {/* <div bgColor="blue" bold flexCol spY={3}>
-          {Array(3).fill(0).map((_, index) => (<div>{index}</div>))}
-        </div> */}
-          {/* <div bgColor="red" _children={{ bgColor: 'green', _odd: { bgColor: 'red' } }} _hover={{ bgColor: 'yellow' }}>
-          <div bgColor="blue">-1</div>
-          {Array(10).fill(0).map((_, index) => (<div>{index}</div>))}
-        </div> */}
-
           <input bind={this.test} placeholder="Test" />
-        </div>
-        {/* <div spY={2} _hover={{bgColor: 'blue'}}>Test</div> */}
-        {/* <div bgColor="blue" p={3} spY={2} _hover={{ bgColor: 'red', textColor: 'white' }}>
-          {Array(10).fill(0).map((_, index) => (<div bgColor="green">{index}</div>))}
-        </div> */}
-        {/* <div flex>
-          <div
-            bgColor="blue"
-            bold
-            compact={true}
-            flexRow
-            font="body"
-            mr={2}
-            p={2}
-            rounded="full"
-            customProps={[
-              {
-                name: 'compact',
-                props: {
-                  w: '50%'
-                }
-              }
-            ]}
-            _hover={{
-              bgColor: 'green',
-              textColor: 'white'
-            }}
-            _down={{
-              md: {
-                bgColor: 'red',
-                textColor: 'yellow'
-              }
-            }}>
-            Test
-          </div>
-          <input
-            bgColor="#CCC"
-            bind={this.test}
-            placeholder="Enter text"
-            _focus={{
-              bgColor: 'red'
-            }} />
-        </div>
-        <div flex={[true, { dir: 'column' }]} spY={2}>
-          {Array(10).fill(0).map((_, index) => (<div bgColor="#EEE">{index}</div>))}
         </div> */}
       </>
     )

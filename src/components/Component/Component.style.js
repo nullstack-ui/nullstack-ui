@@ -20,7 +20,8 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, na
     let allCSS = ''
 
     for (const propName in allProps) {
-        const prop = allProps[propName] || {};
+        const alias = allProps[propName]?.aliasFor;
+        const prop = allProps[alias || propName] || {};
         const { breakpoint, breakpointSelector, cssProps, initialValue, selector, state } = prop;
 
         if (!Array.isArray(selector) && !cssProps && !state) { continue; }

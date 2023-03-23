@@ -48,20 +48,16 @@ const breakpointsOrder = (theme = {}) => {
     return sortedArray.map(({ breakpoint }) => breakpoint);
 }
 
-export const genericProps = ({
-    cache,
-    context,
-    props,
-    theme
-}) => {
+export const genericProps = params => {
+    const { props, responsiveContext, theme } = params;
     const handledProps = {};
     const sortedProps = [];
 
-    for (let bp in props[context]) {
-        const breakpointSelector = breakpoints(theme)[context][bp];
+    for (let bp in props[responsiveContext]) {
+        const breakpointSelector = breakpoints(theme)[responsiveContext][bp];
         const elementProps = handleProps({
             cache,
-            props: props[context][bp],
+            props: props[responsiveContext][bp],
             theme
         });
 
@@ -69,7 +65,7 @@ export const genericProps = ({
             handledProps[bp] = {
                 breakpoint: bp,
                 breakpointSelector,
-                context,
+                context: responsiveContext,
                 elementProps
             }
         }
@@ -92,20 +88,16 @@ export const genericProps = ({
 
 export const responsiveness = {
     '_down': {
-        fn: ({ cache, props, theme }) => genericProps({
-            cache,
-            context: '_down',
-            props,
-            theme
+        fn: params => genericProps({
+            ...params,
+            responsiveContext: '_down',
         }),
         responsiveness: true
     },
     '_up': {
-        fn: ({ cache, props, theme }) => genericProps({
-            cache,
+        fn: params => genericProps({
+            ...params,
             context: '_up',
-            props,
-            theme
         }),
         responsiveness: true
     }

@@ -1,4 +1,3 @@
-import { handleProps } from '.';
 import { getColor } from './color';
 
 // Utils

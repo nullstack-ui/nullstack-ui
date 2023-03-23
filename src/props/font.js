@@ -1,9 +1,16 @@
 import { handleProps } from '.';
 import { getSize } from '../utils/getSize';
 
-const font = ({ context, props, theme, value }) => {
+const font = ({
+    addToCache,
+    cache,
+    context,
+    depth,
+    props,
+    theme,
+    value
+}) => {
     let fontProps = {};
-    let handledProps;
 
     if (typeof value === 'string') {
         return fontFamily({
@@ -17,15 +24,14 @@ const font = ({ context, props, theme, value }) => {
             fontProps[`font.${key}`] = value[key];
         }
 
-        handledProps = handleProps({
+        return handleProps({
+            addToCache,
+            cache,
+            context,
+            depth,
             props: fontProps,
             theme
         });
-
-        return Object.values(handledProps).map(prop => ({
-            key: prop.style[0].key,
-            value: prop.style[0].value
-        }))
     }
 }
 
@@ -151,7 +157,7 @@ export const fontProps = {
     },
     'fontWeight': { aliasFor: 'font.weight' },
     'weight': { aliasFor: 'font.weight' },
-    
+
     'italic': {
         fn: () => ({
             key: 'font-style',
@@ -197,7 +203,7 @@ export const fontProps = {
     'semiBold': { aliasFor: 'semibold' },
 
     'subpixel': {
-        fn: params => fontSmoothing({...params, value: 'auto' })
+        fn: params => fontSmoothing({ ...params, value: 'auto' })
     },
     'subPixel': { aliasFor: 'subpixel' },
 }

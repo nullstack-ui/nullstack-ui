@@ -1,4 +1,4 @@
-import { handleProps } from '.';
+import { handleProp, handleProps } from '.';
 import { getValue } from '../utils/getValue';
 
 const aliases = {
@@ -25,7 +25,9 @@ export const isReverse = props => {
     return flex?.reverse || flexReverse || reverse;
 }
 
-export const flex = ({ theme, value }) => {
+export const flex = params => {
+    const { theme, value } = params;
+    
     if (value === true) {
         return {
             key: 'display',
@@ -34,26 +36,24 @@ export const flex = ({ theme, value }) => {
     } else if (Array.isArray(value)) {
         if (value[0] === true && typeof value[1] === 'object') {
             const handled = {};
-            let handledProps;
-    
+
             for (let key in value[1]) {
                 handled[`flex.${key}`] = value[1][key];
             }
-    
+
             handled.flex = true;
-    
-            handledProps = handleProps({ props: handled, theme });
-    
-            return Object.values(handledProps).map(prop => ({
-                key: prop.style[0].key,
-                value: prop.style[0].value
-            }))
+
+            return handleProps({
+                ...params,
+                bypass: true,
+                customProps: handled,
+                props: handled,
+            });
         } else {
             return {}
         }
     } else if (typeof value === 'object') {
         const handled = {};
-        let handledProps;
 
         for (let key in value) {
             handled[`flex.${key}`] = value[key];
@@ -63,12 +63,11 @@ export const flex = ({ theme, value }) => {
             handled.flex = value.value;
         }
 
-        handledProps = handleProps({ props: handled, theme });
-
-        return Object.values(handledProps).map(prop => ({
-            key: prop.style[0].key,
-            value: prop.style[0].value
-        }))
+        return handleProps({
+            ...params,
+            bypass: true,
+            props: handled
+        });
     } else {
         return {}
     }
@@ -217,7 +216,7 @@ export const flexProps = {
     'flex.dir': { aliasFor: 'flex.direction' },
     'flexDir': { aliasFor: 'flex.direction' },
     'flexDirection': { aliasFor: 'flex.direction' },
-    
+
     'flex.flow': {
         fn: ({ value }) => ({
             key: 'flex-flow',

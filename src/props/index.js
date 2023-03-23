@@ -202,8 +202,9 @@ export const getCustomProps = ({
     return customProps;
 }
 
-const handleProp = ({
+export const handleProp = ({
     addToCache,
+    bypass,
     cache,
     context,
     depth,
@@ -230,14 +231,15 @@ const handleProp = ({
         transform,
         value: unhandledValue
     } = allProps[alias || prop]
+    const propName = alias || prop;
     let cssProps = [];
     let handledProps = {};
 
-    if (cache?.[prop]?.[initialValue]) {
+    if (cache?.[propName]?.[initialValue]) {
         return {
-            cssProps: cache[prop][initialValue],
+            cssProps: cache[propName][initialValue],
             initialValue,
-            prop
+            prop: propName
         };
     } else {
         // TODO: fix caching
@@ -251,7 +253,7 @@ const handleProp = ({
             depth,
             props,
             theme,
-            value: props[prop]
+            value: props[propName]
         }) : transform;
         const stringifiedProps = transformValue ? JSON.stringify(transformProps).replace(/value/g, transformValue({
             cache,
@@ -259,54 +261,47 @@ const handleProp = ({
             depth,
             props,
             theme,
-            value: props[prop]
+            value: props[propName]
         })) : '';
         const parsedProps = transformValue ? JSON.parse(stringifiedProps) : transformProps;
 
         if (typeof parsedProps === 'object') {
             for (let parsedProp of Object.keys(parsedProps)) {
+                const parsedPropName = allProps[parsedProp]?.aliasFor || parsedProp;
+
                 if (allProps[parsedProp]) {
                     const {
                         cssProps: childCSSProps,
                         initialValue: childInitialValue,
                     } = handleProp({
+                        bypass,
                         cache,
                         context,
                         depth,
-                        prop: parsedProp,
+                        prop: parsedPropName,
                         props: parsedProps,
                         theme
                     });
 
-                    handledProps[parsedProp] = {
+                    handledProps[parsedPropName] = {
                         cssProps: childCSSProps,
                         initialValue: childInitialValue,
-                        prop: parsedProp
+                        prop: parsedPropName
                     }
                 }
 
-                if (allStates[parsedProp]) {
+                if (allStates[parsedPropName]) {
                     const handledState = handleState({
                         addToCache,
                         cache,
                         context,
                         depth,
-                        prop: parsedProp,
+                        prop: parsedPropName,
                         props: parsedProps,
                         theme
                     })
 
                     handledProps[parsedProp] = handledState;
-
-                    // if (handledState && Object.keys(handledState).length && typeof handledState[parsedProp] === 'object') {
-                    //     const statesWithCSS = Object
-                    //         .keys(handledState[parsedProp])
-                    //         .find(state => handledState[parsedProp]?.[state]?.cssProps?.length);
-
-                    //     if (statesWithCSS.length) {
-                    //         cssProps.push(...handledState[parsedProp][statesWithCSS].cssProps)
-                    //     }
-                    // }
                 }
             }
         }
@@ -323,28 +318,35 @@ const handleProp = ({
             value: initialValue
         });
 
-        if (typeof fnOutput === 'object' && fnOutput.key != null && fnOutput.value != null) {
-            if (Array.isArray(fnOutput.key)) {
-                cssProps = fnOutput.key.map((key, i) => ({
-                    key,
-                    value: Array.isArray(fnOutput.value) ? fnOutput.value[i] : fnOutput.value
-                }));
-
-                handledProps[prop] = {
-                    cssProps,
-                    initialValue,
-                    prop
+        if (typeof fnOutput === 'object') {
+            if (fnOutput.key != null && fnOutput.value != null) {
+                if (Array.isArray(fnOutput.key)) {
+                    cssProps = fnOutput.key.map((key, i) => ({
+                        key,
+                        value: Array.isArray(fnOutput.value) ? fnOutput.value[i] : fnOutput.value
+                    }));
+    
+                    handledProps[propName] = {
+                        cssProps,
+                        initialValue,
+                        prop: propName
+                    }
+                } else {
+                    cssProps = [{
+                        key: fnOutput.key,
+                        value: fnOutput.value
+                    }];
+    
+                    handledProps[propName] = {
+                        cssProps,
+                        initialValue,
+                        prop: propName
+                    }
                 }
             } else {
-                cssProps = [{
-                    key: fnOutput.key,
-                    value: fnOutput.value
-                }];
-
-                handledProps[prop] = {
-                    cssProps,
-                    initialValue,
-                    prop
+                handledProps = {
+                    ...handledProps,
+                    ...fnOutput
                 }
             }
         }
@@ -365,30 +367,23 @@ const handleProp = ({
             }
         }
 
-        handledProps[prop] = {
+        handledProps[propName] = {
             cssProps,
             initialValue,
-            prop
+            prop: propName
         }
     } else {
         cssProps = [{
             key,
-            value: props[prop]
+            value: props[propName]
         }];
 
-        handledProps[prop] = {
+        handledProps[propName] = {
             cssProps,
             initialValue,
-            prop
+            prop: propName
         }
     }
-
-    // addToCache?.({
-    //     cssProps,
-    //     initialValue,
-    //     prop,
-    //     propType: 'prop'
-    // })
 
     return handledProps
 }
@@ -527,14 +522,15 @@ export const handleState = ({
 
 export const handleProps = ({
     addToCache,
+    bypass,
     cache,
     context,
+    customProps: cachedCustomProps,
     depth,
     props,
-    selector,
     theme
 }) => {
-    const customProps = getCustomProps({ props, theme });
+    const customProps = cachedCustomProps || getCustomProps({ props, theme });
     const propsWithCustomProps = {
         depth,
         ...props,
@@ -563,6 +559,7 @@ export const handleProps = ({
         if (propType === 'prop') {
             const handledProp = handleProp({
                 addToCache,
+                bypass,
                 cache,
                 context,
                 depth,
@@ -599,7 +596,9 @@ export const handleProps = ({
         }
     }
 
-    console.log('handledProps', handledProps)
+    if (!bypass) {
+        console.log('handleProps', handledProps)
+    }
 
     return handledProps
 }
