@@ -41,6 +41,9 @@ export const not = ({
 }
 
 const nthChild = ({
+    cache,
+    context,
+    depth,
     key,
     propKey,
     props,
@@ -48,7 +51,9 @@ const nthChild = ({
 }) => {
     const array = [];
     let childProps;
+    let handledProps;
     let index;
+    let selector;
 
     if (Array.isArray(props[propKey])) {
         childProps = props[propKey][1];
@@ -58,21 +63,27 @@ const nthChild = ({
         index = props[propKey].index;
     }
 
+    console.log('childProps', childProps);
+
     if (index != null && Object.values(childProps).length) {
-        array.push(`&${key}(${index}) {`);
+        selector = `${key}(${index})`;
 
-        for (let c in childProps) {
-            const { asArray } = handleProps({ props: childProps, theme });
+        handledProps = handleProps({
+            cache,
+            context,
+            depth,
+            props: childProps,
+            theme
+        });
 
-            array.push(...asArray);
+        for (const propName in handledProps) {
+            if (typeof handledProps[propName] === 'object') {
+                handledProps[propName].selector = selector;
+            }
         }
-
-        array.push('}');
     }
 
-    return {
-        asArray: array
-    };
+    return handledProps || {}
 }
 
 export const pseudoClasses = {

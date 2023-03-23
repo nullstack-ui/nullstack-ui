@@ -246,6 +246,7 @@ const handleProp = ({
 
     if (transform) {
         const { props: transformProps, value: transformValue } = typeof transform === 'function' ? transform({
+            cache,
             context,
             depth,
             props,
@@ -253,6 +254,8 @@ const handleProp = ({
             value: props[prop]
         }) : transform;
         const stringifiedProps = transformValue ? JSON.stringify(transformProps).replace(/value/g, transformValue({
+            cache,
+            context,
             depth,
             props,
             theme,
@@ -311,6 +314,7 @@ const handleProp = ({
         // propList = handleProps({ cache, context, depth, props: parsedProps, selector, theme });
     } else if (fn && typeof fn === 'function') {
         const fnOutput = fn({
+            cache,
             context,
             depth,
             key,
