@@ -1,9 +1,8 @@
-import { css } from '@emotion/css';
 import { bgProps } from './bg';
 
 // Props
-import { border, borderColor, borderProps, borderRadius, borderStyle, borderWidth } from './border';
-import { bgColor, color, colorProps, textColor } from './color';
+import { borderProps } from './border';
+import { colorProps } from './color';
 import { dimensionProps } from './dimension';
 import { filterProps } from './filter';
 import { flexProps } from './flex';
@@ -547,15 +546,7 @@ export const handleProps = ({
         ...props,
         ...customProps
     }
-
-    const groups = {};
     let handledProps = {};
-
-    const fnProps = {
-        context,
-        depth,
-        theme
-    }
 
     // New loop
     for (let prop of Object.keys(propsWithCustomProps)) {
@@ -596,19 +587,8 @@ export const handleProps = ({
                 theme
             })
 
-            // if (handledState && Object.keys(handledState).length) {
-            //     handledProps = {
-            //         ...handledProps,
-            //         ...handledState
-            //     }
-            // }
-
             handledProps[prop] = handledState
         }
-    }
-
-    if (!bypass) {
-        console.log('handleProps', handledProps)
     }
 
     return handledProps
