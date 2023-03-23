@@ -202,37 +202,6 @@ export const getCustomProps = ({
     return customProps;
 }
 
-export const getStateSelector = ({
-    cache,
-    context,
-    props,
-    state,
-    stateData,
-    theme,
-}) => {
-    let selector = stateData.key;
-
-    for (let stateKey of Object.keys(state)) {
-        const isState = !!allStates[stateKey];
-
-        if (isState) {
-            if (typeof allStates[stateKey].fn === 'function') {
-                const { selector: fnSelector } = allStates[stateKey].fn({
-                    cache,
-                    context,
-                    props,
-                    theme,
-                });
-            } else {
-                selector += `${allStates[stateKey].key}`
-            }
-
-        }
-    }
-
-    return selector
-}
-
 const handleProp = ({
     addToCache,
     cache,
@@ -243,7 +212,6 @@ const handleProp = ({
     theme
 }) => {
     if (!allProps[prop]) {
-        console.log('prop does not exist', prop)
         return {
             cssProps: [],
             initialValue: props[prop],
@@ -262,7 +230,6 @@ const handleProp = ({
         transform,
         value: unhandledValue
     } = allProps[alias || prop]
-    const handledProp = {}
     let cssProps = [];
 
     if (cache?.[prop]?.[initialValue]) {
@@ -321,7 +288,7 @@ const handleProp = ({
                         theme
                     })
 
-                    if (Object.keys(handledState).length) {
+                    if (handledState && Object.keys(handledState).length && typeof handledState[parsedProp] === 'object') {
                         const statesWithCSS = Object
                             .keys(handledState[parsedProp])
                             .find(state => handledState[parsedProp]?.[state]?.cssProps?.length);
@@ -416,7 +383,7 @@ export const handleState = ({
     let selector = customSelector || key;
 
     if (fn) {
-        stateProps = fn({
+        const stateFnOutput = fn({
             addToCache,
             cache,
             context,
@@ -426,8 +393,13 @@ export const handleState = ({
             props,
             theme
         })
-
-        console.log('stateProps', stateProps);
+        
+        handledState = {
+            ...handledState,
+            ...stateFnOutput
+        }
+    } else {
+        console.log('*** stateProps', stateProps);
     }
 
     for (let stateProp in stateProps) {
@@ -463,29 +435,23 @@ export const handleState = ({
                 key: childSelector
             } = allStates[stateProp];
 
-            if (stateProp === '_not') {
-                console.log('stateProp', stateProp, stateProps[stateProp])
-            }
-
             if (childFn) {
                 const fnOutput = childFn({
                     addToCache,
                     cache,
                     context,
                     depth,
-                    parentSelector,
-                    prop,
-                    props,
+                    props: stateProps,
                     theme
                 });
 
-                console.log('fnOutput', fnOutput)
-
-                handledState = {
-                    ...handledState,
-                    ...fnOutput,
-                    state: true
-                };
+                if (fnOutput) {
+                    handledState = {
+                        ...handledState,
+                        ...fnOutput,
+                        state: true
+                    };
+                }
             } else {
                 const childState = handleState({
                     addToCache,
@@ -614,7 +580,7 @@ export const handleProps = ({
                 theme
             })
 
-            if (Object.keys(handledState).length) {
+            if (handledState && Object.keys(handledState).length) {
                 handledState.state = true;
 
                 handledProps = {

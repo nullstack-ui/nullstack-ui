@@ -5,8 +5,6 @@ export const not = ({
     cache,
     context,
     depth,
-    parentSelector,
-    prop,
     props,
     theme
 }) => {
