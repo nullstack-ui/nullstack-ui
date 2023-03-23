@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import { allStates, handleProps } from '../../props';
+import { allProps, allStates, handleProps } from '../../props';
 
 export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, name, props, theme }) => {
     const { __self, __source, ...componentProps } = props
@@ -77,17 +77,25 @@ const getState = ({
     let allCSS = '';
 
     for (const prop in stateProps) {
-        if (allStates[prop]) {
-            const { selector } = stateProps[prop] || {};
+        const stateProp = stateProps[prop];
 
-            allCSS += `& ${selector} {`;
+        if (stateProp?.state) {
+            // const { selector } = stateProps[prop] || {};
+
+            // console.log('stateProp', stateProp)
+
+            // allCSS += `& ${selector} {`;
 
             allCSS += getState({
-                stateProp: stateProps[prop]
+                stateProp
             })
 
-            allCSS += '}';
+            // allCSS += '}';
         } else {
+            if (stateProp.selector) {
+                allCSS += `&${stateProp.selector} {`;
+            }
+
             if (Array.isArray(stateProps[prop])) {
                 for (let s of stateProps[prop]) {
                     allCSS += `${s.key}: ${s.value};`
@@ -97,10 +105,27 @@ const getState = ({
                     cssProps: stateProps[prop].cssProps
                 })
             }
+
+            if (stateProp.selector) {
+                allCSS += '}';
+            }
         }
+        // if (allStates[prop]) {
+
+        // } else if (allProps[prop]) {
+        //     if (Array.isArray(stateProps[prop])) {
+        //         for (let s of stateProps[prop]) {
+        //             allCSS += `${s.key}: ${s.value};`
+        //         }
+        //     } else if (typeof stateProps[prop] === 'object' && stateProps[prop].cssProps) {
+        //         allCSS += getStyle({
+        //             cssProps: stateProps[prop].cssProps
+        //         })
+        //     }
+        // }
     }
 
-    // console.log('allCSS', allCSS)
+    console.log('allCSS', allCSS)
 
     return allCSS;
 }

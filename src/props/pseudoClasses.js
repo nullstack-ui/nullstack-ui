@@ -9,7 +9,9 @@ export const not = ({
     theme
 }) => {
     const { _not } = props;
-    let handledProps = {};
+    let handledProps = {
+        _not: {}
+    };
 
     for (let _n in _not) {
         const { key } = allStates[_n] || {};
@@ -19,7 +21,7 @@ export const not = ({
                 addToCache,
                 cache,
                 context,
-                customProp: `not_${_n}`,
+                // customProp: `not_${_n}`,
                 customSelector: `:not(${key})`,
                 depth,
                 prop: _n,
@@ -27,9 +29,10 @@ export const not = ({
                 theme
             })
 
-            handledProps[`not_${_n}`] = {
+            handledProps._not = {
                 ...handledState[_n],
-                ...handledProps,
+                ...handledProps._not,
+                state: true
             }
         }
     }
