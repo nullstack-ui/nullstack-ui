@@ -240,9 +240,9 @@ export const handleProp = ({
     let cssProps = [];
     let handledProps = {};
 
-    if (cache?.[propName]?.[initialValue]) {
-        // return cache[propName][initialValue];
-    }
+    // if (cache?.[prop]?.[JSON.stringify(initialValue)]) {
+    //     return cache[prop][JSON.stringify(initialValue)];
+    // }
 
     if (transform) {
         const { props: transformProps, value: transformValue } = typeof transform === 'function' ? transform({
@@ -377,7 +377,7 @@ export const handleProp = ({
     } else {
         cssProps = [{
             key,
-            value: props[propName]
+            value: props[prop]
         }];
 
         handledProps[propName] = {
@@ -387,13 +387,13 @@ export const handleProp = ({
         }
     }
 
-    if (!cache?.[propName]?.[initialValue]) {
-        // addToCache?.({
-        //     cachedProps: handledProps,
-        //     initialValue,
-        //     propName,
-        // })
-    }
+    // if (!cache?.[prop]?.[initialValue]) {
+    //     addToCache?.({
+    //         cachedProps: handledProps,
+    //         initialValue: JSON.stringify(initialValue),
+    //         propName: prop,
+    //     })
+    // }
 
     return handledProps
 }

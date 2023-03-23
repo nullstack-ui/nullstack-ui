@@ -33,7 +33,7 @@ const autoAliases = [
 
 // Base
 export const grid = params => {
-    const { theme, value } = params;
+    const { value } = params;
     if (value === true) {
         return {
             key: 'display',
@@ -42,7 +42,6 @@ export const grid = params => {
     } else if (Array.isArray(value)) {
         if (value[0] === true && typeof value[1] === 'object') {
             const handled = {};
-            let handledProps;
 
             for (let key in value[1]) {
                 handled[`grid.${key}`] = value[1][key];
@@ -59,7 +58,6 @@ export const grid = params => {
         }
     } else if (typeof value === 'object') {
         const handled = {};
-        let handledProps;
 
         for (let key in value) {
             handled[`grid.${key}`] = value[key];
@@ -214,7 +212,7 @@ export const gridProps = {
     'grid.gap': {
         fn: gap
     },
-    'grid.gap': { aliasFor: 'grid.gap' },
+    'gap': { aliasFor: 'grid.gap' },
 
     'grid.rows': {
         fn: rows
