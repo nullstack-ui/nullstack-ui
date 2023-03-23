@@ -49,7 +49,6 @@ const nthChild = ({
     props,
     theme
 }) => {
-    const array = [];
     let childProps;
     let handledProps;
     let index;
@@ -62,8 +61,6 @@ const nthChild = ({
         childProps = props[propKey].props;
         index = props[propKey].index;
     }
-
-    console.log('childProps', childProps);
 
     if (index != null && Object.values(childProps).length) {
         selector = `${key}(${index})`;

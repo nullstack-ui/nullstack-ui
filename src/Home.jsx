@@ -21,7 +21,7 @@ class Home extends Nullstack {
   render({ project }) {
     return (
       <>
-        <div spY={5}>
+        <div bg={{ color: 'green' }} font={{ family: 'body' }} spY={5} _hover={{ bgColor: 'yellow' }}>
           {Array(3).fill(0).map((_, index) => (<div _nthChild={[1, { bgColor: 'blue' }]} mr={1}>{index}</div>))}
         </div>
         {/* <div>

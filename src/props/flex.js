@@ -45,7 +45,6 @@ export const flex = params => {
 
             return handleProps({
                 ...params,
-                bypass: true,
                 customProps: handled,
                 props: handled,
             });
@@ -65,7 +64,6 @@ export const flex = params => {
 
         return handleProps({
             ...params,
-            bypass: true,
             props: handled
         });
     } else {

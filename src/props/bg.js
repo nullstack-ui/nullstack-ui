@@ -1,9 +1,8 @@
 import { handleProps } from '.';
 
-const bg = ({
-    theme,
-    value
-}) => {
+const bg = params => {
+    const { value } = params;
+
     if (typeof value === 'object') {
         const bgProps = {};
         let handledProps;
@@ -12,17 +11,10 @@ const bg = ({
             bgProps[`bg.${key}`] = value[key];
         }
 
-        handledProps = handleProps({
+        return handleProps({
+            ...params,
             props: bgProps,
-            theme
         });
-
-        return Object
-            .keys(handledProps.elementProps)
-            .map(propName => ({
-                key: propName,
-                value: handledProps.elementProps[propName]
-            }));
     } else if (typeof value === 'string') {
         return {
             key: 'background',

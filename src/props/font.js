@@ -1,15 +1,8 @@
 import { handleProps } from '.';
 import { getSize } from '../utils/getSize';
 
-const font = ({
-    addToCache,
-    cache,
-    context,
-    depth,
-    props,
-    theme,
-    value
-}) => {
+const font = params => {
+    const { context, props, theme, value } = params;
     let fontProps = {};
 
     if (typeof value === 'string') {
@@ -25,12 +18,8 @@ const font = ({
         }
 
         return handleProps({
-            addToCache,
-            cache,
-            context,
-            depth,
+            ...params,
             props: fontProps,
-            theme
         });
     }
 }

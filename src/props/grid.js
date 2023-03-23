@@ -32,7 +32,8 @@ const autoAliases = [
 ]
 
 // Base
-export const grid = ({ theme, value }) => {
+export const grid = params => {
+    const { theme, value } = params;
     if (value === true) {
         return {
             key: 'display',
@@ -42,19 +43,17 @@ export const grid = ({ theme, value }) => {
         if (value[0] === true && typeof value[1] === 'object') {
             const handled = {};
             let handledProps;
-    
+
             for (let key in value[1]) {
                 handled[`grid.${key}`] = value[1][key];
             }
-    
+
             handled.grid = true;
-    
-            handledProps = handleProps({ props: handled, theme });
-    
-            return Object.keys(handledProps.elementProps).map(propName => ({
-                key: propName,
-                value: handledProps.elementProps[propName]
-            }));
+
+            return handleProps({
+                ...params,
+                props: handled
+            });
         } else {
             return {}
         }
@@ -70,12 +69,10 @@ export const grid = ({ theme, value }) => {
             handled.grid = value.value;
         }
 
-        handledProps = handleProps({ props: handled, theme });
-
-        return Object.values(handledProps).map(prop => ({
-            key: prop.style[0].key,
-            value: prop.style[0].value
-        }))
+        return handleProps({
+            ...params,
+            props: handled
+        });
     }
 }
 
@@ -97,7 +94,7 @@ const auto = ({
     }
 }
 
-const cell = ({ 
+const cell = ({
     key,
     subject,
     value

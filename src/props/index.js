@@ -308,8 +308,6 @@ export const handleProp = ({
                 }
             }
         }
-
-        // propList = handleProps({ cache, context, depth, props: parsedProps, selector, theme });
     } else if (fn && typeof fn === 'function') {
         const fnOutput = fn({
             cache,
