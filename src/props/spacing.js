@@ -1,78 +1,45 @@
 import { isReverse } from './flex';
 
 const spacing = ({
-    props,
-    theme,
+    propKey,
+    spacingProp,
+    reverse,
     value
 }) => {
-    return isNaN(value) ? value : `${value}rem`
+    const handledValue = isNaN(value) ? value : `${value}rem`;
+    const output = {};
+
+    output[spacingProp] = {
+        cssProps: [{
+            key: propKey,
+            value: handledValue
+        }],
+        prop: spacingProp,
+        selector: reverse ? '> *:not(:last-child)' : '> *:not(:first-child)'
+    }
+    
+    return output;
 }
 
 export const spacingProps = {
     'space.x': {
-        transform: ({ props }) => {
-            if (props.reverse) {
-                return {
-                    props: {
-                        _children: {
-                            _not: {
-                                _lastChild: {
-                                    ml: 'value'
-                                }
-                            }
-                        }
-                    },
-                    value: spacing
-                }
-            } else {
-                return {
-                    props: {
-                        _children: {
-                            _not: {
-                                _firstChild: {
-                                    ml: 'value'
-                                }
-                            }
-                        }
-                    },
-                    value: spacing
-                }
-            }
-        }
+        fn: ({ props, value }) => spacing({
+            propKey: 'margin-left',
+            reverse: props.reverse,
+            spacingProp: 'spX',
+            value
+        })
     },
     'spX': { aliasFor: 'space.x' },
     'spaceX': { aliasFor: 'space.x' },
 
     'space.y': {
-        transform: ({ props }) => {
-            if (props.reverse) {
-                return {
-                    props: {
-                        _children: {
-                            _not: {
-                                _lastChild: {
-                                    mt: 'value'
-                                }
-                            }
-                        }
-                    },
-                    value: spacing
-                }
-            } else {
-                return {
-                    props: {
-                        _children: {
-                            _not: {
-                                _firstChild: {
-                                    mt: 'value'
-                                }
-                            }
-                        }
-                    },
-                    value: spacing
-                }
-            }
-        }
+        fn: ({ props, value }) => spacing({
+            propKey: 'margin-top',
+            reverse: props.reverse,
+            spacingProp: 'spY',
+            value
+        })
     },
     'spY': { aliasFor: 'space.y' },
     'spaceY': { aliasFor: 'space.y' },

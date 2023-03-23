@@ -219,23 +219,29 @@ const textDecorationColor = ({
 
 export const textProps = {
     'capitalize': {
-        transform: {
-            props: {
-                textTransform: 'capitalize'
-            },
-        }
+        fn: () => ({
+            key: 'text-transform',
+            value: 'capitalize'
+        })
     },
     'direction': {
         key: 'direction'
     },
     'ellipsis': {
-        transform: {
-            props: {
-                ovX: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap'
+        fn: () => ([
+            {
+                key: 'overflow-x',
+                value: 'hidden'
             },
-        }
+            {
+                key: 'text-overflow',
+                value: 'ellipsis'
+            },
+            {
+                key: 'white-space',
+                value: 'nowrap'
+            }
+        ])
     },
     'letterSpacing': {
         key: 'letter-spacing',
@@ -256,20 +262,18 @@ export const textProps = {
     'leading': { aliasFor: 'lineHeight' },
 
     'lowerCase': {
-        transform: {
-            props: {
-                textTransform: 'lowercase'
-            },
-        }
+        fn: () => ({
+            key: 'text-transform',
+            value: 'lowercase'
+        })
     },
     'lowercase': { aliasFor: 'lowerCase' },
 
     'noWrap': {
-        transform: {
-            props: {
-                whiteSpace: 'nowrap'
-            }
-        }
+        fn: () => ({
+            key: 'white-space',
+            value: 'nowrap'
+        })
     },
     'nowrap': { aliasFor: 'noWrap' },
 
@@ -359,18 +363,16 @@ export const textProps = {
     'textTransform': { aliasFor: 'text.transform' },
 
     'underline': {
-        transform: {
-            props: {
-                textDecoration: 'underline'
-            }
-        }
+        fn: () => ({
+            key: 'text-decoration',
+            value: 'underline'
+        })
     },
     'upperCase': {
-        transform: {
-            props: {
-                textTransform: 'uppercase'
-            },
-        }
+        fn: () => ({
+            key: 'text-transform',
+            value: 'uppercase'
+        })
     },
     'uppercase': { aliasFor: 'upperCase' },
 

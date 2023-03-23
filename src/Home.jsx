@@ -22,7 +22,7 @@ class Home extends Nullstack {
     return (
       <>
         <div spY={5}>
-          {/* {Array(3).fill(0).map((_, index) => (<div _nthChild={[1, { bgColor: 'blue' }]} mr={1}>{index}</div>))} */}
+          {Array(3).fill(0).map((_, index) => (<div _nthChild={[1, { bgColor: 'blue' }]} mr={1}>{index}</div>))}
         </div>
         {/* <div>
           <div font={{ family: 'body', weight: 600 }} spY={3}>
