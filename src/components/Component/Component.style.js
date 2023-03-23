@@ -86,7 +86,7 @@ const getState = ({
             })
         } else {
             if (stateProp.selector) {
-                allCSS += `&${stateProp.selector} {`;
+                allCSS += `${stateProp.selector} {`;
             }
 
             if (Array.isArray(stateProps[prop])) {

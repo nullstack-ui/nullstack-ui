@@ -28,11 +28,10 @@ export const position = ({
 
 export const positionProps = {
     'absolute': {
-        transform: {
-            props: {
-                position: 'absolute'
-            },
-        }
+        fn: () => ({
+            key: 'position',
+            value: 'absolute'
+        })
     },
     'bottom': {
         fn: ({ value }) => placement({
@@ -41,11 +40,10 @@ export const positionProps = {
         })
     },
     'fixed': {
-        transform: {
-            props: {
-                position: 'fixed'
-            },
-        }
+        fn: () => ({
+            key: 'position',
+            value: 'fixed'
+        })
     },
     'inset': {
         fn: ({ value }) => placement({
@@ -70,11 +68,10 @@ export const positionProps = {
     'pos': { aliasFor: 'position' },
 
     'relative': {
-        transform: {
-            props: {
-                position: 'relative'
-            },
-        }
+        fn: () => ({
+            key: 'position',
+            value: 'relative'
+        })
     },
     'right': {
         fn: ({ value }) => placement({

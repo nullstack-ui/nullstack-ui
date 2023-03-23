@@ -38,11 +38,10 @@ export const allProps = {
     },
     ...bgProps,
     'block': {
-        transform: {
-            props: {
-                d: 'block'
-            }
-        }
+        fn: () => ({
+            key: 'display',
+            value: 'block'
+        })
     },
     ...borderProps,
     'boxSizing': {
@@ -77,13 +76,19 @@ export const allProps = {
     ...paddingProps,
     ...positionProps,
     'reset': {
-        transform: {
-            props: {
-                appearance: 'none',
-                bg: 'none',
-                border: 'none'
-            }
-        }
+        fn: () => ([
+            {
+                key: 'appearance',
+                value: 'none'
+            },
+            {
+                key: 'background',
+                value: 'none'
+            },
+            {
+                key: 'border',
+                value: 'none'
+            }])
     },
     'resize': {
         key: 'resize'
@@ -318,14 +323,20 @@ export const handleProp = ({
             value: initialValue
         });
 
-        if (typeof fnOutput === 'object') {
+        if (Array.isArray(fnOutput)) {
+            handledProps[propName] = {
+                cssProps: fnOutput,
+                initialValue,
+                prop: propName
+            }
+        } else if (typeof fnOutput === 'object') {
             if (fnOutput.key != null && fnOutput.value != null) {
                 if (Array.isArray(fnOutput.key)) {
                     cssProps = fnOutput.key.map((key, i) => ({
                         key,
                         value: Array.isArray(fnOutput.value) ? fnOutput.value[i] : fnOutput.value
                     }));
-    
+
                     handledProps[propName] = {
                         cssProps,
                         initialValue,
@@ -336,7 +347,7 @@ export const handleProp = ({
                         key: fnOutput.key,
                         value: fnOutput.value
                     }];
-    
+
                     handledProps[propName] = {
                         cssProps,
                         initialValue,
@@ -455,7 +466,7 @@ export const handleState = ({
 
                 handledState = {
                     ...handledState,
-                    ...handledProp,    
+                    ...handledProp,
                 }
             } else {
                 handledProp.selector = selector;
@@ -472,7 +483,7 @@ export const handleState = ({
                 key: childSelector
             } = allStates[stateProp];
             let parentSelector = null;
-            
+
             if (customSelectorFn && typeof customSelectorFn === 'function') {
                 parentSelector = selector ? `${selector}${customSelectorFn(childSelector)}` : customSelectorFn(childSelector)
             }

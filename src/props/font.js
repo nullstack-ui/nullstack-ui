@@ -97,14 +97,16 @@ const getFont = ({ context, props, theme = {}, value }) => {
 
 export const fontProps = {
     'antialiased': {
-        transform: {
-            props: {
-                fontSmoothing: {
-                    moz: 'grayscale',
-                    webkit: 'antialiased'
-                }
-            }
-        }
+        fn: () => ([
+            {
+                key: '-moz-osx-font-smoothing',
+                value: 'grayscale'
+            },
+            {
+                key: '-webkit-font-smoothing',
+                value: 'antialiased'
+            },
+        ]),
     },
     'antiAliased': { aliasFor: 'antialiased' },
 

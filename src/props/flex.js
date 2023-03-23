@@ -289,19 +289,27 @@ export const flexProps = {
     'wrap': { aliasFor: 'flex.wrap' },
 
     'flexCol': {
-        transform: {
-            props: {
-                flex: true,
-                flexDir: 'column'
+        fn: () => ([
+            {
+                key: 'display',
+                value: 'flex'
             },
-        }
+            {
+                key: 'flex-direction',
+                value: 'column'
+            },
+        ]),
     },
     'flexRow': {
-        transform: {
-            props: {
-                flex: true,
-                flexDir: 'row'
+        fn: () => ([
+            {
+                key: 'display',
+                value: 'flex'
             },
-        }
+            {
+                key: 'flex-direction',
+                value: 'row'
+            },
+        ]),
     },
 }
