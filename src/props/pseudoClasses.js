@@ -1,33 +1,42 @@
-import { allStates, handleProps } from '.';
+import { allStates, handleProps, handleState } from '.';
 
 export const not = ({
+    addToCache,
     cache,
     context,
+    depth,
+    parentSelector,
+    prop,
     props,
     theme
 }) => {
     const { _not } = props;
-    const selectors = [];
+    let handledProps = {};
 
     for (let _n in _not) {
         const { key } = allStates[_n] || {};
 
         if (key) {
-            const handledProps = handleProps({ cache, context, props: _not[_n], theme });
+            const handledState = handleState({
+                addToCache,
+                cache,
+                context,
+                customProp: `not_${_n}`,
+                customSelector: `:not(${key})`,
+                depth,
+                prop: _n,
+                props: _not,
+                theme
+            })
 
-            selectors.push({
-                selector: `:not(${key})`,
-                style: Object.values(handledProps).map(res => ({
-                    key: res.style[0]?.key,
-                    value: res.style[0]?.value
-                }))
-            });
+            handledProps[`not_${_n}`] = {
+                ...handledState[_n],
+                ...handledProps,
+            }
         }
     }
 
-    return {
-        selector: selectors,
-    }
+    return handledProps
 }
 
 const nthChild = ({
