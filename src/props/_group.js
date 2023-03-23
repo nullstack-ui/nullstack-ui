@@ -1,26 +1,27 @@
 import { handleProps } from '.';
 
 const group = ({ depth, props, theme }) => {
-    const { children, group, __self = {} } = props;
-    const array = [];
-    const states = ['hover', 'active', 'focus'];
-    let key = depth;
+    return {}
+    // const { children, group, __self = {} } = props;
+    // const array = [];
+    // const states = ['hover', 'active', 'focus'];
+    // let key = depth;
 
-    if (group) {
-        for (let state of states) {
-            array.push(`&:${state} {`);
+    // if (group) {
+    //     for (let state of states) {
+    //         array.push(`&:${state} {`);
 
-            const childrenCSS = getChildren({ children, groupKey: key, state, theme });
+    //         const childrenCSS = getChildren({ children, groupKey: key, state, theme });
 
-            array.push(...childrenCSS);
+    //         array.push(...childrenCSS);
 
-            array.push(`}`);
-        }
-    }
+    //         array.push(`}`);
+    //     }
+    // }
 
-    return {
-        asArray: array
-    }
+    // return {
+    //     asArray: array
+    // }
 }
 
 const elements = {};

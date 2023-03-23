@@ -19,16 +19,9 @@ export const getNestedProps = ({
         }
     }
 
-    console.log('handled', handled)
-
-    handledProps = handleProps({
+    return handleProps({
+        ...rest,
         props: handled,
         theme,
-        ...rest
     });
-
-    return Object.values(handledProps).map(prop => ({
-        key: prop.style[0].key,
-        value: prop.style[0].value
-    }))
 }

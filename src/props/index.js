@@ -241,14 +241,7 @@ export const handleProp = ({
     let handledProps = {};
 
     if (cache?.[propName]?.[initialValue]) {
-        return {
-            cssProps: cache[propName][initialValue],
-            initialValue,
-            prop: propName
-        };
-    } else {
-        // TODO: fix caching
-        // console.log('cache miss', prop, initialValue)
+        // return cache[propName][initialValue];
     }
 
     if (transform) {
@@ -392,6 +385,14 @@ export const handleProp = ({
             initialValue,
             prop: propName
         }
+    }
+
+    if (!cache?.[propName]?.[initialValue]) {
+        // addToCache?.({
+        //     cachedProps: handledProps,
+        //     initialValue,
+        //     propName,
+        // })
     }
 
     return handledProps

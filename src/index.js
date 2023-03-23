@@ -43,15 +43,15 @@ class NullstackUI {
     }
 
     addToCache({
+        cachedProps,
         initialValue,
-        prop,
-        style
+        propName,
     }) {
-        if (!this.cache[prop]) {
-            this.cache[prop] = {};
+        if (!this.cache[propName]) {
+            this.cache[propName] = {};
         }
 
-        this.cache[prop][initialValue] = style;
+        this.cache[propName][initialValue] = cachedProps;
     }
 
     load(context) {
