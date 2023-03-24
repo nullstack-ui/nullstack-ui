@@ -1,7 +1,8 @@
 import { css } from '@emotion/css';
 import { allProps, allStates, handleProps } from '../../props';
+import { acceptableGroupStates } from '../../props/_group';
 
-export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, name, props, theme }) => {
+export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, props, theme }) => {
     const { __self, __source, ...componentProps } = props
 
     const allProps = handleProps({
@@ -22,15 +23,61 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, na
     for (const propName in allProps) {
         const alias = allProps[propName]?.aliasFor;
         const prop = allProps[alias || propName] || {};
-        const { breakpoint, breakpointSelector, cssProps, initialValue, selector, state } = prop;
+        const { breakpoint, breakpointSelector, cssProps, group, initialValue, selector, state } = prop;
 
-        if (!Array.isArray(selector) && !cssProps && !state) { continue; }
+        if (!Array.isArray(selector) && !cssProps && !group && !state) { continue; }
 
         if (breakpointSelector) {
             allCSS += `${breakpointSelector} {`;
         }
 
-        if (state) {
+        if (group) {
+            const { group, ...childrenProps } = prop;
+            const groupState = acceptableGroupStates[propName];
+
+            if (groupState) {
+                allCSS += `${groupState} {`;
+
+                for (const childPropName in childrenProps) {
+                    const childProp = childrenProps[childPropName];
+
+                    allCSS += `[data-group-child-id="${childPropName}"] {`;
+
+                    for (const propName in childProp) {
+                        const prop = childProp[propName];
+
+                        if (prop.state) {
+                            allCSS += getState({
+                                stateProp: prop
+                            })
+                        } else {
+                            allCSS += getStyle({
+                                breakpoint,
+                                breakpointSelector,
+                                cssProps: prop.cssProps,
+                                initialValue: prop.initialValue,
+                                propName: prop.prop,
+                            })
+                        }
+                    }
+                    // allCSS += getStyle({
+
+                    //     breakpoint,
+                    //     breakpointSelector,
+                    //     cssProps: s.cssProps,
+                    //     initialValue,
+                    //     propName,
+                    // })
+
+                    allCSS += '}';
+                }
+                
+                console.log('GROUP PROP', childrenProps);
+
+                allCSS += '}';
+            }
+            
+        } else if (state) {
             allCSS += getState({
                 stateProp: prop
             })
@@ -66,6 +113,8 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, na
             }
         }
     }
+
+    console.log(allCSS);
 
     return css(allCSS)
     // return css(asString);

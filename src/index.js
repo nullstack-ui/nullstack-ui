@@ -70,6 +70,10 @@ class NullstackUI {
         if (typeof window !== 'undefined' && window.matchMedia) {
             this.context.darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
         }
+        
+        if (node.attributes?.group) {
+            node.attributes['data-group-id'] = depth;
+        }
 
         style = ComponentStyle({
             addToCache: this.addToCache.bind(this),

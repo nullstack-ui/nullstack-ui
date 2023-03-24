@@ -472,10 +472,17 @@ export const handleState = ({
                     ...handledProp,
                 }
             } else {
-                handledProp.selector = selector;
+                for (const propName in handledProp) {
+                    const prop = handledProp[propName];
+
+                    if (prop.cssProps) {
+                        prop.selector = selector;
+                    }
+                }
 
                 handledState[stateProp] = {
                     ...handledProp,
+                    state: true
                 }
             }
         }
@@ -502,10 +509,6 @@ export const handleState = ({
                 });
 
                 if (fnOutput) {
-                    // if (childSelector && typeof customSelectorFn === 'function') {
-                    //     parentSelector = selector ? `${selector}${customSelectorFn(childSelector)}` : customSelectorFn(childSelector)
-                    // }
-
                     if (!handledState[stateProp]) {
                         handledState[stateProp] = {}
                     }
@@ -570,9 +573,6 @@ export const handleProps = ({
     }
     let handledProps = {};
 
-    // if (!cachedProps) { cachedProps = customProps }
-
-    // New loop
     for (let prop of Object.keys(propsWithCustomProps)) {
         let propType = 'unknown'
 
@@ -614,8 +614,6 @@ export const handleProps = ({
             handledProps[prop] = handledState
         }
     }
-
-    // console.log('handledProps', handledProps)
 
     return handledProps
 }

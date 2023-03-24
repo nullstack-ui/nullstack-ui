@@ -23,10 +23,11 @@ class Home extends Nullstack {
       <>
 
 
-        <div>
-          {Array(5).fill(0).map((_, index) => (<div _not={{ _nthChild: [1, { bgColor: 'blue' }] }}>{index}</div>))}
+        <div group>
+          <div _group={{ _hover: { bgColor: 'red' }}}>Test</div>
         </div>
 
+        <div translateX="100%">Transform</div>
         <input bind={this.test} placeholder="Test" />
 
         {/* <div>

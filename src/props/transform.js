@@ -14,7 +14,7 @@ const genericTransform = ({
 
         return {
             key: 'transform',
-            value: transform.join(', ')
+            value: transform.join(', '),
         }
     } else {
         return {
