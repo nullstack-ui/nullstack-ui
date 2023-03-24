@@ -185,7 +185,7 @@ export const getCustomProps = ({
     for (let customProp of allProps) {
         const componentProp = props[customProp.name];
 
-        if (componentProp != null) {
+        if (componentProp != null && componentProp !== false) {
             if (customProp.values && Array.isArray(customProp.values)) {
                 const index = customProp.values.map(value => value.name).indexOf(componentProp);
 
@@ -217,12 +217,16 @@ export const handleProp = ({
     props,
     theme
 }) => {
-    if (!allProps[prop]) {
-        return {
+    if (!allProps[prop] || props[prop] == null || props[prop] === false) {
+        const handledProps = {};
+
+        handledProps[prop] = {
             cssProps: [],
             initialValue: props[prop],
             prop
-        };
+        }
+
+        return handledProps;
     }
 
     const alias = allProps[prop]?.aliasFor;
@@ -321,7 +325,7 @@ export const handleProp = ({
                 prop: propName
             }
         } else if (typeof fnOutput === 'object') {
-            if (fnOutput.key != null && fnOutput.value != null) {
+            if (fnOutput.key != null && fnOutput.value != null && fnOutput.value !== false) {
                 if (Array.isArray(fnOutput.key)) {
                     cssProps = fnOutput.key.map((key, i) => ({
                         key,
@@ -352,7 +356,7 @@ export const handleProp = ({
                 }
             }
         }
-    } else if (unhandledValue != null) {
+    } else if (unhandledValue != null && unhandledValue !== false) {
         const unhandledOutput = typeof unhandledValue === 'function' ? unhandledValue({ context, props, theme }) : unhandledValue;
 
         if (typeof unhandledOutput === 'object' && unhandledOutput.key != null && unhandledOutput.value != null) {
@@ -547,7 +551,7 @@ export const handleProps = ({
     }
     let handledProps = {};
 
-    if (!cachedProps) { cachedProps = customProps }
+    // if (!cachedProps) { cachedProps = customProps }
 
     // New loop
     for (let prop of Object.keys(propsWithCustomProps)) {

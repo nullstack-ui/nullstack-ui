@@ -12,9 +12,15 @@ const genericTransform = ({
             value
         });
 
-        return transform.join(', ')
+        return {
+            key: 'transform',
+            value: transform.join(', ')
+        }
     } else {
-        return getValue({ unit, value });
+        return {
+            key: 'transform',
+            value: getValue({ unit, value })
+        }
     }
 }
 
@@ -80,7 +86,7 @@ const getValue = ({ unit, value }) => {
     }
 }
 
-const rotate = value => {
+const rotate = ({ value }) => {
     return genericTransform({
         axis: 'x',
         unit: 'deg',
@@ -88,7 +94,7 @@ const rotate = value => {
     })
 }
 
-const rotate3d = value => {
+const rotate3d = ({ value }) => {
     return genericTransform({
         axis: 'xyz',
         includeAngle: true,
@@ -104,7 +110,7 @@ const rotateX = value => {
     })
 }
 
-const rotateY = value => {
+const rotateY = ({ value }) => {
     return genericTransform({
         axis: 'y',
         unit: 'deg',
@@ -112,7 +118,7 @@ const rotateY = value => {
     })
 }
 
-const rotateZ = value => {
+const rotateZ = ({ value }) => {
     return genericTransform({
         axis: 'z',
         unit: 'deg',
@@ -127,28 +133,28 @@ const scale = value => {
     })
 }
 
-const scale3d = value => {
+const scale3d = ({ value }) => {
     return genericTransform({
         axis: 'xyz',
         value
     })
 }
 
-const scaleX = value => {
+const scaleX = ({ value }) => {
     return genericTransform({
         axis: 'x',
         value
     })
 }
 
-const scaleY = value => {
+const scaleY = ({ value }) => {
     return genericTransform({
         axis: 'y',
         value
     })
 }
 
-const scaleZ = value => {
+const scaleZ = ({ value }) => {
     return genericTransform({
         axis: 'z',
         value
@@ -187,14 +193,14 @@ const transformOrigin = ({
     } else {
         handledValue = getValue({ unit: 'px', value });
     }
-    
+
     return {
         key: 'transform-origin',
         value: handledValue
     }
 }
 
-const translate = value => {
+const translate = ({ value }) => {
     return genericTransform({
         axis: 'xy',
         unit: 'px',
@@ -202,7 +208,7 @@ const translate = value => {
     })
 }
 
-const translate3d = value => {
+const translate3d = ({ value }) => {
     return genericTransform({
         axis: 'xyz',
         unit: 'px',
@@ -210,7 +216,7 @@ const translate3d = value => {
     })
 }
 
-const translateX = value => {
+const translateX = ({ value }) => {
     return genericTransform({
         axis: 'x',
         unit: 'px',
@@ -218,7 +224,7 @@ const translateX = value => {
     })
 }
 
-const translateY = value => {
+const translateY = ({ value }) => {
     return genericTransform({
         axis: 'y',
         unit: 'px',
@@ -226,7 +232,7 @@ const translateY = value => {
     })
 }
 
-const translateZ = value => {
+const translateZ = ({ value }) => {
     return genericTransform({
         axis: 'z',
         unit: 'px',

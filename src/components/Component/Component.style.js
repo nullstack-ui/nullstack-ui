@@ -116,7 +116,7 @@ const getStyle = ({
     for (let { key, value } of cssProps) {
         let cssLine = '';
 
-        if (!key || value == null) { continue; }
+        if (!key || value == null || value === false) { continue; }
 
         if (Array.isArray(key)) {
             for (let k of key) {
