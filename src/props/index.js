@@ -329,6 +329,7 @@ export const handleProp = ({
                 if (Array.isArray(fnOutput.key)) {
                     cssProps = fnOutput.key.map((key, i) => ({
                         key,
+                        parent: Array.isArray(fnOutput.parent) ? fnOutput.parent[i] : fnOutput.parent,
                         value: Array.isArray(fnOutput.value) ? fnOutput.value[i] : fnOutput.value
                     }));
 
@@ -340,6 +341,7 @@ export const handleProp = ({
                 } else {
                     cssProps = [{
                         key: fnOutput.key,
+                        parent: fnOutput.parent,
                         value: fnOutput.value
                     }];
 
@@ -363,11 +365,13 @@ export const handleProp = ({
             if (Array.isArray(unhandledOutput.key)) {
                 cssProps = unhandledOutput.key.map((key, i) => ({
                     key,
+                    parent: Array.isArray(unhandledOutput.parent) ? unhandledOutput.parent[i] : unhandledOutput.parent,
                     value: Array.isArray(unhandledOutput.value) ? unhandledOutput.value[i] : unhandledOutput.value
                 }));
             } else {
                 cssProps = [{
                     key: unhandledOutput.key,
+                    parent: unhandledOutput.parent,
                     value: unhandledOutput.value
                 }];
             }
@@ -522,7 +526,7 @@ export const handleState = ({
                             parentSelector = selector ? `${selector}${customSelectorFn(childSelector)}` : customSelectorFn(childSelector)
                         }
 
-                        childProp.selector =  parentSelector || (childSelector ? `${selector}${childSelector}` : selector)
+                        childProp.selector = parentSelector || (childSelector ? `${selector}${childSelector}` : selector)
                     }
 
                     handledState[stateProp] = {
@@ -573,12 +577,15 @@ export const handleProps = ({
     }
     let handledProps = {};
 
-    for (let prop of Object.keys(propsWithCustomProps)) {
+    for (let propName of Object.keys(propsWithCustomProps)) {
+        const prop = allProps[propName];
+        const parentProp = prop?.parent;
         let propType = 'unknown'
 
-        if (allProps[prop]) {
+        if (allProps[propName]) {
             propType = 'prop'
-        } else if (allStates[prop]) {
+
+        } else if (allStates[propName]) {
             propType = 'state'
         }
 
@@ -589,14 +596,25 @@ export const handleProps = ({
                 cache,
                 context,
                 depth,
-                prop,
+                prop: propName,
                 props: propsWithCustomProps,
                 theme
             })
 
-            handledProps = {
-                ...handledProps,
-                ...handledProp
+            if (parentProp) {
+                if (!handledProps[parentProp]) {
+                    handledProps[parentProp] = { parent: true }
+                }
+
+                handledProps[parentProp] = {
+                    ...handledProps[parentProp],
+                    ...handledProp
+                }
+            } else {
+                handledProps = {
+                    ...handledProps,
+                    ...handledProp
+                }
             }
         }
 
@@ -606,14 +624,16 @@ export const handleProps = ({
                 cache,
                 context,
                 depth,
-                prop,
+                prop: propName,
                 props: propsWithCustomProps,
                 theme
             })
 
-            handledProps[prop] = handledState
+            handledProps[propName] = handledState
         }
     }
+
+    console.log('handledProps', handledProps)
 
     return handledProps
 }

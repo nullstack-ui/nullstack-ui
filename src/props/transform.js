@@ -1,6 +1,7 @@
 const genericTransform = ({
     axis,
     includeAngle,
+    method,
     unit,
     value
 }) => {
@@ -14,12 +15,12 @@ const genericTransform = ({
 
         return {
             key: 'transform',
-            value: transform.join(', '),
+            value: `${method}(${transform.join(', ')})`,
         }
     } else {
         return {
             key: 'transform',
-            value: getValue({ unit, value })
+            value: `${method}(${getValue({ unit, value })})`,
         }
     }
 }
@@ -126,9 +127,10 @@ const rotateZ = ({ value }) => {
     })
 }
 
-const scale = value => {
+const scale = ({ value }) => {
     return genericTransform({
         axis: 'xy',
+        method: 'scale',
         value
     })
 }
@@ -219,6 +221,7 @@ const translate3d = ({ value }) => {
 const translateX = ({ value }) => {
     return genericTransform({
         axis: 'x',
+        method: 'translateX',
         unit: 'px',
         value
     })

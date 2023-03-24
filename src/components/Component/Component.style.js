@@ -23,15 +23,36 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
     for (const propName in allProps) {
         const alias = allProps[propName]?.aliasFor;
         const prop = allProps[alias || propName] || {};
-        const { breakpoint, breakpointSelector, cssProps, group, initialValue, selector, state } = prop;
+        const { breakpoint, breakpointSelector, cssProps, group, initialValue, parent, selector, state } = prop;
 
-        if (!Array.isArray(selector) && !cssProps && !group && !state) { continue; }
+        if (!Array.isArray(selector) && !cssProps && !group && !parent && !state) { continue; }
 
         if (breakpointSelector) {
             allCSS += `${breakpointSelector} {`;
         }
 
-        if (group) {
+        if (parent) {
+            const { parent, ...parentProps } = prop;
+            const cssPropsAsObj = {};
+
+            for (const childPropName in parentProps) {
+                const childProp = parentProps[childPropName];
+
+                for (const { key, value } of childProp.cssProps) {
+                    if (!cssPropsAsObj[key]) {
+                        cssPropsAsObj[key] = [];
+                    }
+
+                    cssPropsAsObj[key].push(value);
+                }
+
+                for (const cssPropName in cssPropsAsObj) {
+                    const cssProp = cssPropsAsObj[cssPropName];
+                    
+                    allCSS += `${cssPropName}: ${cssProp.join(' ')};`;
+                }
+            }
+        } else if (group) {
             const { group, ...childrenProps } = prop;
             const groupState = acceptableGroupStates[propName];
 
@@ -66,7 +87,7 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
 
                 allCSS += '}';
             }
-            
+
         } else if (state) {
             allCSS += getState({
                 stateProp: prop
