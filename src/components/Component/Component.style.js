@@ -60,19 +60,9 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
                             })
                         }
                     }
-                    // allCSS += getStyle({
-
-                    //     breakpoint,
-                    //     breakpointSelector,
-                    //     cssProps: s.cssProps,
-                    //     initialValue,
-                    //     propName,
-                    // })
 
                     allCSS += '}';
                 }
-                
-                console.log('GROUP PROP', childrenProps);
 
                 allCSS += '}';
             }
@@ -113,8 +103,6 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
             }
         }
     }
-
-    console.log(allCSS);
 
     return css(allCSS)
     // return css(asString);

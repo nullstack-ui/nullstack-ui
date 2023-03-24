@@ -18,6 +18,8 @@ const group = params => {
             const { _group } = child.attributes || {};
             const childId = `${groupId}${i}`
 
+            if (!child.attributes) { continue; }
+            
             child.attributes['data-group-child-id'] = childId;
     
             if (_group) {
