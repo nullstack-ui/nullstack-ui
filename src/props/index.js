@@ -487,7 +487,7 @@ export const handleState = ({
             } = allStates[stateProp];
             let parentSelector = null;
 
-            if (customSelectorFn && typeof customSelectorFn === 'function') {
+            if (childSelector && typeof customSelectorFn === 'function') {
                 parentSelector = selector ? `${selector}${customSelectorFn(childSelector)}` : customSelectorFn(childSelector)
             }
 
@@ -502,11 +502,30 @@ export const handleState = ({
                 });
 
                 if (fnOutput) {
-                    handledState = {
-                        ...handledState,
+                    // if (childSelector && typeof customSelectorFn === 'function') {
+                    //     parentSelector = selector ? `${selector}${customSelectorFn(childSelector)}` : customSelectorFn(childSelector)
+                    // }
+
+                    if (!handledState[stateProp]) {
+                        handledState[stateProp] = {}
+                    }
+
+                    for (let childPropName in fnOutput) {
+                        const childProp = fnOutput[childPropName];
+                        const childSelector = childProp.selector;
+                        let parentSelector;
+
+                        if (childSelector && typeof customSelectorFn === 'function') {
+                            parentSelector = selector ? `${selector}${customSelectorFn(childSelector)}` : customSelectorFn(childSelector)
+                        }
+
+                        childProp.selector =  parentSelector || (childSelector ? `${selector}${childSelector}` : selector)
+                    }
+
+                    handledState[stateProp] = {
                         ...fnOutput,
                         state: true
-                    };
+                    }
                 }
             } else {
                 const childState = handleState({
@@ -595,6 +614,8 @@ export const handleProps = ({
             handledProps[prop] = handledState
         }
     }
+
+    // console.log('handledProps', handledProps)
 
     return handledProps
 }

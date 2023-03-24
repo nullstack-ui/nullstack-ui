@@ -23,8 +23,8 @@ class Home extends Nullstack {
       <>
 
 
-        <div font={{ family: 'body' }} spY={5}>
-          {Array(5).fill(0).map((_, index) => (<div _not={{ _nthChild: [1, { bgColor: 'blue' }] }} mr={1}>{index}</div>))}
+        <div>
+          {Array(5).fill(0).map((_, index) => (<div _not={{ _nthChild: [1, { bgColor: 'blue' }] }}>{index}</div>))}
         </div>
 
         <input bind={this.test} placeholder="Test" />
