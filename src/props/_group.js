@@ -71,8 +71,6 @@ const handleChildren = ({ children, params, parentId }) => {
         }
     }
 
-    console.log('handledProps', handledProps)
-
     return handledProps;
 }
 
