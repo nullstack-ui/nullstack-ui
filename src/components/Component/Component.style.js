@@ -48,21 +48,21 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
 
                 for (const cssPropName in cssPropsAsObj) {
                     const cssProp = cssPropsAsObj[cssPropName];
-                    
+
                     allCSS += `${cssPropName}: ${cssProp.join(' ')};`;
                 }
             }
         } else if (group) {
             const { group, ...childrenProps } = prop;
-            const groupState = acceptableGroupStates[propName];
+            const childId = propName;
 
-            if (groupState) {
-                allCSS += `${groupState} {`;
+            for (const childPropName in childrenProps) {
+                const childProp = childrenProps[childPropName];
+                const groupState = acceptableGroupStates[childPropName];
 
-                for (const childPropName in childrenProps) {
-                    const childProp = childrenProps[childPropName];
-
-                    allCSS += `[data-group-child-id="${childPropName}"] {`;
+                if (groupState) {
+                    allCSS += `${groupState} {`;
+                    allCSS += `[data-group-child-id="${childId}"] {`;
 
                     for (const propName in childProp) {
                         const prop = childProp[propName];
@@ -83,10 +83,16 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
                     }
 
                     allCSS += '}';
+                    allCSS += '}';
                 }
 
-                allCSS += '}';
+                // const childProp = childrenProps[childPropName];
+
+                // console.log('childProp', propName, childPropName, childProp);
             }
+            // const groupState = acceptableGroupStates[propName];
+
+
 
         } else if (state) {
             allCSS += getState({
@@ -170,6 +176,8 @@ const getStyle = ({
     cssProps
 }) => {
     let allCSS = '';
+
+    if (!cssProps) { return allCSS; }
 
     for (let { key, value } of cssProps) {
         let cssLine = '';

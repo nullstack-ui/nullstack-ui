@@ -27,6 +27,15 @@ class Home extends Nullstack {
           <div _group={{ _hover: { bgColor: 'red' }}}>Test</div>
         </div> */}
 
+        <div bgColor="yellow" group p={5}>
+          <div _group={{ _hover: { bgColor: 'red' }}}>Test</div>
+          <div>
+            <div _group={{ _hover: { bgColor: 'blue' }}}>
+              Test 2
+            </div>
+          </div>
+        </div>
+
         <div translateX="-10px">Transform</div>
         <input bind={this.test} placeholder="Test" />
 

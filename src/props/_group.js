@@ -10,65 +10,70 @@ const group = params => {
     const { depth, props } = params;
     const { children, group } = props;
     const groupId = depth;
-    const handledProps = {};
 
     if (group) {
-        for (let i = 0; i < children.length; i++) {
-            const child = children[i];
-            const { _group } = child.attributes || {};
-            const childId = `${groupId}${i}`
-
-            if (!child.attributes) { continue; }
-            
-            child.attributes['data-group-child-id'] = childId;
-    
-            if (_group) {
-                for (let state of Object.keys(acceptableGroupStates)) {
-                    const stateProps = _group[state];
-    
-                    if (stateProps) {
-                        const handledStateProps = handleProps({
-                            ...params,
-                            props: stateProps,
-                        })
-
-                        if (!handledProps[state]) {
-                            handledProps[state] = {
-                                group: true
-                            };
-                        }
-
-                        handledProps[state][childId] = handledStateProps;
-                        // child.attributes[state] = stateProps;
-                    }
-                }
-                // child.attributes['data-group-child-id'] = childId;
-            }
-        }
-        // const handledChildren = handleChildren({ 
-        //     children, 
-        //     groupId: depth,
-        // })
-        // for (let state of states) {
-        //     array.push(`&:${state} {`);
-
-        //     const childrenCSS = getChildren({ children, groupKey: key, state, theme });
-
-        //     array.push(...childrenCSS);
-
-        //     array.push(`}`);
-        // }
+        return handleChildren({ children, params, parentId: groupId });
     }
-
-    return handledProps
 }
 
-const handleChildren = ({ children, groupId }) => {
-    
+const handleChildren = ({ children, params, parentId }) => {
+    let handledProps = {};
 
-    
+    for (let i = 0; i < children.length; i++) {
+        const child = children[i];
+        const { _group } = child.attributes || {};
+        const childId = `${parentId}${i}`
 
-    console.log('children', children)
+        if (typeof child !== 'object' && !child.attributes) { continue; }
+
+        child.attributes['data-group-child-id'] = childId;
+
+        if (child.children) {
+            const handledChildren = handleChildren({
+                children: child.children,
+                params,
+                parentId: childId
+            });
+
+            handledProps = {
+                ...handledProps,
+                ...handledChildren
+            }
+
+            // if (!handledProps[state]) {
+            //     handledProps[state] = {
+            //         group: true
+            //     };
+            // }
+
+            // handledProps[state][childId] = handledChildren;
+        }
+
+        if (_group) {
+            for (let state of Object.keys(acceptableGroupStates)) {
+                const stateProps = _group[state];
+
+                if (stateProps) {
+                    const handledStateProps = handleProps({
+                        ...params,
+                        props: stateProps,
+                    })
+
+                    if (!handledProps[childId]) {
+                        handledProps[childId] = {
+                            group: true
+                        };
+                    }
+
+                    handledProps[childId][state] = handledStateProps;
+                }
+            }
+        }
+    }
+
+    console.log('handledProps', handledProps)
+
+    return handledProps;
 }
 
 const groupChild = params => {
