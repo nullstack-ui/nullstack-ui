@@ -90,6 +90,7 @@ const getValue = ({ unit, value }) => {
 const rotate = ({ value }) => {
     return genericTransform({
         axis: 'x',
+        method: 'rotate',
         unit: 'deg',
         value
     })
@@ -99,6 +100,7 @@ const rotate3d = ({ value }) => {
     return genericTransform({
         axis: 'xyz',
         includeAngle: true,
+        method: 'rotate3d',
         value
     })
 }
@@ -106,6 +108,7 @@ const rotate3d = ({ value }) => {
 const rotateX = value => {
     return genericTransform({
         axis: 'x',
+        method: 'rotateX',
         unit: 'deg',
         value
     })
@@ -114,6 +117,7 @@ const rotateX = value => {
 const rotateY = ({ value }) => {
     return genericTransform({
         axis: 'y',
+        method: 'rotateY',
         unit: 'deg',
         value
     })
@@ -122,6 +126,7 @@ const rotateY = ({ value }) => {
 const rotateZ = ({ value }) => {
     return genericTransform({
         axis: 'z',
+        method: 'rotateZ',
         unit: 'deg',
         value
     })
@@ -138,6 +143,7 @@ const scale = ({ value }) => {
 const scale3d = ({ value }) => {
     return genericTransform({
         axis: 'xyz',
+        method: 'scale3d',
         value
     })
 }
@@ -145,6 +151,7 @@ const scale3d = ({ value }) => {
 const scaleX = ({ value }) => {
     return genericTransform({
         axis: 'x',
+        method: 'scaleX',
         value
     })
 }
@@ -152,6 +159,7 @@ const scaleX = ({ value }) => {
 const scaleY = ({ value }) => {
     return genericTransform({
         axis: 'y',
+        method: 'scaleY',
         value
     })
 }
@@ -159,6 +167,7 @@ const scaleY = ({ value }) => {
 const scaleZ = ({ value }) => {
     return genericTransform({
         axis: 'z',
+        method: 'scaleZ',
         value
     })
 }
@@ -205,6 +214,7 @@ const transformOrigin = ({
 const translate = ({ value }) => {
     return genericTransform({
         axis: 'xy',
+        method: 'translate',
         unit: 'px',
         value
     })
@@ -213,6 +223,7 @@ const translate = ({ value }) => {
 const translate3d = ({ value }) => {
     return genericTransform({
         axis: 'xyz',
+        method: 'translate3d',
         unit: 'px',
         value
     })
@@ -230,6 +241,7 @@ const translateX = ({ value }) => {
 const translateY = ({ value }) => {
     return genericTransform({
         axis: 'y',
+        method: 'translateY',
         unit: 'px',
         value
     })
@@ -238,6 +250,7 @@ const translateY = ({ value }) => {
 const translateZ = ({ value }) => {
     return genericTransform({
         axis: 'z',
+        method: 'translateZ',
         unit: 'px',
         value
     })
