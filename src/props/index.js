@@ -244,8 +244,8 @@ export const handleProp = ({
     let cssProps = [];
     let handledProps = {};
 
-    // if (cache?.[prop]?.[JSON.stringify(initialValue)]) {
-    //     return cache[prop][JSON.stringify(initialValue)];
+    // if (cache?.[prop]?.[initialValue]) {
+    //     return cache[prop][initialValue];
     // }
 
     if (transform) {
@@ -395,10 +395,10 @@ export const handleProp = ({
         }
     }
 
-    // if (!cache?.[prop]?.[initialValue]) {
+    // if (!cache?.[prop]?.[initialValue] && !Array.isArray(initialValue) && typeof initialValue !== 'function' && typeof initialValue !== 'object') {
     //     addToCache?.({
     //         cachedProps: handledProps,
-    //         initialValue: JSON.stringify(initialValue),
+    //         initialValue,
     //         propName: prop,
     //     })
     // }
@@ -632,8 +632,5 @@ export const handleProps = ({
             handledProps[propName] = handledState
         }
     }
-
-    console.log('handledProps', handledProps)
-
     return handledProps
 }

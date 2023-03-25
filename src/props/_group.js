@@ -11,9 +11,9 @@ const group = params => {
     const { children, group } = props;
     const groupId = depth;
 
-    if (group) {
-        return handleChildren({ children, params, parentId: groupId });
-    }
+    if (!group) { return; }
+    
+    return handleChildren({ children, params, parentId: groupId });
 }
 
 const handleChildren = ({ children, params, parentId }) => {
@@ -39,14 +39,6 @@ const handleChildren = ({ children, params, parentId }) => {
                 ...handledProps,
                 ...handledChildren
             }
-
-            // if (!handledProps[state]) {
-            //     handledProps[state] = {
-            //         group: true
-            //     };
-            // }
-
-            // handledProps[state][childId] = handledChildren;
         }
 
         if (_group) {
@@ -69,22 +61,6 @@ const handleChildren = ({ children, params, parentId }) => {
                 }
             }
         }
-    }
-
-    return handledProps;
-}
-
-const groupChild = params => {
-    const { props } = params;
-    const handledProps = handleProps({
-        ...params,
-        props: props._group
-    });
-
-    for (const propName in handledProps) {
-        const prop = handledProps[propName];
-
-        prop.groupChild = true;
     }
 
     return handledProps;
