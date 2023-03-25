@@ -32,7 +32,8 @@ const autoAliases = [
 ]
 
 // Base
-export const grid = ({ theme, value }) => {
+export const grid = params => {
+    const { value } = params;
     if (value === true) {
         return {
             key: 'display',
@@ -41,26 +42,22 @@ export const grid = ({ theme, value }) => {
     } else if (Array.isArray(value)) {
         if (value[0] === true && typeof value[1] === 'object') {
             const handled = {};
-            let handledProps;
-    
+
             for (let key in value[1]) {
                 handled[`grid.${key}`] = value[1][key];
             }
-    
+
             handled.grid = true;
-    
-            handledProps = handleProps({ props: handled, theme });
-    
-            return Object.keys(handledProps.elementProps).map(propName => ({
-                key: propName,
-                value: handledProps.elementProps[propName]
-            }));
+
+            return handleProps({
+                ...params,
+                props: handled
+            });
         } else {
             return {}
         }
     } else if (typeof value === 'object') {
         const handled = {};
-        let handledProps;
 
         for (let key in value) {
             handled[`grid.${key}`] = value[key];
@@ -70,12 +67,10 @@ export const grid = ({ theme, value }) => {
             handled.grid = value.value;
         }
 
-        handledProps = handleProps({ props: handled, theme });
-
-        return Object.keys(handledProps.elementProps).map(propName => ({
-            key: propName,
-            value: handledProps.elementProps[propName]
-        }));
+        return handleProps({
+            ...params,
+            props: handled
+        });
     }
 }
 
@@ -97,7 +92,7 @@ const auto = ({
     }
 }
 
-const cell = ({ 
+const cell = ({
     key,
     subject,
     value
@@ -150,116 +145,104 @@ export const gridProps = {
         fn: grid
     },
     'grid.autoColumns': {
-        aliases: [
-            'autoCols',
-            'autoColumns',
-            'grid.autoCols',
-        ],
         fn: auto,
         key: 'grid-auto-columns'
     },
+    'autoCols': { aliasFor: 'grid.autoColumns' },
+    'autoColumns': { aliasFor: 'grid.autoColumns' },
+    'grid.autoCols': { aliasFor: 'grid.autoColumns' },
+
     'grid.autoFlow': {
-        aliases: [
-            'autoFlow'
-        ],
         key: 'grid-auto-flow'
     },
+    'autoFlow': { aliasFor: 'grid.autoFlow' },
+
     'grid.autoRows': {
-        aliases: [
-            'autoRows',
-            'autoRows',
-            'grid.autoRows',
-        ],
         fn: auto,
         key: 'grid-auto-rows'
     },
+    'autoRows': { aliasFor: 'grid.autoRows' },
+    'grid.autoRows': { aliasFor: 'grid.autoRows' },
+
     'grid.columns': {
-        aliases: [
-            'gridCols',
-            'grid.cols',
-            'grid.templateCols',
-            'grid.templateColumns',
-            'templateCols'
-        ],
         fn: columns
     },
+    'gridCols': { aliasFor: 'grid.columns' },
+    'grid.cols': { aliasFor: 'grid.columns' },
+    'grid.templateCols': { aliasFor: 'grid.columns' },
+    'grid.templateColumns': { aliasFor: 'grid.columns' },
+    'templateCols': { aliasFor: 'grid.columns' },
+
     'grid.columnEnd': {
-        aliases: [
-            'colEnd',
-            'columnEnd',
-            'grid.colEnd'
-        ],
         fn: params => cell({
             ...params,
             subject: 'column'
         }),
         key: 'grid-column-end'
     },
+    'colEnd': { aliasFor: 'grid.columnEnd' },
+    'columnEnd': { aliasFor: 'grid.columnEnd' },
+    'grid.colEnd': { aliasFor: 'grid.columnEnd' },
+
     'grid.columnSpan': {
-        aliases: [
-            'colSpan',
-            'columnSpan',
-            'grid.colSpan'
-        ],
         fn: params => cell({
             ...params,
             subject: 'column'
         }),
         key: 'grid-column'
     },
+    'colSpan': { aliasFor: 'grid.columnSpan' },
+    'columnSpan': { aliasFor: 'grid.columnSpan' },
+    'grid.colSpan': { aliasFor: 'grid.columnSpan' },
+
     'grid.columnStart': {
-        aliases: [
-            'colStart',
-            'columnStart',
-            'grid.colStart'
-        ],
         fn: params => cell({
             ...params,
             subject: 'column'
         }),
         key: 'grid-column-start'
     },
+    'colStart': { aliasFor: 'grid.columnStart' },
+    'columnStart': { aliasFor: 'grid.columnStart' },
+    'grid.colStart': { aliasFor: 'grid.columnStart' },
+
     'grid.flow': {
         key: 'grid-auto-flow'
     },
     'grid.gap': {
-        aliases: ['gap'],
         fn: gap
     },
+    'gap': { aliasFor: 'grid.gap' },
+
     'grid.rows': {
-        aliases: [
-            'grid.templateRows'
-        ],
         fn: rows
     },
+    'grid.templateRows': { aliasFor: 'grid.rows' },
+
     'grid.rowEnd': {
-        aliases: [
-            'rowEnd'
-        ],
         fn: params => cell({
             ...params,
             subject: 'row'
         }),
         key: 'grid-row-end'
     },
+    'rowEnd': { aliasFor: 'grid.rowEnd' },
+
     'grid.rowSpan': {
-        aliases: [
-            'rowSpan',
-        ],
         fn: params => cell({
             ...params,
             subject: 'row'
         }),
         key: 'grid-row'
     },
+    'rowSpan': { aliasFor: 'grid.rowSpan' },
+
     'grid.rowStart': {
-        aliases: [
-            'rowStart'
-        ],
         fn: params => cell({
             ...params,
             subject: 'column'
         }),
         key: 'grid-row-start'
     },
+    'rowStart': { aliasFor: 'grid.rowStart' },
 }

@@ -1,4 +1,3 @@
-import { handleProps } from '.';
 import { getColor } from './color';
 
 // Utils
@@ -97,31 +96,26 @@ export const outlineProps = {
         key: 'outline',
     },
     'outline.color': {
-        aliases: [
-            'outlineColor'
-        ],
         fn: outlineColor,
         key: 'outline-color'
     },
+    'outlineColor': { aliasFor: 'outline.color' },
+
     'outline.offset': {
-        aliases: [
-            'outlineOffset'
-        ],
         fn: outlineOffset,
         key: 'outline-offset',
     },
+    'outlineOffset': { aliasFor: 'outline.offset' },
+
     'outline.style': {
-        aliases: [
-            'outlineStyle'
-        ],
         fn: outlineStyle,
         key: 'outline-style',
     },
+    'outlineStyle': { aliasFor: 'outline.style' },
+
     'outline.width': {
-        aliases: [
-            'outlineWidth'
-        ],
         fn: outlineWidth,
         key: 'outline-width',
-    }
+    },
+    'outlineWidth': { aliasFor: 'outline.width' },
 }

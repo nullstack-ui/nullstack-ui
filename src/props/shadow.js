@@ -245,10 +245,10 @@ const shadow = ({
 
 export const shadowProps = {
     'boxShadow': {
-        aliases: ['shadow'],
         fn: shadow,
         key: 'box-shadow'
     },
+    'shadow': { aliasFor: 'boxShadow' },
     'textShadow': {
         fn: shadow,
         key: 'text-shadow'

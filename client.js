@@ -1,7 +1,6 @@
-import Nullstack, { } from 'nullstack';
+import Nullstack from 'nullstack';
+import NullstackUI from './src';
 import Application from './src/Application';
-import { ComponentStyle } from './src/components/Component/Component.style';
-import { allProps, allStates, getPropByAlias } from './src/props';
 
 const sizeRatio = 1.1;
 
@@ -94,120 +93,7 @@ const theme = {
   }
 }
 
-const acceptableTypes = [
-  'a',
-  'button',
-  'div',
-  'h1',
-  'h2',
-  'h3',
-  'h4',
-  'h5',
-  'h6',
-  'input',
-  'p',
-  'select',
-  'span',
-  'textarea',
-  'Wrapper'
-];
-
-function match({ elements, node }) {
-  const key = node?.attributes?.__self?.key;
-
-  if (node.attributes && key) {
-    node.attributes['data-id'] = key;
-  }
-
-  if (node.attributes?.hasOwnProperty('bypass')) {
-    if (node.attributes.bypass) {
-      node.type = ({ children }) => {
-        return children;
-      }
-    }
-  }
-
-  if (node.attributes?.hasOwnProperty('if')) {
-    if (!node.attributes.if) {
-      node.type = false;
-      delete node.attributes;
-      delete node.children;
-    }
-  }
-
-  if (node.attributes?.hasOwnProperty('else')) {
-    const previousElement = elements[elements.length - 2];
-
-    if (previousElement?.attributes?.if) {
-      node.type = false;
-      delete node.attributes;
-      delete node.children;
-    }
-  }
-
-  return (
-    node &&
-    acceptableTypes.indexOf(node.type) > -1
-  )
-}
-
-class NullstackUI {
-  constructor() {
-    this.client = true;
-    this.server = true;
-    this.storedElements = [];
-    this.theme = theme;
-  }
-
-  load() {
-    this.storedElements = [];
-  }
-
-  transform(params) {
-    const { node } = params;
-
-    if (acceptableTypes.indexOf(node.type) > -1) {
-      this.storedElements.push(typeof node === 'object' ? {
-        ...node
-      } : node);
-    }
-
-    // node.attributes.variables = 1;
-
-    if (!match({
-      elements: this.storedElements,
-      node
-    })) { return false; };
-
-    context.darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    const style = ComponentStyle({
-      context,
-      props: {
-        ...node.attributes
-      },
-      theme: this.theme
-    });
-
-    for (let attribute in node.attributes) {
-      if (allProps[attribute] || allStates[attribute] || getPropByAlias(attribute)) {
-        delete node.attributes[attribute];
-      }
-    }
-
-    if (node.attributes) {
-      window
-        .matchMedia('(prefers-color-scheme: dark)')
-        .addEventListener('change', event => {
-          context.darkMode = event.matches;
-        });
-
-      node.attributes.class = style;
-    }
-  }
-}
-
-Nullstack.use(new NullstackUI);
+Nullstack.use(new NullstackUI({ theme }));
 
 const context = Nullstack.start(Application);
 

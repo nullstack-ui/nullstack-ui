@@ -1,9 +1,8 @@
-import { css } from '@emotion/css';
 import { bgProps } from './bg';
 
 // Props
-import { border, borderColor, borderProps, borderRadius, borderStyle, borderWidth } from './border';
-import { bgColor, color, colorProps, textColor } from './color';
+import { borderProps } from './border';
+import { colorProps } from './color';
 import { dimensionProps } from './dimension';
 import { filterProps } from './filter';
 import { flexProps } from './flex';
@@ -19,7 +18,6 @@ import { pseudoClasses } from './pseudoClasses';
 import { pseudoElements } from './pseudoElements';
 import { ringProps } from './ring';
 import { shadowProps } from './shadow';
-import { sizeProps } from './size';
 import { spacingProps } from './spacing';
 import { textProps } from './text';
 import { transformProps } from './transform';
@@ -38,11 +36,10 @@ export const allProps = {
     },
     ...bgProps,
     'block': {
-        transform: {
-            props: {
-                d: 'block'
-            }
-        }
+        fn: () => ({
+            key: 'display',
+            value: 'block'
+        })
     },
     ...borderProps,
     'boxSizing': {
@@ -57,9 +54,10 @@ export const allProps = {
     },
     ...dimensionProps,
     'display': {
-        aliases: ['d'],
         key: 'display'
     },
+    'd': { aliasFor: 'display' },
+
     ...filterProps,
     ...flexProps,
     ...fontProps,
@@ -67,22 +65,28 @@ export const allProps = {
     ...groupProps,
     ...marginProps,
     'opacity': {
-        aliases: ['op'],
         key: 'opacity'
     },
+    'op': { aliasFor: 'opacity' },
     ...otherProps,
     ...outlineProps,
     ...overflowProps,
     ...paddingProps,
     ...positionProps,
     'reset': {
-        transform: {
-            props: {
-                appearance: 'none',
-                bg: 'none',
-                border: 'none'
-            }
-        }
+        fn: () => ([
+            {
+                key: 'appearance',
+                value: 'none'
+            },
+            {
+                key: 'background',
+                value: 'none'
+            },
+            {
+                key: 'border',
+                value: 'none'
+            }])
     },
     'resize': {
         key: 'resize'
@@ -154,6 +158,8 @@ export const allStates = {
     ...responsiveness
 }
 
+let cachedProps;
+
 // Methods
 export const getCustomProps = ({
     props,
@@ -174,10 +180,12 @@ export const getCustomProps = ({
         }
     }
 
+    if (!allProps.length) { return {}; }
+
     for (let customProp of allProps) {
         const componentProp = props[customProp.name];
 
-        if (componentProp) {
+        if (componentProp != null && componentProp !== false) {
             if (customProp.values && Array.isArray(customProp.values)) {
                 const index = customProp.values.map(value => value.name).indexOf(componentProp);
 
@@ -196,303 +204,436 @@ export const getCustomProps = ({
         }
     }
 
-
     return customProps;
 }
 
-export const getPropByAlias = alias => {
-    for (let key in allProps) {
-        const prop = allProps[key];
-
-        if (prop.aliases?.indexOf(alias) > -1) {
-            return prop;
-        }
-    }
-}
-
-const handleAllProps = ({
-    depth,
-    initialProps,
-    parentProps,
-    props,
-    theme
-}) => {
-    const handledProps = {
-        depth: props.depth
-    };
-
-    for (let key in props) {
-        const value = props?.[key] != null ? props?.[key] : null;
-        let handledValue;
-
-        if (
-            !getPropByAlias(key) &&
-            Object.keys(allProps).indexOf(key) === -1 &&
-            Object.keys(allStates).indexOf(key) === -1
-        ) {
-            continue;
-        }
-
-        if (typeof value === 'function') {
-            handledValue = value({
-                depth,
-                initialProps,
-                parentProps,
-                props,
-                theme
-            });
-        } else {
-            handledValue = value;
-        }
-
-        if (handledValue != null) {
-            handledProps[key] = handledValue;
-        }
-    }
-
-    return props;
-}
-
-export const handleProps = ({
+export const handleProp = ({
+    addToCache,
+    bypass,
+    cache,
     context,
     depth,
-    parentProps,
+    prop,
     props,
     theme
 }) => {
-    const customProps = getCustomProps({ props, theme });
-    const propsWithCustomProps = handleAllProps({
-        depth,
-        initialProps: props,
-        parentProps,
-        props: {
-            ...props,
-            ...customProps
-        },
+    if (!allProps[prop] || props[prop] == null || props[prop] === false) {
+        const handledProps = {};
+
+        handledProps[prop] = {
+            cssProps: [],
+            initialValue: props[prop],
+            prop
+        }
+
+        return handledProps;
+    }
+
+    const alias = allProps[prop]?.aliasFor;
+    const initialValue = typeof props[prop] === 'function' ? props[prop]({
+        props,
         theme
-    });
-    const cssProps = Object.keys(propsWithCustomProps).filter(prop => prop.indexOf('_') !== 0);
-    const cssStates = props ? Object.keys(props).filter(prop => prop.indexOf('_') === 0 && !['__self', '__source'].includes(prop)) : [];
-    const cssAsArray = [];
-    const groups = {};
+    }) : props[prop];
+    const {
+        fn,
+        key,
+        transform,
+        value: unhandledValue
+    } = allProps[alias || prop]
+    const propName = alias || prop;
+    let cssProps = [];
+    let handledProps = {};
 
-    let elementProps = {};
+    // if (cache?.[prop]?.[JSON.stringify(initialValue)]) {
+    //     return cache[prop][JSON.stringify(initialValue)];
+    // }
 
-    for (let cssProp of cssProps) {
-        const {
-            fn,
-            key,
-            parent,
-            transform,
-            value: unhandledValue
-        } = allProps[cssProp] || getPropByAlias(cssProp) || {};
-        const value = typeof unhandledValue === 'function' ? unhandledValue({ context, props, theme }) : unhandledValue;
+    if (transform) {
+        const { props: transformProps, value: transformValue } = typeof transform === 'function' ? transform({
+            cache,
+            context,
+            depth,
+            props,
+            theme,
+            value: props[propName]
+        }) : transform;
+        const stringifiedProps = transformValue ? JSON.stringify(transformProps).replace(/value/g, transformValue({
+            cache,
+            context,
+            depth,
+            props,
+            theme,
+            value: props[propName]
+        })) : '';
+        const parsedProps = transformValue ? JSON.parse(stringifiedProps) : transformProps;
 
-        if (parent) {
-            if (!groups[parent]) {
-                groups[parent] = {
-                    childProps: [],
-                    key: parent
-                };
-            }
+        if (typeof parsedProps === 'object') {
+            for (let parsedProp of Object.keys(parsedProps)) {
+                const parsedPropName = allProps[parsedProp]?.aliasFor || parsedProp;
 
-            groups[parent].childProps.push({
-                fn,
-                propName: key,
-                value: props[key] || props[cssProp]
-            })
-        } else if (transform) {
-            const { props: transformProps, value: transformValue } = typeof transform === 'function' ? transform({ context, depth, props, theme, value: propsWithCustomProps[cssProp] }) : transform;
-            const stringifiedProps = transformValue ? JSON.stringify(transformProps).replace(/value/g, transformValue({
-                depth,
-                props,
-                theme,
-                value: propsWithCustomProps[cssProp]
-            })) : '';
-            const { asArray } = handleProps({
-                context,
-                depth,
-                props: transformValue ? JSON.parse(stringifiedProps) : transformProps,
-                theme
-            });
-
-            if (transformValue || propsWithCustomProps[cssProp]) {
-                cssAsArray.push(...asArray);
-            }
-        } else if (key && value) {
-            elementProps[key] = typeof value === 'function' ? value({
-                context,
-                depth,
-                initialProps: props,
-                props: propsWithCustomProps,
-                theme
-            }) : value;
-        } else if (fn && typeof fn === 'function' && propsWithCustomProps[cssProp] != null) {
-            const handledProp = fn({
-                context,
-                depth,
-                key,
-                props: propsWithCustomProps,
-                theme,
-                value: typeof propsWithCustomProps[cssProp] === 'function' ? propsWithCustomProps[cssProp]({
-                    initialProps: props,
-                    props: propsWithCustomProps,
-                    theme
-                }) : propsWithCustomProps[cssProp]
-            });
-
-            if (Array.isArray(handledProp)) {
-                for (let prop of handledProp) {
-                    elementProps[prop.key] = typeof prop.value === 'function' ? prop.value({
+                if (allProps[parsedProp]) {
+                    const {
+                        cssProps: childCSSProps,
+                        initialValue: childInitialValue,
+                    } = handleProp({
+                        bypass,
+                        cache,
                         context,
                         depth,
-                        initialProps: props,
-                        props: propsWithCustomProps,
+                        prop: parsedPropName,
+                        props: parsedProps,
                         theme
-                    }) : prop.value;
-                }
-            } else if (handledProp.key && handledProp.value) {
-                if (Array.isArray(handledProp.key)) {
-                    for (let key of handledProp.key) {
-                        elementProps[key] = typeof handledProp.value === 'function' ? handledProp.value({
-                            context,
-                            depth,
-                            initialProps: props,
-                            props: propsWithCustomProps,
-                            theme
-                        }) : handledProp.value;
+                    });
+
+                    handledProps[parsedPropName] = {
+                        cssProps: childCSSProps,
+                        initialValue: childInitialValue,
+                        prop: parsedPropName
                     }
-                } else if (typeof handledProp.key === 'string') {
-                    elementProps[handledProp.key] = typeof handledProp.value === 'function' ? handledProp.value({
+                }
+
+                if (allStates[parsedPropName]) {
+                    const handledState = handleState({
+                        addToCache,
+                        cache,
                         context,
                         depth,
-                        initialProps: props,
-                        props: propsWithCustomProps,
+                        prop: parsedPropName,
+                        props: parsedProps,
                         theme
-                    }) : handledProp.value;
+                    })
+
+                    handledProps[parsedProp] = handledState;
                 }
-            } else if (handledProp.asArray) {
-                cssAsArray.push(...handledProp.asArray);
             }
-        } else if (key && !value) {
-            if (typeof propsWithCustomProps[cssProp] === 'object') {
-                const subKey = Object.keys(propsWithCustomProps[cssProp])[0];
-                const newProps = {};
+        }
+    } else if (fn && typeof fn === 'function') {
+        const fnOutput = fn({
+            cache,
+            context,
+            depth,
+            key,
+            props,
+            theme,
+            value: initialValue
+        });
 
-                newProps[`${cssProp}.${subKey}`] = propsWithCustomProps[cssProp][subKey];
+        if (Array.isArray(fnOutput)) {
+            handledProps[propName] = {
+                cssProps: fnOutput,
+                initialValue,
+                prop: propName
+            }
+        } else if (typeof fnOutput === 'object') {
+            if (fnOutput.key != null && fnOutput.value != null && fnOutput.value !== false) {
+                if (Array.isArray(fnOutput.key)) {
+                    cssProps = fnOutput.key.map((key, i) => ({
+                        key,
+                        parent: Array.isArray(fnOutput.parent) ? fnOutput.parent[i] : fnOutput.parent,
+                        value: Array.isArray(fnOutput.value) ? fnOutput.value[i] : fnOutput.value
+                    }));
 
-                handledProps = handleProps({
-                    context,
-                    depth,
-                    props: newProps,
-                    theme
-                });
+                    handledProps[propName] = {
+                        cssProps,
+                        initialValue,
+                        prop: propName
+                    }
+                } else {
+                    cssProps = [{
+                        key: fnOutput.key,
+                        parent: fnOutput.parent,
+                        value: fnOutput.value
+                    }];
+
+                    handledProps[propName] = {
+                        cssProps,
+                        initialValue,
+                        prop: propName
+                    }
+                }
             } else {
-                elementProps[key] = props[cssProp];
+                handledProps = {
+                    ...handledProps,
+                    ...fnOutput
+                }
             }
+        }
+    } else if (unhandledValue != null && unhandledValue !== false) {
+        const unhandledOutput = typeof unhandledValue === 'function' ? unhandledValue({ context, props, theme }) : unhandledValue;
+
+        if (typeof unhandledOutput === 'object' && unhandledOutput.key != null && unhandledOutput.value != null) {
+            if (Array.isArray(unhandledOutput.key)) {
+                cssProps = unhandledOutput.key.map((key, i) => ({
+                    key,
+                    parent: Array.isArray(unhandledOutput.parent) ? unhandledOutput.parent[i] : unhandledOutput.parent,
+                    value: Array.isArray(unhandledOutput.value) ? unhandledOutput.value[i] : unhandledOutput.value
+                }));
+            } else {
+                cssProps = [{
+                    key: unhandledOutput.key,
+                    parent: unhandledOutput.parent,
+                    value: unhandledOutput.value
+                }];
+            }
+        }
+
+        handledProps[propName] = {
+            cssProps,
+            initialValue,
+            prop: propName
+        }
+    } else {
+        cssProps = [{
+            key,
+            value: props[prop]
+        }];
+
+        handledProps[propName] = {
+            cssProps,
+            initialValue,
+            prop: propName
         }
     }
 
-    for (let groupName in groups) {
-        const { fn, key: parentKey } = allProps[groupName] || getPropByAlias(groupName) || {};
-        const { childProps } = groups[groupName];
-        const handledProp = fn({
-            childProps,
-            depth,
+    // if (!cache?.[prop]?.[initialValue]) {
+    //     addToCache?.({
+    //         cachedProps: handledProps,
+    //         initialValue: JSON.stringify(initialValue),
+    //         propName: prop,
+    //     })
+    // }
+
+    return handledProps
+}
+
+export const handleState = ({
+    addToCache,
+    cache,
+    context,
+    customSelector,
+    depth,
+    parentSelector,
+    prop,
+    props,
+    selectorFn,
+    theme
+}) => {
+    const {
+        fn,
+        key,
+    } = allStates[prop];
+    const customSelectorFn = selectorFn || allStates[prop].selectorFn;
+
+    let stateProps = typeof props[prop] === 'function' ? props[prop]({ props }) : props[prop];
+    let handledState = {};
+    let totalProps = 0;
+    let selector = customSelector || key;
+
+    if (fn) {
+        const stateFnOutput = fn({
+            addToCache,
+            cache,
             context,
-            key: parentKey,
-            props: propsWithCustomProps,
+            depth,
+            parentSelector,
+            prop,
+            props,
             theme
         });
 
-        if (Array.isArray(handledProp)) {
-            for (let prop of handledProp) {
-                elementProps[prop.key] = prop.value;
-            }
-        } else if (handledProp.key && handledProp.value) {
-            if (Array.isArray(handledProp.key)) {
-                for (let key of handledProp.key) {
-                    elementProps[key] = handledProp.value;
-                }
-            } else if (typeof handledProp.key === 'string') {
-                elementProps[handledProp.key] = handledProp.value;
-            }
+        handledState = {
+            ...handledState,
+            ...stateFnOutput
         }
     }
 
-    for (let propName in elementProps) {
-        cssAsArray.push(`${propName}: ${elementProps[propName]}`);
-    }
+    for (let stateProp in stateProps) {
+        let propType = 'unknown'
 
-    for (let state of cssStates) {
-        const { fn, key, responsiveness } = allStates[state] || {};
-        let _props = props;
-        let _selector = `&${key}`;
+        if (allProps[stateProp]) {
+            propType = 'prop';
+            totalProps++;
+        } else if (allStates[stateProp]) {
+            propType = 'state';
+        }
 
-        if (responsiveness) {
-            const responsivenessProps = fn({
-                key,
-                props,
-                theme
-            });
+        if (propType === 'prop') {
+            const handledProp = handleProp({
+                addToCache,
+                cache,
+                context,
+                depth,
+                prop: stateProp,
+                props: stateProps,
+                theme,
+            })
 
-            if (responsivenessProps) {
-                for (let rp of responsivenessProps) {
-                    const { asArray, breakpoint, context, elementProps, selector } = rp;
+            if (Object.keys(handledProp)[0] === stateProp) {
+                handledProp[stateProp].selector = selector;
 
-                    cssAsArray.push(`${selector} {`);
-                    cssAsArray.push(...asArray);
-                    cssAsArray.push('}');
+                handledState = {
+                    ...handledState,
+                    ...handledProp,
+                }
+            } else {
+                for (const propName in handledProp) {
+                    const prop = handledProp[propName];
 
-                    if (!props[context]) {
-                        props[context] = {};
+                    if (prop.cssProps) {
+                        prop.selector = selector;
                     }
+                }
 
-                    props[context][breakpoint] = elementProps;
+                handledState[stateProp] = {
+                    ...handledProp,
+                    state: true
                 }
             }
-        } else if (key) {
-            const customProps = getCustomProps({ props: _props, theme });
-            const propsWithCustomProps = handleAllProps({
-                depth,
-                props: {
-                    ..._props,
-                    ...customProps
-                },
-                theme
-            });
-            const { asArray, elementProps: stateProps } = handleProps({
-                context,
-                depth,
-                props: typeof propsWithCustomProps[state] === 'function' ? propsWithCustomProps[state]({
-                    initialProps: props,
-                    props: propsWithCustomProps,
+        }
+
+        if (propType === 'state') {
+            const {
+                fn: childFn,
+                key: childSelector
+            } = allStates[stateProp];
+            let parentSelector = null;
+
+            if (childSelector && typeof customSelectorFn === 'function') {
+                parentSelector = selector ? `${selector}${customSelectorFn(childSelector)}` : customSelectorFn(childSelector)
+            }
+
+            if (childFn) {
+                const fnOutput = childFn({
+                    addToCache,
+                    cache,
+                    context,
+                    depth,
+                    props: stateProps,
                     theme
-                }) : propsWithCustomProps[state],
-                theme
-            });
+                });
 
-            props[state] = stateProps;
+                if (fnOutput) {
+                    if (!handledState[stateProp]) {
+                        handledState[stateProp] = {}
+                    }
 
-            cssAsArray.push(`${_selector} {`);
-            cssAsArray.push(...asArray);
-            cssAsArray.push('}');
-        } else if (fn) {
-            const { asArray } = fn({
-                context,
-                depth,
-                key,
-                props,
-                theme
-            });
+                    for (let childPropName in fnOutput) {
+                        const childProp = fnOutput[childPropName];
+                        const childSelector = childProp.selector;
+                        let parentSelector;
 
-            cssAsArray.push(...asArray);
+                        if (childSelector && typeof customSelectorFn === 'function') {
+                            parentSelector = selector ? `${selector}${customSelectorFn(childSelector)}` : customSelectorFn(childSelector)
+                        }
+
+                        childProp.selector = parentSelector || (childSelector ? `${selector}${childSelector}` : selector)
+                    }
+
+                    handledState[stateProp] = {
+                        ...fnOutput,
+                        state: true
+                    }
+                }
+            } else {
+                const childState = handleState({
+                    addToCache,
+                    cache,
+                    context,
+                    customSelector: parentSelector || (childSelector ? `${selector}${childSelector}` : selector),
+                    depth,
+                    prop: stateProp,
+                    props: stateProps,
+                    theme,
+                });
+
+                handledState[stateProp] = {
+                    ...childState,
+                    state: true
+                }
+            }
         }
     }
 
     return {
-        asArray: cssAsArray,
-        asString: cssAsArray.join(';'),
-        elementProps
+        ...handledState,
+        state: true
     }
+}
+
+export const handleProps = ({
+    addToCache,
+    bypass,
+    cache,
+    context,
+    depth,
+    props,
+    theme
+}) => {
+    const customProps = cachedProps || getCustomProps({ props, theme });
+    const propsWithCustomProps = {
+        depth,
+        ...props,
+        ...customProps
+    }
+    let handledProps = {};
+
+    for (let propName of Object.keys(propsWithCustomProps)) {
+        const prop = allProps[propName];
+        const parentProp = prop?.parent;
+        let propType = 'unknown'
+
+        if (allProps[propName]) {
+            propType = 'prop'
+
+        } else if (allStates[propName]) {
+            propType = 'state'
+        }
+
+        if (propType === 'prop') {
+            const handledProp = handleProp({
+                addToCache,
+                bypass,
+                cache,
+                context,
+                depth,
+                prop: propName,
+                props: propsWithCustomProps,
+                theme
+            })
+
+            if (parentProp) {
+                if (!handledProps[parentProp]) {
+                    handledProps[parentProp] = { parent: true }
+                }
+
+                handledProps[parentProp] = {
+                    ...handledProps[parentProp],
+                    ...handledProp
+                }
+            } else {
+                handledProps = {
+                    ...handledProps,
+                    ...handledProp
+                }
+            }
+        }
+
+        if (propType === 'state') {
+            const handledState = handleState({
+                addToCache,
+                cache,
+                context,
+                depth,
+                prop: propName,
+                props: propsWithCustomProps,
+                theme
+            })
+
+            handledProps[propName] = handledState
+        }
+    }
+
+    console.log('handledProps', handledProps)
+
+    return handledProps
 }

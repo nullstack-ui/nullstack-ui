@@ -17,17 +17,11 @@ export const getNestedProps = ({
         } else {
             handled[`${propName}.${prop}`] = childProps[prop];
         }
-        
     }
 
-    handledProps = handleProps({
+    return handleProps({
+        ...rest,
         props: handled,
         theme,
-        ...rest
     });
-
-    return Object.keys(handledProps.elementProps).map(propName => ({
-        key: propName,
-        value: handledProps.elementProps[propName]
-    }));
 }

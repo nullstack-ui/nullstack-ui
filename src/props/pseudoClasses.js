@@ -1,78 +1,58 @@
-import { allStates, handleProps } from '.';
-
-const children = ({
-    props,
-    theme
-}) => {
-    const { _children } = props;
-    const array = [];
-
-    for (let _c in _children) {
-        const { asArray } = handleProps({ props: _children, theme });
-        const { key } = allStates[_c] || {};
-
-        if (key) {
-            array.push(`& > * {`);
-
-            for (let line of asArray) {
-                if (
-                    !line.endsWith('}') &&
-                    !line.startsWith('&')
-                ) {
-                    array.push(line);
-                }
-            }
-
-            array.push('}');
-        }
-    }
-
-    return {
-        asArray: array
-    };
-}
+import { allStates, handleProps, handleState } from '.';
 
 export const not = ({
+    addToCache,
+    cache,
+    context,
+    depth,
     props,
     theme
 }) => {
     const { _not } = props;
-    const array = [];
+    let handledProps = {
+        _not: {}
+    };
 
     for (let _n in _not) {
-        const { asArray } = handleProps({ props: _not, theme });
         const { key } = allStates[_n] || {};
 
         if (key) {
-            array.push(`&:not(${key}) {`);
+            const handledState = handleState({
+                addToCache,
+                cache,
+                context,
+                // customProp: `not_${_n}`,
+                customSelector: `:not(${key})`,
+                depth,
+                prop: _n,
+                props: _not,
+                theme
+            })
 
-            for (let line of asArray) {
-                if (
-                    !line.endsWith('}') &&
-                    !line.startsWith('&')
-                ) {
-                    array.push(line);
-                }
+            handledProps._not = {
+                ...handledState[_n],
+                ...handledProps._not,
+                state: true
             }
-
-            array.push('}');
         }
     }
 
-    return {
-        asArray: array
-    };
+    return handledProps
 }
 
 const nthChild = ({
+    cache,
+    context,
+    depth,
     key,
     propKey,
     props,
     theme
 }) => {
-    const array = [];
     let childProps;
+    let handledProps;
     let index;
+    let selector;
 
     if (Array.isArray(props[propKey])) {
         childProps = props[propKey][1];
@@ -83,20 +63,24 @@ const nthChild = ({
     }
 
     if (index != null && Object.values(childProps).length) {
-        array.push(`&${key}(${index}) {`);
+        selector = `${key}(${index})`;
 
-        for (let c in childProps) {
-            const { asArray } = handleProps({ props: childProps, theme });
+        handledProps = handleProps({
+            cache,
+            context,
+            depth,
+            props: childProps,
+            theme
+        });
 
-            array.push(...asArray);
+        for (const propName in handledProps) {
+            if (typeof handledProps[propName] === 'object') {
+                handledProps[propName].selector = selector;
+            }
         }
-
-        array.push('}');
     }
 
-    return {
-        asArray: array
-    };
+    return handledProps || {}
 }
 
 export const pseudoClasses = {
@@ -119,7 +103,7 @@ export const pseudoClasses = {
         key: ':last-of-type'
     },
     '_not': {
-        fn: not
+        selectorFn: key => `:not(${key})`,
     },
     '_nthChild': {
         fn: params => nthChild({

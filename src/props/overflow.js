@@ -1,20 +1,18 @@
 export const overflowProps = {
     'overflow': {
-        aliases: ['ov'],
         key: 'overflow'
     },
+    'ov': { aliasFor: 'overflow' },
+
     'overflow.x': {
-        aliases: [
-            'overflowX',
-            'ovX'
-        ],
         key: 'overflow-x'
     },
+    'ovX': { aliasFor: 'overflow.x' },
+    'overflowX': { aliasFor: 'overflow.x' },
+
     'overflow.y': {
-        aliases: [
-            'overflowY',
-            'ovY'
-        ],
         key: 'overflow-y'
-    }
+    },
+    'ovY': { aliasFor: 'overflow.y' },
+    'overflowY': { aliasFor: 'overflow.y' },
 }

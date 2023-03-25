@@ -219,170 +219,169 @@ const textDecorationColor = ({
 
 export const textProps = {
     'capitalize': {
-        transform: {
-            props: {
-                textTransform: 'capitalize'
-            },
-        }
+        fn: () => ({
+            key: 'text-transform',
+            value: 'capitalize'
+        })
     },
     'direction': {
         key: 'direction'
     },
     'ellipsis': {
-        transform: {
-            props: {
-                ovX: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap'
+        fn: () => ([
+            {
+                key: 'overflow-x',
+                value: 'hidden'
             },
-        }
+            {
+                key: 'text-overflow',
+                value: 'ellipsis'
+            },
+            {
+                key: 'white-space',
+                value: 'nowrap'
+            }
+        ])
     },
     'letterSpacing': {
-        aliases: ['tracking'],
         key: 'letter-spacing',
         fn: letterSpacing
     },
+    'tracking': { aliasFor: 'letterSpacing' },
+
     'lineClamp': {
-        aliases: ['clamp'],
         key: 'line-clamp',
         fn: lineClamp
     },
+    'clamp': { aliasFor: 'lineClamp' },
+
     'lineHeight': {
-        aliases: ['leading'],
         key: 'line-height',
         fn: lineHeight
     },
+    'leading': { aliasFor: 'lineHeight' },
+
     'lowerCase': {
-        aliases: ['lowercase'],
-        transform: {
-            props: {
-                textTransform: 'lowercase'
-            },
-        }
+        fn: () => ({
+            key: 'text-transform',
+            value: 'lowercase'
+        })
     },
+    'lowercase': { aliasFor: 'lowerCase' },
+
     'noWrap': {
-        aliases: ['nowrap'],
-        transform: {
-            props: {
-                whiteSpace: 'nowrap'
-            }
-        }
+        fn: () => ({
+            key: 'white-space',
+            value: 'nowrap'
+        })
     },
+    'nowrap': { aliasFor: 'noWrap' },
+
     'text': {
         key: 'text',
         fn: text
     },
     'text.align': {
-        aliases: [
-            'textAl',
-            'text.al',
-            'textAlign'
-        ],
         key: 'text-align'
     },
+    'textAl': { aliasFor: 'text.align' },
+    'text.al': { aliasFor: 'text.align' },
+    'textAlign': { aliasFor: 'text.align' },
+
     'text.alignLast': {
-        aliases: [
-            'textAlLast',
-            'text.alLast',
-            'textAlignLast'
-        ],
         key: 'text-align-last'
     },
+    'textAlLast': { aliasFor: 'text.alignLast' },
+    'text.alLast': { aliasFor: 'text.alignLast' },
+    'textAlignLast': { aliasFor: 'text.alignLast' },
+
     'textDecoration': {
-        aliases: [
-            'text.decoration'
-        ],
         fn: textDecoration,
         key: 'text-decoration'
     },
+    'text.decoration': { aliasFor: 'textDecoration' },
+
     'textDecoration.color': {
-        aliases: [
-            'text.decorationColor',
-            'textDecorationColor'
-        ],
         fn: textDecorationColor,
         key: 'text-decoration-color'
     },
+    'text.decorationColor': { aliasFor: 'textDecoration.color' },
+    'textDecorationColor': { aliasFor: 'textDecoration.color' },
+
     'textDecoration.line': {
-        aliases: [
-            'text.decorationLine',
-            'textDecorationLine'
-        ],
         key: 'text-decoration-line'
     },
+    'text.decorationLine': { aliasFor: 'textDecoration.line' },
+    'textDecorationLine': { aliasFor: 'textDecoration.line' },
+
     'textDecoration.style': {
-        aliases: [
-            'text.decorationStyle',
-            'textDecorationStyle'
-        ],
         key: 'text-decoration-style'
     },
+    'text.decorationStyle': { aliasFor: 'textDecoration.style' },
+    'textDecorationStyle': { aliasFor: 'textDecoration.style' },
+
     'textDecoration.thickness': {
-        aliases: [
-            'text.decorationThickness',
-            'textDecorationThickness',
-            'textDecoration.width',
-            'text.decorationWidth',
-            'textDecorationWidth'
-        ],
         fn: ({ value }) => ({
             key: 'text-decoration-thickness',
             value: getValue({ unit: 'px', value })
         }),
         key: 'text-decoration-thickness'
     },
+    'text.decorationThickness': { aliasFor: 'textDecoration.thickness' },
+    'textDecorationThickness': { aliasFor: 'textDecoration.thickness' },
+    'textDecoration.width': { aliasFor: 'textDecoration.thickness' },
+    'text.decorationWidth': { aliasFor: 'textDecoration.thickness' },
+    'textDecorationWidth': { aliasFor: 'textDecoration.thickness' },
+
     'text.direction': {
-        aliases: [
-            'textDir',
-            'text.dir',
-            'textDirection'
-        ],
         key: 'text-direction'
     },
+    'textDir': { aliasFor: 'text.direction' },
+    'text.dir': { aliasFor: 'text.direction' },
+    'textDirection': { aliasFor: 'text.direction' },
+
     'text.indent': {
-        aliases: [
-            'indent',
-            'textIndent'
-        ],
         fn: ({ value }) => ({
             key: 'text-indent',
             value: getValue({ unit: 'px', value })
         }),
         key: 'text-indent'
     },
+    'indent': { aliasFor: 'text.indent' },
+    'textIndent': { aliasFor: 'text.indent' },
+
     'text.overflow': {
-        aliases: [
-            'text.ov',
-            'textOverflow'
-        ],
         key: 'text-overflow'
     },
+    'text.ov': { aliasFor: 'text.overflow' },
+    'textOv': { aliasFor: 'text.overflow' },
+    'textOverflow': { aliasFor: 'text.overflow' },
+
     'text.transform': {
-        aliases: ['textTransform'],
         key: 'text-transform'
     },
+    'textTransform': { aliasFor: 'text.transform' },
+
     'underline': {
-        transform: {
-            props: {
-                textDecoration: 'underline'
-            }
-        }
+        fn: () => ({
+            key: 'text-decoration',
+            value: 'underline'
+        })
     },
     'upperCase': {
-        aliases: ['uppercase'],
-        transform: {
-            props: {
-                textTransform: 'uppercase'
-            },
-        }
+        fn: () => ({
+            key: 'text-transform',
+            value: 'uppercase'
+        })
     },
+    'uppercase': { aliasFor: 'upperCase' },
+
     'verticalAlign': {
-        aliases: [
-            'vAl',
-            'vAlign'
-        ],
         key: 'vertical-align'
     },
+    'vAl': { aliasFor: 'verticalAlign' },
+    'vAlign': { aliasFor: 'verticalAlign' },
+
     'whiteSpace': {
         key: 'white-space'
     },

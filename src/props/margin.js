@@ -21,57 +21,49 @@ export const margin = ({
 
 export const marginProps = {
     'margin': {
-        aliases: ['m'],
         fn: margin
     },
+    'm': { aliasFor: 'margin' },
+
     'margin.bottom': {
-        aliases: [
-            'mb',
-            'mB',
-            'marginB',
-            'marginBottom'
-        ],
         fn: margin,
         key: 'margin-bottom'
     },
+    'mb': { aliasFor: 'margin.bottom' },
+    'mB': { aliasFor: 'margin.bottom' },
+    'marginB': { aliasFor: 'margin.bottom' },
+    'marginBottom': { aliasFor: 'margin.bottom' },
+
     'margin.left': {
-        aliases: [
-            'ml',
-            'mL',
-            'marginL',
-            'marginLeft'
-        ],
         fn: margin,
         key: 'margin-left'
     },
+    'ml': { aliasFor: 'margin.left' },
+    'mL': { aliasFor: 'margin.left' },
+    'marginL': { aliasFor: 'margin.left' },
+    'marginLeft': { aliasFor: 'margin.left' },
+
     'margin.right': {
-        aliases: [
-            'mr',
-            'mR',
-            'marginR',
-            'marginRight'
-        ],
         fn: margin,
         key: 'margin-right'
     },
+    'mr': { aliasFor: 'margin.right' },
+    'mR': { aliasFor: 'margin.right' },
+    'marginR': { aliasFor: 'margin.right' },
+    'marginRight': { aliasFor: 'margin.right' },
+
     'margin.top': {
-        aliases: [
-            'mt',
-            'mT',
-            'marginT',
-            'marginTop'
-        ],
         fn: ({ value }) => margin({
             key: 'margin-top',
             value
         }),
     },
+    'mt': { aliasFor: 'margin.top' },
+    'mT': { aliasFor: 'margin.top' },
+    'marginT': { aliasFor: 'margin.top' },
+    'marginTop': { aliasFor: 'margin.top' },
+
     'margin.x': {
-        aliases: [
-            'mx',
-            'mX',
-            'marginX'
-        ],
         fn: ({ value }) => margin({
             key: [
                 'margin-left',
@@ -80,12 +72,11 @@ export const marginProps = {
             value
         }),
     },
+    'mx': { aliasFor: 'margin.x' },
+    'mX': { aliasFor: 'margin.x' },
+    'marginX': { aliasFor: 'margin.x' },
+
     'margin.y': {
-        aliases: [
-            'my',
-            'mY',
-            'marginY'
-        ],
         fn: ({ value }) => margin({
             key: [
                 'margin-bottom',
@@ -93,5 +84,8 @@ export const marginProps = {
             ],
             value
         }),
-    }
+    },
+    'my': { aliasFor: 'margin.y' },
+    'mY': { aliasFor: 'margin.y' },
+    'marginY': { aliasFor: 'margin.y' }
 }

@@ -29,11 +29,11 @@ const breakpoints = (theme = {}) => {
         allBreakpoints._down[width] = `@media screen and (max-width: ${widthPx})`;
         allBreakpoints._up[width] = `@media screen and (min-width: ${widthPx})`;
     }
-    
+
     return allBreakpoints;
 }
 
-const breakpointsOrder = (theme = {}) => {
+const getBreakpointsOrder = (theme = {}) => {
     const { breakpoints = {} } = theme;
     const widths = {
         ...breakpointsWidths,
@@ -48,64 +48,69 @@ const breakpointsOrder = (theme = {}) => {
     return sortedArray.map(({ breakpoint }) => breakpoint);
 }
 
-export const genericProps = ({
-    context,
-    props,
-    theme
-}) => {
+export const genericProps = params => {
+    const { props, responsiveContext, theme } = params;
     const handledProps = {};
-    const sortedProps = [];
+    const sortedProps = {};
 
-    for (let bp in props[context]) {
-        const breakpointSelector = breakpoints(theme)[context][bp];
-        const { asArray, elementProps } = handleProps({
-            props: props[context][bp],
-            theme
+    for (let bp in props[responsiveContext]) {
+        const breakpointSelector = breakpoints(theme)[responsiveContext][bp];
+        const handledBpProps = handleProps({
+            ...params,
+            props: props[responsiveContext][bp],
         });
 
-        if (!handledProps[bp]) {
-            handledProps[bp] = {
-                asArray: [],
-                breakpoint: bp,
-                context,
-                elementProps: {}
+        for (let prop in handledBpProps) {
+            if (typeof handledBpProps[prop] === 'object') {
+                handledBpProps[prop].selector = breakpointSelector;
             }
         }
 
-        handledProps[bp].asArray.push(...asArray);
-        handledProps[bp].elementProps = elementProps;
-        handledProps[bp].selector = breakpointSelector;
+        handledProps[bp] = {
+            ...handledBpProps,
+            state: true
+        }
     }
 
-    if (theme?.useBreakpointPropsOrder) {
-        for (let bp in handledProps) {
-            sortedProps.push(handledProps[bp]);
-        }
-    } else {
-        for (let o of breakpointsOrder(theme)) {
-            if (handledProps[o]) {
-                sortedProps.push(handledProps[o]);
-            }
-        }
+    for (let i = 0; i < Object.keys(handledProps).length; i++) {
+        const bp = Object.keys(handledProps)[i];
+
+        sortedProps[`${i}_${bp}`] = handledProps[bp];
     }
+
+    // if (theme?.useBreakpointPropsOrder) {
+    //     for (let i = 0; i < Object.keys(handledProps).length; i++) {
+    //         const bp = Object.keys(handledProps)[i];
+
+    //         sortedProps[`${i}_${bp}`] = handledProps[bp];
+    //     }
+    // } else {
+    //     const breakpointsOrder = getBreakpointsOrder(theme);
+
+    //     for (let i = 0; i < breakpointsOrder.length; i++) {
+    //         const bp = breakpointsOrder[i];
+
+    //         if (handledProps[bp]) {
+    //             sortedProps[`${i}_${bp}`] = handledProps[bp]
+    //         }
+    //     }
+    // }
 
     return sortedProps;
 }
 
 export const responsiveness = {
     '_down': {
-        fn: ({ props, theme }) => genericProps({
-            context: '_down',
-            props,
-            theme
+        fn: params => genericProps({
+            ...params,
+            responsiveContext: '_down',
         }),
         responsiveness: true
     },
     '_up': {
-        fn: ({ props, theme }) => genericProps({
-            context: '_up',
-            props,
-            theme
+        fn: params => genericProps({
+            ...params,
+            responsiveContext: '_up',
         }),
         responsiveness: true
     }

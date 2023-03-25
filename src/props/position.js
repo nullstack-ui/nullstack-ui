@@ -28,11 +28,10 @@ export const position = ({
 
 export const positionProps = {
     'absolute': {
-        transform: {
-            props: {
-                position: 'absolute'
-            },
-        }
+        fn: () => ({
+            key: 'position',
+            value: 'absolute'
+        })
     },
     'bottom': {
         fn: ({ value }) => placement({
@@ -41,11 +40,10 @@ export const positionProps = {
         })
     },
     'fixed': {
-        transform: {
-            props: {
-                position: 'fixed'
-            },
-        }
+        fn: () => ({
+            key: 'position',
+            value: 'fixed'
+        })
     },
     'inset': {
         fn: ({ value }) => placement({
@@ -65,15 +63,15 @@ export const positionProps = {
         })
     },
     'position': {
-        aliases: ['pos'],
         key: 'position'
     },
+    'pos': { aliasFor: 'position' },
+
     'relative': {
-        transform: {
-            props: {
-                position: 'relative'
-            },
-        }
+        fn: () => ({
+            key: 'position',
+            value: 'relative'
+        })
     },
     'right': {
         fn: ({ value }) => placement({
@@ -82,18 +80,16 @@ export const positionProps = {
         })
     },
     'static': {
-        transform: {
-            props: {
-                position: 'static'
-            },
-        }
+        fn: () => ({
+            key: 'position',
+            value: 'static'
+        })
     },
     'sticky': {
-        transform: {
-            props: {
-                position: 'sticky'
-            },
-        }
+        fn: () => ({
+            key: 'position',
+            value: 'sticky'
+        })
     },
     'top': {
         fn: ({ value }) => placement({
@@ -102,7 +98,7 @@ export const positionProps = {
         })
     },
     'zIndex': {
-        aliases: ['z'],
         key: 'z-index'
-    }
+    },
+    'z': { aliasFor: 'zIndex' },
 }

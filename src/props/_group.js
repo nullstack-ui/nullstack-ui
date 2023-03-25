@@ -1,66 +1,102 @@
 import { handleProps } from '.';
 
-const group = ({ depth, props, theme }) => {
-    const { children, group, __self = {} } = props;
-    const array = [];
-    const states = ['hover', 'active', 'focus'];
-    let key = depth;
+export const acceptableGroupStates = {
+    '_active': ':active',
+    '_hover': ':hover',
+    '_focus': ':focus',
+};
+
+const group = params => {
+    const { depth, props } = params;
+    const { children, group } = props;
+    const groupId = depth;
 
     if (group) {
-        for (let state of states) {
-            array.push(`&:${state} {`);
-
-            const childrenCSS = getChildren({ children, groupKey: key, state, theme });
-
-            array.push(...childrenCSS);
-
-            array.push(`}`);
-        }
-    }
-
-    return {
-        asArray: array
+        return handleChildren({ children, params, parentId: groupId });
     }
 }
 
-const elements = {};
-
-const getChildren = ({ children, groupKey, state, theme }) => {
-    const array = []
+const handleChildren = ({ children, params, parentId }) => {
+    let handledProps = {};
 
     for (let i = 0; i < children.length; i++) {
         const child = children[i];
         const { _group } = child.attributes || {};
+        const childId = `${parentId}${i}`
 
-        const childKey = `${groupKey}${i}`
+        if (typeof child !== 'object' && !child.attributes) { continue; }
 
-        if (_group) {
-            if (_group[`_${state}`]) {
-                const { asArray } = handleProps({
-                    props: _group[`_${state}`],
-                    theme
-                });
-                
-                child.attributes['data-child-id'] = `${childKey}`;
+        child.attributes['data-group-child-id'] = childId;
 
-                array.push(`[data-child-id="${childKey}"] {`);
-                array.push(...asArray);
-                array.push('}');
+        if (child.children) {
+            const handledChildren = handleChildren({
+                children: child.children,
+                params,
+                parentId: childId
+            });
+
+            handledProps = {
+                ...handledProps,
+                ...handledChildren
             }
+
+            // if (!handledProps[state]) {
+            //     handledProps[state] = {
+            //         group: true
+            //     };
+            // }
+
+            // handledProps[state][childId] = handledChildren;
         }
 
-        if (child?.children?.length) {
-            const childrenCSS = getChildren({ children: child?.children, groupKey: childKey, state, theme });
+        if (_group) {
+            for (let state of Object.keys(acceptableGroupStates)) {
+                const stateProps = _group[state];
 
-            array.push(...childrenCSS);
+                if (stateProps) {
+                    const handledStateProps = handleProps({
+                        ...params,
+                        props: stateProps,
+                    })
+
+                    if (!handledProps[childId]) {
+                        handledProps[childId] = {
+                            group: true
+                        };
+                    }
+
+                    handledProps[childId][state] = handledStateProps;
+                }
+            }
         }
     }
 
-    return array
+    console.log('handledProps', handledProps)
+
+    return handledProps;
+}
+
+const groupChild = params => {
+    const { props } = params;
+    const handledProps = handleProps({
+        ...params,
+        props: props._group
+    });
+
+    for (const propName in handledProps) {
+        const prop = handledProps[propName];
+
+        prop.groupChild = true;
+    }
+
+    return handledProps;
 }
 
 export const groupProps = {
     'group': {
         fn: group
-    }
+    },
+    // '_group': {
+    //     fn: groupChild
+    // }
 }

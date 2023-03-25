@@ -1,9 +1,8 @@
 import { handleProps } from '.';
 
-const bg = ({
-    theme,
-    value
-}) => {
+const bg = params => {
+    const { value } = params;
+
     if (typeof value === 'object') {
         const bgProps = {};
         let handledProps;
@@ -12,17 +11,10 @@ const bg = ({
             bgProps[`bg.${key}`] = value[key];
         }
 
-        handledProps = handleProps({
+        return handleProps({
+            ...params,
             props: bgProps,
-            theme
         });
-
-        return Object
-            .keys(handledProps.elementProps)
-            .map(propName => ({
-                key: propName,
-                value: handledProps.elementProps[propName]
-            }));
     } else if (typeof value === 'string') {
         return {
             key: 'background',
@@ -51,55 +43,57 @@ export const bgProps = {
         key: 'background',
     },
     'bgAttachment': {
-        aliases: [
-            'bg.attachment',
-        ],
         key: 'background-attachment',
     },
+    'bg.attachment': { aliasFor: 'bgAttachment' },
+
     'bgBlend': {
-        aliases: [
-            'bg.blend',
-            'bg.blendMode',
-            'bgBlendMode'
-        ],
         key: 'background-blend-mode'  
     },
+    'bg.blend': { aliasFor: 'bgBlend' },
+    'bg.blendMode': { aliasFor: 'bgBlend' },
+    'bgBlendMode': { aliasFor: 'bgBlend' },
+
     'bgClip': {
-        aliases: ['bg.clip'],
         key: 'background-clip'  
     },
+    'bg.clip': { aliasFor: 'bgClip' },
+
     'bgImage': {
-        aliases: ['bg.image'],
         key: 'background-image',
     },
+    'bg.image': { aliasFor: 'bgImage' },
+
     'bgOrigin': {
-        aliases: ['bg.origin'],
         fn: ({ value }) => ({
             key: 'background-origin',
             value: `${value}-box`
         }),
         key: 'background-origin',
     },
+    'bg.origin': { aliasFor: 'bgOrigin' },
+
     'bgPosition': {
-        aliases: [
-            'bgPos',
-            'bg.pos',
-            'bg.position',
-        ],
         fn: position,
         key: 'background-position',
     },
+    'bgPos': { aliasFor: 'bgPosition' },
+    'bg.pos': { aliasFor: 'bgPosition' },
+    'bg.position': { aliasFor: 'bgPosition' },
+
     'bgRepeat': {
-        aliases: ['bg.repeat'],
         key: 'background-repeat',
     },
+    'bg.repeat': { aliasFor: 'bgRepeat' },
+
     'bgSize': {
-        aliases: ['bg.size'],
         key: 'background-size',
     },
+    'bg.size': { aliasFor: 'bgSize' },
+
     'bgUrl': {
-        aliases: ['bg.url'],
         key: 'background-image',
         fn: url
-    }
+    },
+    'bg.url': { aliasFor: 'bgUrl' },
 }

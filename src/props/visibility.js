@@ -19,7 +19,7 @@ export const visibilityProps = {
         })
     },
     'visibility': {
-        aliases: ['vis'],
         key: 'visibility'
-    }
+    },
+    'vis': { aliasFor: 'visibility' },
 }

@@ -56,7 +56,6 @@ export const filterProps = {
         parent: 'filter'
     },
     'grayScale': {
-        aliases: ['grayscale'],
         fn: value => getValue({
             unit: '%',
             value
@@ -64,12 +63,15 @@ export const filterProps = {
         key: 'grayscale',
         parent: 'filter'
     },
+    'grayscale': { aliasFor: 'grayScale' },
+
     'hueRotate': {
-        aliases: ['hue'],
         fn: hueRotate,
         key: 'hue-rotate',
         parent: 'filter'
     },
+    'hue': { aliasFor: 'hueRotate' },
+
     'filter': {
         fn: filter,
         key: 'filter'
@@ -126,7 +128,6 @@ export const filterProps = {
         key: 'backdrop-filter'
     },
     'bgGrayScale': {
-        aliases: ['bgGrayscale'],
         fn: value => getValue({
             unit: '%',
             value
@@ -134,12 +135,15 @@ export const filterProps = {
         key: 'grayscale',
         parent: 'bgFilter'
     },
+    'bgGrayscale': { aliasFor: 'bgGrayScale' },
+
     'bgHueRotate': {
-        aliases: ['hue'],
         fn: hueRotate,
         key: 'hue-rotate',
         parent: 'bgFilter'
     },
+    'bgHue': { aliasFor: 'bgHueRotate' },
+
     'bgInvert': {
         fn: value => getValue({
             unit: '%',

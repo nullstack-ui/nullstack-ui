@@ -1,4 +1,4 @@
-import { handleProps } from '.';
+import { handleProp, handleProps } from '.';
 import { getValue } from '../utils/getValue';
 
 const aliases = {
@@ -25,7 +25,9 @@ export const isReverse = props => {
     return flex?.reverse || flexReverse || reverse;
 }
 
-export const flex = ({ theme, value }) => {
+export const flex = params => {
+    const { theme, value } = params;
+    
     if (value === true) {
         return {
             key: 'display',
@@ -34,26 +36,23 @@ export const flex = ({ theme, value }) => {
     } else if (Array.isArray(value)) {
         if (value[0] === true && typeof value[1] === 'object') {
             const handled = {};
-            let handledProps;
-    
+
             for (let key in value[1]) {
                 handled[`flex.${key}`] = value[1][key];
             }
-    
+
             handled.flex = true;
-    
-            handledProps = handleProps({ props: handled, theme });
-    
-            return Object.keys(handledProps.elementProps).map(propName => ({
-                key: propName,
-                value: handledProps.elementProps[propName]
-            }));
+
+            return handleProps({
+                ...params,
+                customProps: handled,
+                props: handled,
+            });
         } else {
             return {}
         }
     } else if (typeof value === 'object') {
         const handled = {};
-        let handledProps;
 
         for (let key in value) {
             handled[`flex.${key}`] = value[key];
@@ -63,12 +62,10 @@ export const flex = ({ theme, value }) => {
             handled.flex = value.value;
         }
 
-        handledProps = handleProps({ props: handled, theme });
-
-        return Object.keys(handledProps.elementProps).map(propName => ({
-            key: propName,
-            value: handledProps.elementProps[propName]
-        }));
+        return handleProps({
+            ...params,
+            props: handled
+        });
     } else {
         return {}
     }
@@ -145,184 +142,172 @@ export const flexProps = {
         fn: flex
     },
     'flex.align': {
-        aliases: [
-            'al',
-            'align',
-            'flex.al'
-        ],
         fn: ({ value }) => handleFlexAlign({
             key: ['align-items', 'justify-content'],
             value
         })
     },
+    'al': { aliasFor: 'flex.align' },
+    'align': { aliasFor: 'flex.align' },
+    'flex.al': { aliasFor: 'flex.align' },
+
     'flex.alignContent': {
-        aliases: [
-            'alContent',
-            'alignContent',
-            'flex.alContent'
-        ],
         fn: ({ value }) => handleFlexAlign({
             key: 'align-content',
             value
         }),
         key: 'align-content'
     },
+    'alContent': { aliasFor: 'flex.alignContent' },
+    'alignContent': { aliasFor: 'flex.alignContent' },
+    'flex.alContent': { aliasFor: 'flex.alignContent' },
+
     'flex.alignH': {
-        aliases: [
-            'alH',
-            'alignH',
-            'flex.alH'
-        ],
         fn: flexAlignH
     },
+    'alH': { aliasFor: 'flex.alignH' },
+    'alignH': { aliasFor: 'flex.alignH' },
+    'flex.alH': { aliasFor: 'flex.alignH' },
+
     'flex.alignItems': {
-        aliases: [
-            'alItems',
-            'alignItems',
-            'flex.alItems'
-        ],
         fn: ({ value }) => handleFlexAlign({
             key: 'align-items',
             value
         }),
         key: 'align-items'
     },
+    'alItems': { aliasFor: 'flex.alignItems' },
+    'alignItems': { aliasFor: 'flex.alignItems' },
+    'flex.alItems': { aliasFor: 'flex.alignItems' },
+
     'flex.alignSelf': {
-        aliases: [
-            'alSelf',
-            'alignSelf',
-            'flex.alSelf'
-        ],
         fn: ({ value }) => handleFlexAlign({
             key: 'align-self',
             value
         }),
         key: 'align-self'
     },
+    'alSelf': { aliasFor: 'flex.alignSelf' },
+    'alignSelf': { aliasFor: 'flex.alignSelf' },
+    'flex.alSelf': { aliasFor: 'flex.alignSelf' },
+
     'flex.alignV': {
-        aliases: [
-            'alV',
-            'alignV',
-            'flex.alV'
-        ],
         fn: flexAlignV
     },
+    'alV': { aliasFor: 'flex.alignV' },
+    'alignV': { aliasFor: 'flex.alignV' },
+    'flex.alV': { aliasFor: 'flex.alignV' },
+
     'flex.basis': {
-        aliases: [
-            'basis',
-            'flexBasis'
-        ],
         fn: ({ value }) => ({
             key: 'flex-basis',
             value: getValue({ unit: 'px', value })
         }),
         key: 'flex-basis'
     },
+    'basis': { aliasFor: 'flex.basis' },
+    'flexBasis': { aliasFor: 'flex.basis' },
+
     'flex.direction': {
-        aliases: [
-            'flex.dir',
-            'flexDir',
-            'flexDirection'
-        ],
         fn: flexDirection
     },
+    'flex.dir': { aliasFor: 'flex.direction' },
+    'flexDir': { aliasFor: 'flex.direction' },
+    'flexDirection': { aliasFor: 'flex.direction' },
+
     'flex.flow': {
-        aliases: [
-            'flexFlow',
-            'flow'
-        ],
         fn: ({ value }) => ({
             key: 'flex-flow',
             value: Array.isArray(value) ? value.join(' ') : value
         }),
         key: 'flex-flow'
     },
+    'flexFlow': { aliasFor: 'flex.flow' },
+    'flow': { aliasFor: 'flex.flow' },
+
     'flex.grow': {
-        aliases: [
-            'flexGrow',
-            'grow'
-        ],
         key: 'flex-grow'
     },
+    'flexGrow': { aliasFor: 'flex.grow' },
+    'grow': { aliasFor: 'flex.grow' },
+
     'flex.justifyContent': {
-        aliases: [
-            'justifyContent'
-        ],
         key: 'justify-content'
     },
+    'justifyContent': { aliasFor: 'flex.justifyContent' },
     'flex.justifySelf': {
-        aliases: [
-            'justifySelf'
-        ],
         key: 'justify-self'
     },
+    'justifySelf': { aliasFor: 'flex.justifySelf' },
+
     'flex.order': {
-        aliases: [
-            'flexOrder',
-            'order'
-        ],
         key: 'order'
     },
+    'flexOrder': { aliasFor: 'flex.order' },
+    'order': { aliasFor: 'flex.order' },
+
     'flex.placeContent': {
-        aliases: [
-            'flexPlaceContent',
-            'placeContent'
-        ],
         key: 'place-content'
     },
+    'flexPlaceContent': { aliasFor: 'flex.placeContent' },
+    'placeContent': { aliasFor: 'flex.placeContent' },
+
     'flex.placeItems': {
-        aliases: [
-            'flexPlaceItems',
-            'placeItems'
-        ],
         key: 'place-items'
     },
+    'flexPlaceItems': { aliasFor: 'flex.placeItems' },
+    'placeItems': { aliasFor: 'flex.placeItems' },
+
     'flex.placeSelf': {
-        aliases: [
-            'flexPlaceSelf',
-            'placeSelf'
-        ],
         key: 'place-self'
     },
+    'flexPlaceSelf': { aliasFor: 'flex.placeSelf' },
+    'placeSelf': { aliasFor: 'flex.placeSelf' },
+
     'flex.reverse': {
-        aliases: [
-            'flexReverse',
-            'reverse'
-        ],
         fn: flexReverse
     },
+    'flexReverse': { aliasFor: 'flex.reverse' },
+    'reverse': { aliasFor: 'flex.reverse' },
+
     'flex.shrink': {
-        aliases: [
-            'flexShrink',
-            'shrink'
-        ],
         key: 'flex-shrink'
     },
+    'flexShrink': { aliasFor: 'flex.shrink' },
+    'shrink': { aliasFor: 'flex.shrink' },
+
     'flex.wrap': {
-        aliases: [
-            'flexWrap',
-            'wrap'
-        ],
         fn: ({ value }) => ({
             key: 'flex-wrap',
             value: typeof value === 'boolean' ? (value ? 'wrap' : 'nowrap') : value
         }),
         key: 'flex-wrap'
     },
+    'flexWrap': { aliasFor: 'flex.wrap' },
+    'wrap': { aliasFor: 'flex.wrap' },
+
     'flexCol': {
-        transform: {
-            props: {
-                flex: true,
-                flexDir: 'column'
+        fn: () => ([
+            {
+                key: 'display',
+                value: 'flex'
             },
-        }
+            {
+                key: 'flex-direction',
+                value: 'column'
+            },
+        ]),
     },
     'flexRow': {
-        transform: {
-            props: {
-                flex: true,
-                flexDir: 'row'
+        fn: () => ([
+            {
+                key: 'display',
+                value: 'flex'
             },
-        }
+            {
+                key: 'flex-direction',
+                value: 'row'
+            },
+        ]),
     },
 }

@@ -1,9 +1,9 @@
 import { handleProps } from '.';
 import { getSize } from '../utils/getSize';
 
-const font = ({ context, props, theme, value }) => {
+const font = params => {
+    const { context, props, theme, value } = params;
     let fontProps = {};
-    let handledProps;
 
     if (typeof value === 'string') {
         return fontFamily({
@@ -17,15 +17,10 @@ const font = ({ context, props, theme, value }) => {
             fontProps[`font.${key}`] = value[key];
         }
 
-        handledProps = handleProps({
+        return handleProps({
+            ...params,
             props: fontProps,
-            theme
         });
-
-        return Object.keys(handledProps.elementProps).map(propName => ({
-            key: propName,
-            value: handledProps.elementProps[propName]
-        }));
     }
 }
 
@@ -91,132 +86,115 @@ const getFont = ({ context, props, theme = {}, value }) => {
 
 export const fontProps = {
     'antialiased': {
-        aliases: [
-            'antiAliased'
-        ],
-        transform: {
-            props: {
-                fontSmoothing: {
-                    moz: 'grayscale',
-                    webkit: 'antialiased'
-                }
-            }
-        }
+        fn: () => ([
+            {
+                key: '-moz-osx-font-smoothing',
+                value: 'grayscale'
+            },
+            {
+                key: '-webkit-font-smoothing',
+                value: 'antialiased'
+            },
+        ]),
     },
+    'antiAliased': { aliasFor: 'antialiased' },
+
     'bold': {
-        transform: {
-            props: {
-                fontWeight: 700
-            }
-        }
+        fn: () => ({
+            key: 'font-weight',
+            value: 700
+        })
     },
     'font': {
         key: 'font',
         fn: font
     },
     'font.family': {
-        aliases: ['fontFamily'],
         key: 'font-family',
         fn: fontFamily
     },
+    'fontFamily': { aliasFor: 'font.family' },
+
     'font.relSize': {
-        aliases: [
-            'fontRelSize',
-            'relSize'
-        ],
         fn: params => fontSize({
             ...params,
             rel: true
         }),
         key: 'font-size'
     },
+    'fontRelSize': { aliasFor: 'font.relSize' },
+    'relSize': { aliasFor: 'font.relSize' },
+
     'font.size': {
-        aliases: [
-            'fontSize',
-            'size'
-        ],
         fn: fontSize,
         key: 'font-size'
     },
+    'fontSize': { aliasFor: 'font.size' },
+    'size': { aliasFor: 'font.size' },
+
     'font.smoothing': {
-        aliases: [
-            'fontSmoothing'
-        ],
         fn: fontSmoothing,
         key: 'font-smoothing'
     },
+    'fontSmoothing': { aliasFor: 'font.smoothing' },
+
     'font.style': {
-        aliases: ['fontStyle'],
         key: 'font-style'
     },
+    'fontStyle': { aliasFor: 'font.style' },
+
     'font.weight': {
-        aliases: [
-            'fontWeight',
-            'weight'
-        ],
         key: 'font-weight'
     },
+    'fontWeight': { aliasFor: 'font.weight' },
+    'weight': { aliasFor: 'font.weight' },
+
     'italic': {
-        transform: {
-            props: {
-                fontStyle: 'italic'
-            }
-        }
+        fn: () => ({
+            key: 'font-style',
+            value: 'italic'
+        })
     },
     'light': {
-        transform: {
-            props: {
-                fontWeight: 300
-            }
-        }
+        fn: () => ({
+            key: 'font-weight',
+            value: 300
+        })
     },
     'medium': {
-        transform: {
-            props: {
-                fontWeight: 500
-            }
-        }
+        fn: () => ({
+            key: 'font-weight',
+            value: 500
+        })
     },
     'normal': {
-        transform: {
-            props: {
-                fontStyle: 'normal'
-            }
-        }
+        fn: () => ({
+            key: 'font-style',
+            value: 'normal'
+        })
     },
     'oblique': {
-        transform: {
-            props: {
-                fontStyle: 'oblique'
-            }
-        }
+        fn: () => ({
+            key: 'font-style',
+            value: 'oblique'
+        })
     },
     'regular': {
-        transform: {
-            props: {
-                fontWeight: 400
-            }
-        }
+        fn: () => ({
+            key: 'font-weight',
+            value: 400
+        })
     },
     'semibold': {
-        aliases: ['semiBold'],
-        transform: {
-            props: {
-                fontWeight: 600
-            }
-        }
+        fn: () => ({
+            key: 'font-weight',
+            value: 600
+        })
     },
+    'semiBold': { aliasFor: 'semibold' },
+
     'subpixel': {
-        aliases: [
-            'subPixel'
-        ],
-        transform: {
-            props: {
-                fontSmoothing: {
-                    moz: 'auto',
-                    webkit: 'auto'
-                }
-            }
-        }
+        fn: params => fontSmoothing({ ...params, value: 'auto' })
     },
+    'subPixel': { aliasFor: 'subpixel' },
 }

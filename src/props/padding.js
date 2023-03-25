@@ -21,57 +21,49 @@ export const padding = ({
 
 export const paddingProps = {
     'padding': {
-        aliases: ['p'],
         fn: padding
     },
+    'p': { aliasFor: 'padding' },
+
     'padding.bottom': {
-        aliases: [
-            'pb',
-            'pB',
-            'paddingB',
-            'paddingBottom'
-        ],
         fn: padding,
         key: 'padding-bottom'
     },
+    'pb': { aliasFor: 'padding.bottom' },
+    'pB': { aliasFor: 'padding.bottom' },
+    'paddingB': { aliasFor: 'padding.bottom' },
+    'paddingBottom': { aliasFor: 'padding.bottom' },
+
     'padding.left': {
-        aliases: [
-            'pl',
-            'pL',
-            'paddingL',
-            'paddingLeft'
-        ],
         fn: padding,
         key: 'padding-left'
     },
+    'pl': { aliasFor: 'padding.left' },
+    'pL': { aliasFor: 'padding.left' },
+    'paddingL': { aliasFor: 'padding.left' },
+    'paddingLeft': { aliasFor: 'padding.left' },
+
     'padding.right': {
-        aliases: [
-            'pr',
-            'pR',
-            'paddingR',
-            'paddingRight'
-        ],
         fn: padding,
         key: 'padding-right'
     },
+    'pr': { aliasFor: 'padding.right' },
+    'pR': { aliasFor: 'padding.right' },
+    'paddingR': { aliasFor: 'padding.right' },
+    'paddingRight': { aliasFor: 'padding.right' },
+
     'padding.top': {
-        aliases: [
-            'pt',
-            'pT',
-            'paddingT',
-            'paddingTop'
-        ],
         fn: ({ value }) => padding({
             key: 'padding-top',
             value
         }),
     },
+    'pt': { aliasFor: 'padding.top' },
+    'pT': { aliasFor: 'padding.top' },
+    'paddingT': { aliasFor: 'padding.top' },
+    'paddingTop': { aliasFor: 'padding.top' },
+
     'padding.x': {
-        aliases: [
-            'px',
-            'pX',
-            'paddingX'
-        ],
         fn: ({ value }) => padding({
             key: [
                 'padding-left',
@@ -80,12 +72,11 @@ export const paddingProps = {
             value
         }),
     },
+    'px': { aliasFor: 'padding.x' },
+    'pX': { aliasFor: 'padding.x' },
+    'paddingX': { aliasFor: 'padding.x' },
+
     'padding.y': {
-        aliases: [
-            'py',
-            'pY',
-            'paddingY'
-        ],
         fn: ({ value }) => padding({
             key: [
                 'padding-bottom',
@@ -93,5 +84,8 @@ export const paddingProps = {
             ],
             value
         }),
-    }
+    },
+    'py': { aliasFor: 'padding.y' },
+    'pY': { aliasFor: 'padding.y' },
+    'paddingY': { aliasFor: 'padding.y' },
 }
