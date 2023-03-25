@@ -22,6 +22,24 @@ class Home extends Nullstack {
     return (
       <>
 
+        <div
+          bgColor="yellow"
+          p={2}
+          group>
+
+          <div
+            scale={.75}
+            _group={{
+              _hover: {
+                scale: 1,
+              }
+            }}>
+            Teste
+          </div>
+        </div>
+
+        <div translateX="-20px">Teste</div>
+
 
         {/* <div group>
           <div _group={{ _hover: { bgColor: 'red' }}}>Test</div>
@@ -35,14 +53,6 @@ class Home extends Nullstack {
             </div>
           </div>
         </div> */}
-
-        <div _down={{
-						lg: {
-							translateX: this.sidebarIsOpen ? 0 : '-100%',
-						},
-					}}>
-            Test!!!
-        </div>
 
         {/* <div translateX="-10px">Transform</div> */}
         <input bind={this.test} placeholder="Test" />

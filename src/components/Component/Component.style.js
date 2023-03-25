@@ -32,34 +32,7 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
         }
 
         if (parent) {
-            const { parent, selector, ...parentProps } = prop;
-            const cssPropsAsObj = {};
-
-            if (selector) {
-                allCSS += `&${selector} {`;
-            } 
-
-            for (const childPropName in parentProps) {
-                const childProp = parentProps[childPropName];
-
-                for (const { key, value } of childProp.cssProps) {
-                    if (!cssPropsAsObj[key]) {
-                        cssPropsAsObj[key] = [];
-                    }
-
-                    cssPropsAsObj[key].push(value);
-                }
-
-                for (const cssPropName in cssPropsAsObj) {
-                    const cssProp = cssPropsAsObj[cssPropName];
-
-                    allCSS += `${cssPropName}: ${cssProp.join(' ')};`;
-                }
-            }
-
-            if (selector) {
-                allCSS += '}';
-            }
+            allCSS += getParentStyle({ parentProp: prop })
         } else if (group) {
             const { group, ...childrenProps } = prop;
             const childId = propName;
@@ -75,7 +48,9 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
                     for (const propName in childProp) {
                         const prop = childProp[propName];
 
-                        if (prop.state) {
+                        if (prop.parent) {
+                            allCSS += getParentStyle({ parentProp: prop })
+                        } else if (prop.state) {
                             allCSS += getState({
                                 stateProp: prop
                             })
