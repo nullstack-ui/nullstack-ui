@@ -633,5 +633,7 @@ export const handleProps = ({
         }
     }
 
+    console.log('handledProps', handledProps)
+
     return handledProps
 }

@@ -32,8 +32,12 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
         }
 
         if (parent) {
-            const { parent, ...parentProps } = prop;
+            const { parent, selector, ...parentProps } = prop;
             const cssPropsAsObj = {};
+
+            if (selector) {
+                allCSS += `&${selector} {`;
+            } 
 
             for (const childPropName in parentProps) {
                 const childProp = parentProps[childPropName];
@@ -51,6 +55,10 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
 
                     allCSS += `${cssPropName}: ${cssProp.join(' ')};`;
                 }
+            }
+
+            if (selector) {
+                allCSS += '}';
             }
         } else if (group) {
             const { group, ...childrenProps } = prop;
@@ -135,6 +143,40 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
     // return css(asString);
 }
 
+const getParentStyle = ({ parentProp }) => {
+    const { parent, selector, ...parentProps } = parentProp;
+    const cssPropsAsObj = {};
+    let allCSS = '';
+
+    if (selector) {
+        allCSS += `${selector} {`;
+    } 
+
+    for (const childPropName in parentProps) {
+        const childProp = parentProps[childPropName];
+
+        for (const { key, value } of childProp.cssProps) {
+            if (!cssPropsAsObj[key]) {
+                cssPropsAsObj[key] = [];
+            }
+
+            cssPropsAsObj[key].push(value);
+        }
+
+        for (const cssPropName in cssPropsAsObj) {
+            const cssProp = cssPropsAsObj[cssPropName];
+
+            allCSS += `${cssPropName}: ${cssProp.join(' ')};`;
+        }
+    }
+
+    if (selector) {
+        allCSS += '}';
+    }
+
+    return allCSS;
+}
+
 const getState = ({
     stateProp
 }) => {
@@ -144,7 +186,11 @@ const getState = ({
     for (const prop in stateProps) {
         const stateProp = stateProps[prop];
 
-        if (stateProp?.state) {
+        if (stateProp?.parent) {
+            allCSS += getParentStyle({
+                parentProp: stateProp
+            })
+        } else if (stateProp?.state) {
             allCSS += getState({
                 stateProp
             })
