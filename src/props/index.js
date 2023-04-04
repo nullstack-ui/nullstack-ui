@@ -410,7 +410,7 @@ export const handleProp = ({
             handledInitialValue = JSON.stringify(initialValue);
         }
 
-        if (handledInitialValue) {        
+        if (handledInitialValue) {
             addToCache?.({
                 cachedProps: handledProps[propName],
                 initialValue: handledInitialValue,
@@ -419,7 +419,9 @@ export const handleProp = ({
         }
     }
 
-    return handledProps
+    return {
+        ...handledProps
+    }
 }
 
 export const handleState = ({
@@ -487,9 +489,10 @@ export const handleState = ({
             if (Object.keys(handledProp)[0] === stateProp) {
                 handledProp[stateProp].selector = selector;
 
-                handledState = {
-                    ...handledState,
-                    ...handledProp,
+                handledState = { ...handledState };
+                handledState[stateProp] = { 
+                    ...handledProp[stateProp],
+                    selector
                 }
             } else {
                 for (const propName in handledProp) {
@@ -632,9 +635,7 @@ export const handleProps = ({
                     ...handledProp
                 }
             }
-        }
-
-        if (propType === 'state') {
+        } else if (propType === 'state') {
             const handledState = handleState({
                 addToCache,
                 cache,
@@ -645,8 +646,9 @@ export const handleProps = ({
                 theme
             })
 
-            handledProps[propName] = handledState
+            handledProps[propName] = { ...handledState };
         }
     }
+
     return handledProps
 }

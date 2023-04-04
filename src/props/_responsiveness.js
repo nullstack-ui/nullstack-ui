@@ -62,7 +62,10 @@ export const genericProps = params => {
 
         for (let prop in handledBpProps) {
             if (typeof handledBpProps[prop] === 'object') {
-                handledBpProps[prop].selector = breakpointSelector;
+                handledBpProps[prop] = {
+                    ...handledBpProps[prop],
+                    selector: breakpointSelector
+                };
             }
         }
 
@@ -77,24 +80,6 @@ export const genericProps = params => {
 
         sortedProps[`${i}_${bp}`] = handledProps[bp];
     }
-
-    // if (theme?.useBreakpointPropsOrder) {
-    //     for (let i = 0; i < Object.keys(handledProps).length; i++) {
-    //         const bp = Object.keys(handledProps)[i];
-
-    //         sortedProps[`${i}_${bp}`] = handledProps[bp];
-    //     }
-    // } else {
-    //     const breakpointsOrder = getBreakpointsOrder(theme);
-
-    //     for (let i = 0; i < breakpointsOrder.length; i++) {
-    //         const bp = breakpointsOrder[i];
-
-    //         if (handledProps[bp]) {
-    //             sortedProps[`${i}_${bp}`] = handledProps[bp]
-    //         }
-    //     }
-    // }
 
     return sortedProps;
 }

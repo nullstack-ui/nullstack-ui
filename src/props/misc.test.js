@@ -402,6 +402,86 @@ describe('misc props', () => {
         expect(props.op.cssProps.length).toBe(0);
         expect(props.op.initialValue).toBe(null);
         expect(props.op.prop).toBe('op');
+
+        // reset
+        props = handleProps({
+            ...mockedProps,
+            props: {
+                reset: true
+            },
+        });
+
+        expect(props.reset).toBeTruthy();
+        expect(props.reset.cssProps[0].key).toBe('appearance');
+        expect(props.reset.cssProps[0].value).toBe('none');
+        expect(props.reset.cssProps[1].key).toBe('background');
+        expect(props.reset.cssProps[1].value).toBe('none');
+        expect(props.reset.cssProps[2].key).toBe('border');
+        expect(props.reset.cssProps[2].value).toBe('none');
+        expect(props.reset.initialValue).toBe(true);
+        expect(props.reset.prop).toBe('reset');
+
+        props = handleProps({
+            ...mockedProps,
+            props: {
+                reset: false
+            },
+        });
+
+        expect(props.reset).toBeTruthy();
+        expect(props.reset.cssProps.length).toBe(0);
+        expect(props.reset.initialValue).toBe(false);
+        expect(props.reset.prop).toBe('reset');
+
+        props = handleProps({
+            ...mockedProps,
+            props: {
+                reset: null
+            },
+        });
+
+        expect(props.reset).toBeTruthy();
+        expect(props.reset.cssProps.length).toBe(0);
+        expect(props.reset.initialValue).toBe(null);
+        expect(props.reset.prop).toBe('reset');
+
+        // resize
+        props = handleProps({
+            ...mockedProps,
+            props: {
+                resize: 'none'
+            },
+        });
+
+        expect(props.resize).toBeTruthy();
+        expect(props.resize.cssProps[0].key).toBe('resize');
+        expect(props.resize.cssProps[0].value).toBe('none');
+        expect(props.resize.initialValue).toBe('none');
+        expect(props.resize.prop).toBe('resize');
+
+        props = handleProps({
+            ...mockedProps,
+            props: {
+                resize: false
+            },
+        });
+
+        expect(props.resize).toBeTruthy();
+        expect(props.resize.cssProps.length).toBe(0);
+        expect(props.resize.initialValue).toBe(false);
+        expect(props.resize.prop).toBe('resize');
+
+        props = handleProps({
+            ...mockedProps,
+            props: {
+                resize: null
+            },
+        });
+
+        expect(props.resize).toBeTruthy();
+        expect(props.resize.cssProps.length).toBe(0);
+        expect(props.resize.initialValue).toBe(null);
+        expect(props.resize.prop).toBe('resize');
     });
 
     it('should return cached props', () => {
@@ -594,6 +674,52 @@ describe('misc props', () => {
         expect(props.opacity.cssProps[0].value).toBe(.75);
         expect(props.opacity.initialValue).toBe(.75);
         expect(props.opacity.prop).toBe('opacity');
+
+        // reset
+        props = handleProps({
+            ...mockedProps,
+            props: {
+                reset: true
+            },
+        });
+
+        expect(cache.reset).toBeTruthy();
+        expect(cache.reset.true.cssProps[0].key).toBe('appearance');
+        expect(cache.reset.true.cssProps[0].value).toBe('none');
+        expect(cache.reset.true.cssProps[1].key).toBe('background');
+        expect(cache.reset.true.cssProps[1].value).toBe('none');
+        expect(cache.reset.true.cssProps[2].key).toBe('border');
+        expect(cache.reset.true.cssProps[2].value).toBe('none');
+        expect(cache.reset.true.initialValue).toBe(true);
+        expect(cache.reset.true.prop).toBe('reset');
+        expect(props.reset).toBeTruthy();
+        expect(props.reset.cssProps[0].key).toBe('appearance');
+        expect(props.reset.cssProps[0].value).toBe('none');
+        expect(props.reset.cssProps[1].key).toBe('background');
+        expect(props.reset.cssProps[1].value).toBe('none');
+        expect(props.reset.cssProps[2].key).toBe('border');
+        expect(props.reset.cssProps[2].value).toBe('none');
+        expect(props.reset.initialValue).toBe(true);
+        expect(props.reset.prop).toBe('reset');
+
+        // resize
+        props = handleProps({
+            ...mockedProps,
+            props: {
+                resize: 'both'
+            },
+        });
+
+        expect(cache.resize).toBeTruthy();
+        expect(cache.resize.both.cssProps[0].key).toBe('resize');
+        expect(cache.resize.both.cssProps[0].value).toBe('both');
+        expect(cache.resize.both.initialValue).toBe('both');
+        expect(cache.resize.both.prop).toBe('resize');
+        expect(props.resize).toBeTruthy();
+        expect(props.resize.cssProps[0].key).toBe('resize');
+        expect(props.resize.cssProps[0].value).toBe('both');
+        expect(props.resize.initialValue).toBe('both');
+        expect(props.resize.prop).toBe('resize');
     });
 
     it('should return structured css', () => {
@@ -726,5 +852,718 @@ describe('misc props', () => {
         expect(cssAsArray[0].trim()).toBe('& {');
         expect(cssAsArray[1].trim()).toBe('opacity: 0.25;');
         expect(cssAsArray[2].trim()).toBe('}');
+
+        // reset
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                reset: true
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('& {');
+        expect(cssAsArray[1].trim()).toBe('appearance: none;');
+        expect(cssAsArray[2].trim()).toBe('background: none;');
+        expect(cssAsArray[3].trim()).toBe('border: none;');
+        expect(cssAsArray[4].trim()).toBe('}');
+
+        // resize
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                resize: 'none'
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('& {');
+        expect(cssAsArray[1].trim()).toBe('resize: none;');
+        expect(cssAsArray[2].trim()).toBe('}');
+    });
+
+    it('should return css with _active, _focus, _active', () => {
+        // all
+        let style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _active: {
+                    all: 'initial'
+                },
+                _focus: {
+                    all: 'initial'
+                },
+                _hover: {
+                    all: 'initial'
+                }
+            }
+        });
+        let cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe(':active {');
+        expect(cssAsArray[1].trim()).toBe('all: initial;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe(':focus {');
+        expect(cssAsArray[4].trim()).toBe('all: initial;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe(':hover {');
+        expect(cssAsArray[7].trim()).toBe('all: initial;');
+        expect(cssAsArray[8].trim()).toBe('}');
+
+        // appearance
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _active: {
+                    appearance: 'inherit'
+                },
+                _focus: {
+                    appearance: 'initial'
+                },
+                _hover: {
+                    appearance: 'inherit'
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe(':active {');
+        expect(cssAsArray[1].trim()).toBe('appearance: inherit;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe(':focus {');
+        expect(cssAsArray[4].trim()).toBe('appearance: initial;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe(':hover {');
+        expect(cssAsArray[7].trim()).toBe('appearance: inherit;');
+        expect(cssAsArray[8].trim()).toBe('}');
+
+        // appearance
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _active: {
+                    block: true
+                },
+                _focus: {
+                    block: true
+                },
+                _hover: {
+                    block: true
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe(':active {');
+        expect(cssAsArray[1].trim()).toBe('display: block;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe(':focus {');
+        expect(cssAsArray[4].trim()).toBe('display: block;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe(':hover {');
+        expect(cssAsArray[7].trim()).toBe('display: block;');
+        expect(cssAsArray[8].trim()).toBe('}');
+
+        // boxSizing
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _active: {
+                    boxSizing: 'border-box'
+                },
+                _focus: {
+                    boxSizing: 'content-box'
+                },
+                _hover: {
+                    boxSizing: 'border-box'
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe(':active {');
+        expect(cssAsArray[1].trim()).toBe('box-sizing: border-box;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe(':focus {');
+        expect(cssAsArray[4].trim()).toBe('box-sizing: content-box;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe(':hover {');
+        expect(cssAsArray[7].trim()).toBe('box-sizing: border-box;');
+        expect(cssAsArray[8].trim()).toBe('}');
+
+        // content
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _active: {
+                    content: '"content :active"'
+                },
+                _focus: {
+                    content: '"content :focus"'
+                },
+                _hover: {
+                    content: '"content :hover"'
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe(':active {');
+        expect(cssAsArray[1].trim()).toBe('content: "content :active";');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe(':focus {');
+        expect(cssAsArray[4].trim()).toBe('content: "content :focus";');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe(':hover {');
+        expect(cssAsArray[7].trim()).toBe('content: "content :hover";');
+        expect(cssAsArray[8].trim()).toBe('}');
+
+        // cursor
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _active: {
+                    cursor: 'default'
+                },
+                _focus: {
+                    cursor: 'pointer'
+                },
+                _hover: {
+                    cursor: 'default'
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe(':active {');
+        expect(cssAsArray[1].trim()).toBe('cursor: default;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe(':focus {');
+        expect(cssAsArray[4].trim()).toBe('cursor: pointer;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe(':hover {');
+        expect(cssAsArray[7].trim()).toBe('cursor: default;');
+        expect(cssAsArray[8].trim()).toBe('}');
+
+        // display
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _active: {
+                    display: 'block'
+                },
+                _focus: {
+                    display: 'flex'
+                },
+                _hover: {
+                    display: 'none'
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe(':active {');
+        expect(cssAsArray[1].trim()).toBe('display: block;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe(':focus {');
+        expect(cssAsArray[4].trim()).toBe('display: flex;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe(':hover {');
+        expect(cssAsArray[7].trim()).toBe('display: none;');
+        expect(cssAsArray[8].trim()).toBe('}');
+
+        // d
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _active: {
+                    d: 'block'
+                },
+                _focus: {
+                    d: 'flex'
+                },
+                _hover: {
+                    d: 'none'
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe(':active {');
+        expect(cssAsArray[1].trim()).toBe('display: block;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe(':focus {');
+        expect(cssAsArray[4].trim()).toBe('display: flex;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe(':hover {');
+        expect(cssAsArray[7].trim()).toBe('display: none;');
+        expect(cssAsArray[8].trim()).toBe('}');
+
+        // opacity
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _active: {
+                    opacity: .25
+                },
+                _focus: {
+                    opacity: .5
+                },
+                _hover: {
+                    opacity: .75
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe(':active {');
+        expect(cssAsArray[1].trim()).toBe('opacity: 0.25;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe(':focus {');
+        expect(cssAsArray[4].trim()).toBe('opacity: 0.5;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe(':hover {');
+        expect(cssAsArray[7].trim()).toBe('opacity: 0.75;');
+        expect(cssAsArray[8].trim()).toBe('}');
+
+        // op
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _active: {
+                    op: .25
+                },
+                _focus: {
+                    op: .5
+                },
+                _hover: {
+                    op: .75
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe(':active {');
+        expect(cssAsArray[1].trim()).toBe('opacity: 0.25;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe(':focus {');
+        expect(cssAsArray[4].trim()).toBe('opacity: 0.5;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe(':hover {');
+        expect(cssAsArray[7].trim()).toBe('opacity: 0.75;');
+        expect(cssAsArray[8].trim()).toBe('}');
+
+        // reset
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _active: {
+                    reset: true
+                },
+                _focus: {
+                    reset: true
+                },
+                _hover: {
+                    reset: true
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe(':active {');
+        expect(cssAsArray[1].trim()).toBe('appearance: none;');
+        expect(cssAsArray[2].trim()).toBe('background: none;');
+        expect(cssAsArray[3].trim()).toBe('border: none;');
+        expect(cssAsArray[4].trim()).toBe('}');
+        expect(cssAsArray[5].trim()).toBe(':focus {');
+        expect(cssAsArray[6].trim()).toBe('appearance: none;');
+        expect(cssAsArray[7].trim()).toBe('background: none;');
+        expect(cssAsArray[8].trim()).toBe('border: none;');
+        expect(cssAsArray[9].trim()).toBe('}');
+        expect(cssAsArray[10].trim()).toBe(':hover {');
+        expect(cssAsArray[11].trim()).toBe('appearance: none;');
+        expect(cssAsArray[12].trim()).toBe('background: none;');
+        expect(cssAsArray[13].trim()).toBe('border: none;');
+        expect(cssAsArray[14].trim()).toBe('}');
+
+        // resize
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _active: {
+                    resize: 'both'
+                },
+                _focus: {
+                    resize: 'none'
+                },
+                _hover: {
+                    resize: 'both'
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe(':active {');
+        expect(cssAsArray[1].trim()).toBe('resize: both;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe(':focus {');
+        expect(cssAsArray[4].trim()).toBe('resize: none;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe(':hover {');
+        expect(cssAsArray[7].trim()).toBe('resize: both;');
+        expect(cssAsArray[8].trim()).toBe('}');
+    });
+
+    it('should return css with responsive queries', () => {
+        // all
+        let style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { all: 'initial' },
+                    sm: { all: 'inherit' },
+                    md: { all: 'initial' },
+                    lg: { all: 'inherit' },
+                    xl: { all: 'initial' }
+                }
+            }
+        });
+        let cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('all: initial;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('all: inherit;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('all: initial;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('all: inherit;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('all: initial;');
+        expect(cssAsArray[14].trim()).toBe('}');
+
+        // appearance
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { appearance: 'inherit' },
+                    sm: { appearance: 'initial' },
+                    md: { appearance: 'inherit' },
+                    lg: { appearance: 'initial' },
+                    xl: { appearance: 'inherit' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('appearance: inherit;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('appearance: initial;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('appearance: inherit;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('appearance: initial;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('appearance: inherit;');
+        expect(cssAsArray[14].trim()).toBe('}');
+
+        // block
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { block: true },
+                    sm: { block: true },
+                    md: { block: true },
+                    lg: { block: true },
+                    xl: { block: true }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('display: block;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('display: block;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('display: block;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('display: block;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('display: block;');
+        expect(cssAsArray[14].trim()).toBe('}');
+
+        // content
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { content: '"xs"' },
+                    sm: { content: '"sm"' },
+                    md: { content: '"md"' },
+                    lg: { content: '"lg"' },
+                    xl: { content: '"xl"' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('content: "xs";');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('content: "sm";');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('content: "md";');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('content: "lg";');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('content: "xl";');
+        expect(cssAsArray[14].trim()).toBe('}');
+
+        // cursor
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { cursor: 'default' },
+                    sm: { cursor: 'pointer' },
+                    md: { cursor: 'default' },
+                    lg: { cursor: 'pointer' },
+                    xl: { cursor: 'default' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('cursor: default;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('cursor: pointer;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('cursor: default;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('cursor: pointer;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('cursor: default;');
+        expect(cssAsArray[14].trim()).toBe('}');
+
+        // display
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { display: 'block' },
+                    sm: { display: 'flex' },
+                    md: { display: 'grid' },
+                    lg: { display: 'inline-block' },
+                    xl: { display: 'none' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('display: block;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('display: flex;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('display: grid;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('display: inline-block;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('display: none;');
+        expect(cssAsArray[14].trim()).toBe('}');
+
+        // d
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { d: 'block' },
+                    sm: { d: 'flex' },
+                    md: { d: 'grid' },
+                    lg: { d: 'inline-block' },
+                    xl: { d: 'none' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('display: block;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('display: flex;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('display: grid;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('display: inline-block;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('display: none;');
+        expect(cssAsArray[14].trim()).toBe('}');
+
+        // opacity
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { opacity: 0 },
+                    sm: { opacity: .25 },
+                    md: { opacity: .5 },
+                    lg: { opacity: .75 },
+                    xl: { opacity: 1 }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('opacity: 0;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('opacity: 0.25;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('opacity: 0.5;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('opacity: 0.75;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('opacity: 1;');
+        expect(cssAsArray[14].trim()).toBe('}');
+
+        // op
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { op: 0 },
+                    sm: { op: .25 },
+                    md: { op: .5 },
+                    lg: { op: .75 },
+                    xl: { op: 1 }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('opacity: 0;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('opacity: 0.25;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('opacity: 0.5;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('opacity: 0.75;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('opacity: 1;');
+        expect(cssAsArray[14].trim()).toBe('}');
+
+        // reset
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { reset: true },
+                    sm: { reset: true },
+                    md: { reset: true },
+                    lg: { reset: true },
+                    xl: { reset: true }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('appearance: none;');
+        expect(cssAsArray[2].trim()).toBe('background: none;');
+        expect(cssAsArray[3].trim()).toBe('border: none;');
+        expect(cssAsArray[4].trim()).toBe('}');
+        expect(cssAsArray[5].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[6].trim()).toBe('appearance: none;');
+        expect(cssAsArray[7].trim()).toBe('background: none;');
+        expect(cssAsArray[8].trim()).toBe('border: none;');
+        expect(cssAsArray[9].trim()).toBe('}');
+        expect(cssAsArray[10].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[11].trim()).toBe('appearance: none;');
+        expect(cssAsArray[12].trim()).toBe('background: none;');
+        expect(cssAsArray[13].trim()).toBe('border: none;');
+        expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[16].trim()).toBe('appearance: none;');
+        expect(cssAsArray[17].trim()).toBe('background: none;');
+        expect(cssAsArray[18].trim()).toBe('border: none;');
+        expect(cssAsArray[19].trim()).toBe('}');
+        expect(cssAsArray[20].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[21].trim()).toBe('appearance: none;');
+        expect(cssAsArray[22].trim()).toBe('background: none;');
+        expect(cssAsArray[23].trim()).toBe('border: none;');
+        expect(cssAsArray[24].trim()).toBe('}');
+
+        // resize
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { resize: 'both' },
+                    sm: { resize: 'horizontal' },
+                    md: { resize: 'vertical' },
+                    lg: { resize: 'horizontal' },
+                    xl: { resize: 'both' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('resize: both;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('resize: horizontal;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('resize: vertical;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('resize: horizontal;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('resize: both;');
+        expect(cssAsArray[14].trim()).toBe('}');
     });
 });
