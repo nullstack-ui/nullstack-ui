@@ -63,7 +63,6 @@ class NullstackUI {
         if (!this.context) { return false }
 
         const { depth, node } = params;
-        let style;
 
         if (!node || !match({ node })) { return false; };
 
@@ -75,7 +74,7 @@ class NullstackUI {
             node.attributes['data-group-id'] = depth;
         }
 
-        style = ComponentStyle({
+        const { className } = ComponentStyle({
             addToCache,
             cache,
             context: this.context,
@@ -92,7 +91,7 @@ class NullstackUI {
                 }); 
         }
 
-        node.attributes.class = [node?.attributes?.class, style].join(' ');
+        node.attributes.class = [node?.attributes?.class, className].filter(className => className).join(' ');
     }
 }
 

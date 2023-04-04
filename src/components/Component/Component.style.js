@@ -1,5 +1,5 @@
-import { css } from '@emotion/css';
-import { allProps, allStates, handleProps } from '../../props';
+import { css as emotion } from '@emotion/css';
+import { handleProps } from '../../props';
 import { acceptableGroupStates } from '../../props/_group';
 
 export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, props, theme }) => {
@@ -28,7 +28,7 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
         if (!Array.isArray(selector) && !cssProps && !group && !parent && !state) { continue; }
 
         if (breakpointSelector) {
-            allCSS += `${breakpointSelector} {`;
+            allCSS += `${breakpointSelector} {\n`;
         }
 
         if (parent) {
@@ -42,8 +42,8 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
                 const groupState = acceptableGroupStates[childPropName];
 
                 if (groupState) {
-                    allCSS += `${groupState} {`;
-                    allCSS += `[data-group-child-id="${childId}"] {`;
+                    allCSS += `${groupState} {\n`;
+                    allCSS += `[data-group-child-id="${childId}"] {\n`;
 
                     for (const propName in childProp) {
                         const prop = childProp[propName];
@@ -65,25 +65,17 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
                         }
                     }
 
-                    allCSS += '}';
-                    allCSS += '}';
+                    allCSS += '}\n';
+                    allCSS += '}\n';
                 }
-
-                // const childProp = childrenProps[childPropName];
-
-                // console.log('childProp', propName, childPropName, childProp);
             }
-            // const groupState = acceptableGroupStates[propName];
-
-
-
         } else if (state) {
             allCSS += getState({
                 stateProp: prop
             })
         } else if (Array.isArray(selector)) {
             for (let s of selector) {
-                allCSS += `&${s.selector} {`;
+                allCSS += `&${s.selector} {\n`;
 
                 allCSS += getStyle({
                     breakpoint,
@@ -93,28 +85,31 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
                     propName,
                 })
 
-                allCSS += '}';
+                allCSS += '}\n';
             }
         } else {
             if (selector) {
-                allCSS += `&${selector} {`;
+                allCSS += `&${selector} {\n`;
             } else {
-                allCSS += `& {`;
+                allCSS += `& {\n`;
             }
 
             allCSS += getStyle({
                 cssProps,
             })
 
-            allCSS += '}';
+            allCSS += '}\n';
 
             if (breakpointSelector) {
-                allCSS += '}';
+                allCSS += '}\n';
             }
         }
     }
 
-    return css(allCSS)
+    return {
+        className: emotion(allCSS),
+        css: allCSS,
+    }
     // return css(asString);
 }
 
@@ -124,7 +119,7 @@ const getParentStyle = ({ parentProp }) => {
     let allCSS = '';
 
     if (selector) {
-        allCSS += `${selector} {`;
+        allCSS += `${selector} {\n`;
     } 
 
     for (const childPropName in parentProps) {
@@ -141,12 +136,12 @@ const getParentStyle = ({ parentProp }) => {
         for (const cssPropName in cssPropsAsObj) {
             const cssProp = cssPropsAsObj[cssPropName];
 
-            allCSS += `${cssPropName}: ${cssProp.join(' ')};`;
+            allCSS += `${cssPropName}: ${cssProp.join(' ')};\n`;
         }
     }
 
     if (selector) {
-        allCSS += '}';
+        allCSS += '}\n';
     }
 
     return allCSS;
@@ -171,12 +166,12 @@ const getState = ({
             })
         } else {
             if (stateProp.selector) {
-                allCSS += `${stateProp.selector} {`;
+                allCSS += `${stateProp.selector} {\n`;
             }
 
             if (Array.isArray(stateProps[prop])) {
                 for (let s of stateProps[prop]) {
-                    allCSS += `${s.key}: ${s.value};`
+                    allCSS += `${s.key}: ${s.value};\n`
                 }
             } else if (typeof stateProps[prop] === 'object' && stateProps[prop].cssProps) {
                 allCSS += getStyle({
@@ -185,7 +180,7 @@ const getState = ({
             }
 
             if (stateProp.selector) {
-                allCSS += '}';
+                allCSS += '}\n';
             }
         }
     }
@@ -207,10 +202,10 @@ const getStyle = ({
 
         if (Array.isArray(key)) {
             for (let k of key) {
-                cssLine += `${k}: ${value};`;
+                cssLine += `${k}: ${value};\n`;
             }
         } else {
-            cssLine = `${key}: ${value};`;
+            cssLine = `${key}: ${value};\n`;
         }
 
         allCSS += cssLine;

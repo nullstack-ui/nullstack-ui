@@ -5,7 +5,6 @@ const bg = params => {
 
     if (typeof value === 'object') {
         const bgProps = {};
-        let handledProps;
 
         for (let key in value) {
             bgProps[`bg.${key}`] = value[key];
@@ -52,8 +51,6 @@ export const bgProps = {
         key: 'background-blend-mode'  
     },
     'bg.blend': { aliasFor: 'bgBlend' },
-    'bg.blendMode': { aliasFor: 'bgBlend' },
-    'bgBlendMode': { aliasFor: 'bgBlend' },
 
     'bgClip': {
         key: 'background-clip'  
@@ -78,8 +75,6 @@ export const bgProps = {
         fn: position,
         key: 'background-position',
     },
-    'bgPos': { aliasFor: 'bgPosition' },
-    'bg.pos': { aliasFor: 'bgPosition' },
     'bg.position': { aliasFor: 'bgPosition' },
 
     'bgRepeat': {
