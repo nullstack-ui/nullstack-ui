@@ -487,8 +487,6 @@ export const handleState = ({
             })
 
             if (Object.keys(handledProp)[0] === stateProp) {
-                handledProp[stateProp].selector = selector;
-
                 handledState = { ...handledState };
                 handledState[stateProp] = { 
                     ...handledProp[stateProp],

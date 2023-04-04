@@ -278,6 +278,7 @@ export const textProps = {
     'nowrap': { aliasFor: 'noWrap' },
 
     'text': {
+        chainable: true,
         key: 'text',
         fn: text
     },

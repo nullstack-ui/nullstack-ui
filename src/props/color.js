@@ -456,9 +456,9 @@ export const colorProps = {
     },
     'bg.gradient': { aliasFor: 'gradient' },
 
-    'text.color': {
+    'textColor': {
         fn: textColor,
         key: 'color'
     },
-    'textColor': { aliasFor: 'text.color' },
+    'text.color': { aliasFor: 'textColor' },
 }
