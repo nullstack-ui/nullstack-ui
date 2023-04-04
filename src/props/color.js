@@ -1,6 +1,6 @@
 import Color from 'color';
 
-import { getValue } from '../utils/getValue';
+import { getValue } from '../utils/getValue.js';
 
 const defaultRatio = .5;
 

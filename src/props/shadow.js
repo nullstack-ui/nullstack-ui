@@ -1,5 +1,5 @@
-import { getColor } from './color';
-import { getValue } from '../utils/getValue';
+import { getColor } from './color.js';
+import { getValue } from '../utils/getValue.js';
 
 const aliases = [
     {

@@ -1,4 +1,4 @@
-import { handleProps } from '.';
+import { handleProps } from './index.js';
 
 const bg = params => {
     const { value } = params;

@@ -1,4 +1,4 @@
-import { allStates, handleProps, handleState } from '.';
+import { allStates, handleProps, handleState } from './index.js';
 
 export const not = ({
     addToCache,

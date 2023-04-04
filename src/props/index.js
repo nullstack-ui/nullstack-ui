@@ -1,30 +1,30 @@
-import { bgProps } from './bg';
+import { bgProps } from './bg.js';
 
 // Props
-import { borderProps } from './border';
-import { colorProps } from './color';
-import { dimensionProps } from './dimension';
-import { filterProps } from './filter';
-import { flexProps } from './flex';
-import { fontProps } from './font';
-import { gridProps } from './grid';
-import { marginProps } from './margin';
-import { otherProps } from './other';
-import { outlineProps } from './outline';
-import { overflowProps } from './overflow';
-import { paddingProps } from './padding';
-import { positionProps } from './position';
-import { pseudoClasses } from './pseudoClasses';
-import { pseudoElements } from './pseudoElements';
-import { ringProps } from './ring';
-import { shadowProps } from './shadow';
-import { spacingProps } from './spacing';
-import { textProps } from './text';
-import { transformProps } from './transform';
-import { transition, transitionDelay, transitionDuration, transitionProperty, transitionTimingFunction } from './transition';
-import { visibilityProps } from './visibility';
-import { groupProps } from './_group';
-import { responsiveness } from './_responsiveness';
+import { borderProps } from './border.js';
+import { colorProps } from './color.js';
+import { dimensionProps } from './dimension.js';
+import { filterProps } from './filter.js';
+import { flexProps } from './flex.js';
+import { fontProps } from './font.js';
+import { gridProps } from './grid.js';
+import { marginProps } from './margin.js';
+import { otherProps } from './other.js';
+import { outlineProps } from './outline.js';
+import { overflowProps } from './overflow.js';
+import { paddingProps } from './padding.js';
+import { positionProps } from './position.js';
+import { pseudoClasses } from './pseudoClasses.js';
+import { pseudoElements } from './pseudoElements.js';
+import { ringProps } from './ring.js';
+import { shadowProps } from './shadow.js';
+import { spacingProps } from './spacing.js';
+import { textProps } from './text.js';
+import { transformProps } from './transform.js';
+import { transition, transitionDelay, transitionDuration, transitionProperty, transitionTimingFunction } from './transition.js';
+import { visibilityProps } from './visibility.js';
+import { groupProps } from './_group.js';
+import { responsiveness } from './_responsiveness.js';
 
 // All props
 export const allProps = {

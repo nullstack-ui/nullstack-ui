@@ -1,6 +1,6 @@
-import { handleProps } from '.';
+import { handleProps } from './index.js';
 
-import { getValue } from '../utils/getValue';
+import { getValue } from '../utils/getValue.js';
 
 export const breakpointsWidths = {
     xs: '576px',

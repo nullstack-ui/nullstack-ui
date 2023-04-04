@@ -1,6 +1,6 @@
 import { css as emotion } from '@emotion/css';
-import { handleProps } from '../../props';
-import { acceptableGroupStates } from '../../props/_group';
+import { handleProps } from '../../props/index.js';
+import { acceptableGroupStates } from '../../props/_group.js';
 
 export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, props, theme }) => {
     const { __self, __source, ...componentProps } = props

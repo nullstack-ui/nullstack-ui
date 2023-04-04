@@ -1,5 +1,5 @@
-import { handleProps } from '.';
-import { getSize } from '../utils/getSize';
+import { handleProps } from './index.js';
+import { getSize } from '../utils/getSize.js';
 
 const font = params => {
     const { context, props, theme, value } = params;

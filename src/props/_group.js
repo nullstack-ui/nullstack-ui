@@ -1,4 +1,4 @@
-import { handleProps } from '.';
+import { handleProps } from './index.js';
 
 export const acceptableGroupStates = {
     '_active': ':active',

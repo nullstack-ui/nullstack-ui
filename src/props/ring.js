@@ -1,7 +1,7 @@
 import Color from 'color';
 
-import { darkenColor, getColor } from './color';
-import { getValue } from '../utils/getValue';
+import { darkenColor, getColor } from './color.js';
+import { getValue } from '../utils/getValue.js';
 
 const ring = ({
     key = 'box-shadow',

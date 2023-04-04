@@ -1,4 +1,4 @@
-import { handleProps } from '#props/index';
+import { handleProps } from '#props/index.js';
 
 export const getNestedProps = ({
     childProps,

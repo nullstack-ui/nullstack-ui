@@ -1,5 +1,5 @@
-import { handleProp, handleProps } from '.';
-import { getValue } from '../utils/getValue';
+import { handleProp, handleProps } from './index.js';
+import { getValue } from '../utils/getValue.js';
 
 const aliases = {
     'end': 'flex-end',

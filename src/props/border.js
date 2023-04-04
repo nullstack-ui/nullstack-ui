@@ -1,9 +1,8 @@
-import { handleProps } from '.';
-import { getColor } from './color';
-import { getValue } from '#utils/getValue';
+import { getColor } from './color.js';
+import { getValue } from '#utils/getValue.js';
 
 // Utils
-import { getNestedProps } from '#utils/getNestedProps';
+import { getNestedProps } from '#utils/getNestedProps.js';
 
 const radiusUnit = 'em';
 

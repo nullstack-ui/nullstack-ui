@@ -1,8 +1,8 @@
 // Utils
-import { getSize } from './utils/getSize';
+import { getSize } from './utils/getSize.js';
 
 // Styles
-import { ComponentStyle } from './components/Component/Component.style';
+import { ComponentStyle } from './components/Component/Component.style.js';
 
 // Nullstack UI
 const acceptableTypes = [

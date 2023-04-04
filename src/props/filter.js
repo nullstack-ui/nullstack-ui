@@ -1,4 +1,4 @@
-import { getValue } from '../utils/getValue';
+import { getValue } from '../utils/getValue.js';
 
 const filter = ({
     childProps,

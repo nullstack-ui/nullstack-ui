@@ -1,5 +1,3 @@
-import { isReverse } from './flex';
-
 const spacing = ({
     propKey,
     spacingProp,

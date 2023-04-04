@@ -1,4 +1,4 @@
-import { getNestedProps } from '#utils/getNestedProps';
+import { getNestedProps } from '#utils/getNestedProps.js';
 
 export const margin = ({
     key = 'margin',

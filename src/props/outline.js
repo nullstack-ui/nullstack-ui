@@ -1,7 +1,7 @@
-import { getColor } from './color';
+import { getColor } from './color.js';
 
 // Utils
-import { getNestedProps } from '#utils/getNestedProps';
+import { getNestedProps } from '#utils/getNestedProps.js';
 
 // Methods
 export const outline = ({

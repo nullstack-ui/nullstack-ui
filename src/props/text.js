@@ -1,6 +1,6 @@
-import { getColor } from './color';
-import { getNestedProps } from '../utils/getNestedProps';
-import { getValue } from '../utils/getValue';
+import { getColor } from './color.js';
+import { getNestedProps } from '../utils/getNestedProps.js';
+import { getValue } from '../utils/getValue.js';
 
 const letterSpacingAliases = [
     {
