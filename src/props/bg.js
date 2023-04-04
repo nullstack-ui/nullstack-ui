@@ -39,6 +39,7 @@ const url = ({ value }) => {
 
 export const bgProps = {
     'bg': {
+        chainable: true,
         fn: bg,
         key: 'background',
     },

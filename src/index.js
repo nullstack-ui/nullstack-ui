@@ -30,28 +30,28 @@ const acceptableTypes = [
     'textarea'
 ];
 
+export let cache = {};
+export const addToCache = ({
+    cachedProps,
+    initialValue,
+    propName,
+}) => {
+    if (!cache[propName]) {
+        cache[propName] = {};
+    }
+
+    cache[propName][initialValue] = cachedProps;
+}
+
 class NullstackUI {
     context;
 
     constructor({ keepAttributes, theme = {} }) {
-        this.cache = {};
         this.client = true;
         this.keepAttributes = keepAttributes;
         this.server = true;
         this.storedElements = [];
         this.theme = theme;
-    }
-
-    addToCache({
-        cachedProps,
-        initialValue,
-        propName,
-    }) {
-        if (!this.cache[propName]) {
-            this.cache[propName] = {};
-        }
-
-        this.cache[propName][initialValue] = cachedProps;
     }
 
     load(context) {
@@ -76,8 +76,8 @@ class NullstackUI {
         }
 
         style = ComponentStyle({
-            addToCache: this.addToCache.bind(this),
-            cache: this.cache,
+            addToCache,
+            cache,
             context: this.context,
             depth,
             props: node.attributes,

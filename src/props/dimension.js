@@ -1,4 +1,4 @@
-const sizeAliases = [
+export const sizeAliases = [
     {
         alias: '1/2',
         value: '50%'
@@ -113,7 +113,7 @@ const genericDimension = ({
 }
 
 // Props
-const dimensionProps = {
+export const dimensionProps = {
     height: {
         fn: ({ value }) => genericDimension({
             key: 'height',
@@ -161,10 +161,4 @@ const dimensionProps = {
         }),
     },
     w: { aliasFor: 'width' },
-}
-
-// Exports
-module.exports = {
-    dimensionProps,
-    sizeAliases
 }

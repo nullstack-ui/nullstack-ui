@@ -244,9 +244,11 @@ export const handleProp = ({
     let cssProps = [];
     let handledProps = {};
 
-    // if (cache?.[prop]?.[initialValue]) {
-    //     return cache[prop][initialValue];
-    // }
+    if (cache?.[propName]?.[initialValue]) {
+        handledProps[propName] = cache[propName][initialValue];
+
+        return handledProps;
+    }
 
     if (transform) {
         const { props: transformProps, value: transformValue } = typeof transform === 'function' ? transform({
@@ -276,6 +278,7 @@ export const handleProp = ({
                         cssProps: childCSSProps,
                         initialValue: childInitialValue,
                     } = handleProp({
+                        addToCache,
                         bypass,
                         cache,
                         context,
@@ -309,6 +312,7 @@ export const handleProp = ({
         }
     } else if (fn && typeof fn === 'function') {
         const fnOutput = fn({
+            addToCache,
             cache,
             context,
             depth,
@@ -395,13 +399,25 @@ export const handleProp = ({
         }
     }
 
-    // if (!cache?.[prop]?.[initialValue] && !Array.isArray(initialValue) && typeof initialValue !== 'function' && typeof initialValue !== 'object') {
-    //     addToCache?.({
-    //         cachedProps: handledProps,
-    //         initialValue,
-    //         propName: prop,
-    //     })
-    // }
+    if (!cache?.[propName]?.[initialValue] && typeof initialValue !== 'function') {
+        let handledInitialValue = initialValue;
+
+        if (!Array.isArray(initialValue) && typeof initialValue === 'object' && allProps[propName]?.chainable) {
+            handledInitialValue = null;
+        }
+
+        if (Array.isArray(initialValue) || (typeof initialValue === 'object' && !allProps[propName]?.chainable)) {
+            handledInitialValue = JSON.stringify(initialValue);
+        }
+
+        if (handledInitialValue) {        
+            addToCache?.({
+                cachedProps: handledProps[propName],
+                initialValue: handledInitialValue,
+                propName,
+            })
+        }
+    }
 
     return handledProps
 }
