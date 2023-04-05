@@ -13,7 +13,8 @@
     "start": "npx nullstack start --mode=spa --env=test",
     "build": "npx nullstack build --mode=ssr",
     "build:test": "npx nullstack build --env=test",
-    "test": "node --experimental-vm-modules ./node_modules/.bin/jest"
+    "test": "node --experimental-vm-modules ./node_modules/.bin/jest",
+    "benchmark": "node --experimental-vm-modules ./benchmark.js"
   },
   "dependencies": {
     "@emotion/css": "^11.9.0",

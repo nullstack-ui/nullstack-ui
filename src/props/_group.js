@@ -19,7 +19,7 @@ const group = params => {
 const handleChildren = ({ children, params, parentId }) => {
     let handledProps = {};
 
-    for (let i = 0; i < children.length; i++) {
+    for (let i = 0; i < children?.length; i++) {
         const child = children[i];
         const { _group } = child.attributes || {};
         const childId = `${parentId}${i}`

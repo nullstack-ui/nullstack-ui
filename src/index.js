@@ -36,7 +36,11 @@ export const addToCache = ({
     initialValue,
     propName,
 }) => {
-    const { cssProps, prop } = cachedProps;
+    const { cssProps, prop } = cachedProps || {};
+
+    if (!cssProps) {
+        return false;
+    }
 
     if (!cache[propName]) {
         cache[propName] = {};
