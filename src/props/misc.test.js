@@ -19,6 +19,265 @@ const mockedStyleProps = {
     theme: {}
 }
 
+const checkState = (style, cssProps) => {
+    let cssAsArray = style.css.split('\n');
+    let n = 0;
+
+    expect(cssAsArray[n++].trim()).toBe(':active {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':focus {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':hover {');
+    
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('@media screen and (max-width: 576px) {');
+    expect(cssAsArray[n++].trim()).toBe(':active {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':focus {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':hover {');
+    
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('@media screen and (max-width: 640px) {');
+    expect(cssAsArray[n++].trim()).toBe(':active {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':focus {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':hover {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('@media screen and (max-width: 768px) {');
+    expect(cssAsArray[n++].trim()).toBe(':active {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':focus {');
+    
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':hover {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('@media screen and (max-width: 1024px) {');
+    expect(cssAsArray[n++].trim()).toBe(':active {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':focus {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':hover {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('@media screen and (max-width: 1280px) {');
+    expect(cssAsArray[n++].trim()).toBe(':active {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':focus {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':hover {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('@media screen and (min-width: 576px) {');
+    expect(cssAsArray[n++].trim()).toBe(':active {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':focus {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':hover {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('@media screen and (min-width: 640px) {');
+    expect(cssAsArray[n++].trim()).toBe(':active {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':focus {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+    
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':hover {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('@media screen and (min-width: 768px) {');
+    expect(cssAsArray[n++].trim()).toBe(':active {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':focus {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':hover {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('}');
+
+    expect(cssAsArray[n++].trim()).toBe('@media screen and (min-width: 1024px) {');
+
+    expect(cssAsArray[n++].trim()).toBe(':active {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':focus {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':hover {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('@media screen and (min-width: 1280px) {');
+    expect(cssAsArray[n++].trim()).toBe(':active {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':focus {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe(':hover {');
+
+    for (let i = 0; i < cssProps.length; i++) {
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    }
+
+    expect(cssAsArray[n++].trim()).toBe('}');
+    expect(cssAsArray[n++].trim()).toBe('}');
+}
+
 // TODO: maybe move some of these to specific test files
 
 describe('misc props', () => {
@@ -898,233 +1157,489 @@ describe('misc props', () => {
                 },
                 _down: {
                     xs: {
-                        _active: {
-                            all: 'initial'
-                        }
+                        _active: { all: 'initial' },
+                        _focus: { all: 'initial' },
+                        _hover: { all: 'initial' }
                     },
                     sm: {
-                        _active: {
-                            all: 'inherit'
-                        }
+                        _active: { all: 'initial' },
+                        _focus: { all: 'initial' },
+                        _hover: { all: 'initial' }
                     },
                     md: {
-                        _active: {
-                            all: 'initial'
-                        }
+                        _active: { all: 'initial' },
+                        _focus: { all: 'initial' },
+                        _hover: { all: 'initial' }
                     },
                     lg: {
-                        _active: {
-                            all: 'inherit'
-                        }
+                        _active: { all: 'initial' },
+                        _focus: { all: 'initial' },
+                        _hover: { all: 'initial' }
                     },
                     xl: {
-                        _active: {
-                            all: 'initial'
-                        }
+                        _active: { all: 'initial' },
+                        _focus: { all: 'initial' },
+                        _hover: { all: 'initial' }
                     }
                 },
                 _up: {
                     xs: {
-                        _active: {
-                            all: 'initial'
-                        }
+                        _active: { all: 'initial' },
+                        _focus: { all: 'initial' },
+                        _hover: { all: 'initial' }
                     },
                     sm: {
-                        _active: {
-                            all: 'inherit'
-                        }
+                        _active: { all: 'initial' },
+                        _focus: { all: 'initial' },
+                        _hover: { all: 'initial' }
                     },
                     md: {
-                        _active: {
-                            all: 'initial'
-                        }
+                        _active: { all: 'initial' },
+                        _focus: { all: 'initial' },
+                        _hover: { all: 'initial' }
                     },
                     lg: {
-                        _active: {
-                            all: 'inherit'
-                        }
+                        _active: { all: 'initial' },
+                        _focus: { all: 'initial' },
+                        _hover: { all: 'initial' }
                     },
                     xl: {
-                        _active: {
-                            all: 'initial'
-                        }
+                        _active: { all: 'initial' },
+                        _focus: { all: 'initial' },
+                        _hover: { all: 'initial' }
                     }
                 }
             }
         });
         let cssAsArray = style.css.split('\n');
 
-        expect(cssAsArray[0].trim()).toBe(':active {');
-        expect(cssAsArray[1].trim()).toBe('all: initial;');
-        expect(cssAsArray[2].trim()).toBe('}');
-        expect(cssAsArray[3].trim()).toBe(':focus {');
-        expect(cssAsArray[4].trim()).toBe('all: initial;');
-        expect(cssAsArray[5].trim()).toBe('}');
-        expect(cssAsArray[6].trim()).toBe(':hover {');
-        expect(cssAsArray[7].trim()).toBe('all: initial;');
-        expect(cssAsArray[8].trim()).toBe('}');
-
+        checkState(style, ['all: initial;']);
+        
         // appearance
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _active: {
-                    appearance: 'inherit'
+                    appearance: 'initial',
                 },
                 _focus: {
                     appearance: 'initial'
                 },
                 _hover: {
-                    appearance: 'inherit'
+                    appearance: 'initial'
+                },
+                _down: {
+                    xs: {
+                        _active: { appearance: 'initial' },
+                        _focus: { appearance: 'initial' },
+                        _hover: { appearance: 'initial' }
+                    },
+                    sm: {
+                        _active: { appearance: 'initial' },
+                        _focus: { appearance: 'initial' },
+                        _hover: { appearance: 'initial' }
+                    },
+                    md: {
+                        _active: { appearance: 'initial' },
+                        _focus: { appearance: 'initial' },
+                        _hover: { appearance: 'initial' }
+                    },
+                    lg: {
+                        _active: { appearance: 'initial' },
+                        _focus: { appearance: 'initial' },
+                        _hover: { appearance: 'initial' }
+                    },
+                    xl: {
+                        _active: { appearance: 'initial' },
+                        _focus: { appearance: 'initial' },
+                        _hover: { appearance: 'initial' }
+                    }
+                },
+                _up: {
+                    xs: {
+                        _active: { appearance: 'initial' },
+                        _focus: { appearance: 'initial' },
+                        _hover: { appearance: 'initial' }
+                    },
+                    sm: {
+                        _active: { appearance: 'initial' },
+                        _focus: { appearance: 'initial' },
+                        _hover: { appearance: 'initial' }
+                    },
+                    md: {
+                        _active: { appearance: 'initial' },
+                        _focus: { appearance: 'initial' },
+                        _hover: { appearance: 'initial' }
+                    },
+                    lg: {
+                        _active: { appearance: 'initial' },
+                        _focus: { appearance: 'initial' },
+                        _hover: { appearance: 'initial' }
+                    },
+                    xl: {
+                        _active: { appearance: 'initial' },
+                        _focus: { appearance: 'initial' },
+                        _hover: { appearance: 'initial' }
+                    }
                 }
             }
         });
-        cssAsArray = style.css.split('\n');
+        checkState(style, ['appearance: initial;']);
 
-        expect(cssAsArray[0].trim()).toBe(':active {');
-        expect(cssAsArray[1].trim()).toBe('appearance: inherit;');
-        expect(cssAsArray[2].trim()).toBe('}');
-        expect(cssAsArray[3].trim()).toBe(':focus {');
-        expect(cssAsArray[4].trim()).toBe('appearance: initial;');
-        expect(cssAsArray[5].trim()).toBe('}');
-        expect(cssAsArray[6].trim()).toBe(':hover {');
-        expect(cssAsArray[7].trim()).toBe('appearance: inherit;');
-        expect(cssAsArray[8].trim()).toBe('}');
-
-        // appearance
+        // block
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _active: {
-                    block: true
+                    block: true,
                 },
                 _focus: {
                     block: true
                 },
                 _hover: {
                     block: true
+                },
+                _down: {
+                    xs: {
+                        _active: { block: true },
+                        _focus: { block: true },
+                        _hover: { block: true }
+                    },
+                    sm: {
+                        _active: { block: true },
+                        _focus: { block: true },
+                        _hover: { block: true }
+                    },
+                    md: {
+                        _active: { block: true },
+                        _focus: { block: true },
+                        _hover: { block: true }
+                    },
+                    lg: {
+                        _active: { block: true },
+                        _focus: { block: true },
+                        _hover: { block: true }
+                    },
+                    xl: {
+                        _active: { block: true },
+                        _focus: { block: true },
+                        _hover: { block: true }
+                    }
+                },
+                _up: {
+                    xs: {
+                        _active: { block: true },
+                        _focus: { block: true },
+                        _hover: { block: true }
+                    },
+                    sm: {
+                        _active: { block: true },
+                        _focus: { block: true },
+                        _hover: { block: true }
+                    },
+                    md: {
+                        _active: { block: true },
+                        _focus: { block: true },
+                        _hover: { block: true }
+                    },
+                    lg: {
+                        _active: { block: true },
+                        _focus: { block: true },
+                        _hover: { block: true }
+                    },
+                    xl: {
+                        _active: { block: true },
+                        _focus: { block: true },
+                        _hover: { block: true }
+                    }
                 }
             }
         });
-        cssAsArray = style.css.split('\n');
-
-        expect(cssAsArray[0].trim()).toBe(':active {');
-        expect(cssAsArray[1].trim()).toBe('display: block;');
-        expect(cssAsArray[2].trim()).toBe('}');
-        expect(cssAsArray[3].trim()).toBe(':focus {');
-        expect(cssAsArray[4].trim()).toBe('display: block;');
-        expect(cssAsArray[5].trim()).toBe('}');
-        expect(cssAsArray[6].trim()).toBe(':hover {');
-        expect(cssAsArray[7].trim()).toBe('display: block;');
-        expect(cssAsArray[8].trim()).toBe('}');
-
+        checkState(style, ['display: block;']);
+        
         // boxSizing
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _active: {
-                    boxSizing: 'border-box'
+                    boxSizing: 'border-box',
                 },
                 _focus: {
-                    boxSizing: 'content-box'
+                    boxSizing: 'border-box'
                 },
                 _hover: {
                     boxSizing: 'border-box'
+                },
+                _down: {
+                    xs: {
+                        _active: { boxSizing: 'border-box' },
+                        _focus: { boxSizing: 'border-box' },
+                        _hover: { boxSizing: 'border-box' }
+                    },
+                    sm: {
+                        _active: { boxSizing: 'border-box' },
+                        _focus: { boxSizing: 'border-box' },
+                        _hover: { boxSizing: 'border-box' }
+                    },
+                    md: {
+                        _active: { boxSizing: 'border-box' },
+                        _focus: { boxSizing: 'border-box' },
+                        _hover: { boxSizing: 'border-box' }
+                    },
+                    lg: {
+                        _active: { boxSizing: 'border-box' },
+                        _focus: { boxSizing: 'border-box' },
+                        _hover: { boxSizing: 'border-box' }
+                    },
+                    xl: {
+                        _active: { boxSizing: 'border-box' },
+                        _focus: { boxSizing: 'border-box' },
+                        _hover: { boxSizing: 'border-box' }
+                    }
+                },
+                _up: {
+                    xs: {
+                        _active: { boxSizing: 'border-box' },
+                        _focus: { boxSizing: 'border-box' },
+                        _hover: { boxSizing: 'border-box' }
+                    },
+                    sm: {
+                        _active: { boxSizing: 'border-box' },
+                        _focus: { boxSizing: 'border-box' },
+                        _hover: { boxSizing: 'border-box' }
+                    },
+                    md: {
+                        _active: { boxSizing: 'border-box' },
+                        _focus: { boxSizing: 'border-box' },
+                        _hover: { boxSizing: 'border-box' }
+                    },
+                    lg: {
+                        _active: { boxSizing: 'border-box' },
+                        _focus: { boxSizing: 'border-box' },
+                        _hover: { boxSizing: 'border-box' }
+                    },
+                    xl: {
+                        _active: { boxSizing: 'border-box' },
+                        _focus: { boxSizing: 'border-box' },
+                        _hover: { boxSizing: 'border-box' }
+                    }
                 }
             }
         });
-        cssAsArray = style.css.split('\n');
-
-        expect(cssAsArray[0].trim()).toBe(':active {');
-        expect(cssAsArray[1].trim()).toBe('box-sizing: border-box;');
-        expect(cssAsArray[2].trim()).toBe('}');
-        expect(cssAsArray[3].trim()).toBe(':focus {');
-        expect(cssAsArray[4].trim()).toBe('box-sizing: content-box;');
-        expect(cssAsArray[5].trim()).toBe('}');
-        expect(cssAsArray[6].trim()).toBe(':hover {');
-        expect(cssAsArray[7].trim()).toBe('box-sizing: border-box;');
-        expect(cssAsArray[8].trim()).toBe('}');
+        checkState(style, ['box-sizing: border-box;']);
 
         // content
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _active: {
-                    content: '"content :active"'
+                    content: '"content"',
                 },
                 _focus: {
-                    content: '"content :focus"'
+                    content: '"content"'
                 },
                 _hover: {
-                    content: '"content :hover"'
+                    content: '"content"'
+                },
+                _down: {
+                    xs: {
+                        _active: { content: '"content"' },
+                        _focus: { content: '"content"' },
+                        _hover: { content: '"content"' }
+                    },
+                    sm: {
+                        _active: { content: '"content"' },
+                        _focus: { content: '"content"' },
+                        _hover: { content: '"content"' }
+                    },
+                    md: {
+                        _active: { content: '"content"' },
+                        _focus: { content: '"content"' },
+                        _hover: { content: '"content"' }
+                    },
+                    lg: {
+                        _active: { content: '"content"' },
+                        _focus: { content: '"content"' },
+                        _hover: { content: '"content"' }
+                    },
+                    xl: {
+                        _active: { content: '"content"' },
+                        _focus: { content: '"content"' },
+                        _hover: { content: '"content"' }
+                    }
+                },
+                _up: {
+                    xs: {
+                        _active: { content: '"content"' },
+                        _focus: { content: '"content"' },
+                        _hover: { content: '"content"' }
+                    },
+                    sm: {
+                        _active: { content: '"content"' },
+                        _focus: { content: '"content"' },
+                        _hover: { content: '"content"' }
+                    },
+                    md: {
+                        _active: { content: '"content"' },
+                        _focus: { content: '"content"' },
+                        _hover: { content: '"content"' }
+                    },
+                    lg: {
+                        _active: { content: '"content"' },
+                        _focus: { content: '"content"' },
+                        _hover: { content: '"content"' }
+                    },
+                    xl: {
+                        _active: { content: '"content"' },
+                        _focus: { content: '"content"' },
+                        _hover: { content: '"content"' }
+                    }
                 }
             }
         });
-        cssAsArray = style.css.split('\n');
-
-        expect(cssAsArray[0].trim()).toBe(':active {');
-        expect(cssAsArray[1].trim()).toBe('content: "content :active";');
-        expect(cssAsArray[2].trim()).toBe('}');
-        expect(cssAsArray[3].trim()).toBe(':focus {');
-        expect(cssAsArray[4].trim()).toBe('content: "content :focus";');
-        expect(cssAsArray[5].trim()).toBe('}');
-        expect(cssAsArray[6].trim()).toBe(':hover {');
-        expect(cssAsArray[7].trim()).toBe('content: "content :hover";');
-        expect(cssAsArray[8].trim()).toBe('}');
+        checkState(style, ['content: "content";']);
 
         // cursor
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _active: {
-                    cursor: 'default'
+                    cursor: 'pointer',
                 },
                 _focus: {
                     cursor: 'pointer'
                 },
                 _hover: {
-                    cursor: 'default'
+                    cursor: 'pointer'
+                },
+                _down: {
+                    xs: {
+                        _active: { cursor: 'pointer' },
+                        _focus: { cursor: 'pointer' },
+                        _hover: { cursor: 'pointer' }
+                    },
+                    sm: {
+                        _active: { cursor: 'pointer' },
+                        _focus: { cursor: 'pointer' },
+                        _hover: { cursor: 'pointer' }
+                    },
+                    md: {
+                        _active: { cursor: 'pointer' },
+                        _focus: { cursor: 'pointer' },
+                        _hover: { cursor: 'pointer' }
+                    },
+                    lg: {
+                        _active: { cursor: 'pointer' },
+                        _focus: { cursor: 'pointer' },
+                        _hover: { cursor: 'pointer' }
+                    },
+                    xl: {
+                        _active: { cursor: 'pointer' },
+                        _focus: { cursor: 'pointer' },
+                        _hover: { cursor: 'pointer' }
+                    }
+                },
+                _up: {
+                    xs: {
+                        _active: { cursor: 'pointer' },
+                        _focus: { cursor: 'pointer' },
+                        _hover: { cursor: 'pointer' }
+                    },
+                    sm: {
+                        _active: { cursor: 'pointer' },
+                        _focus: { cursor: 'pointer' },
+                        _hover: { cursor: 'pointer' }
+                    },
+                    md: {
+                        _active: { cursor: 'pointer' },
+                        _focus: { cursor: 'pointer' },
+                        _hover: { cursor: 'pointer' }
+                    },
+                    lg: {
+                        _active: { cursor: 'pointer' },
+                        _focus: { cursor: 'pointer' },
+                        _hover: { cursor: 'pointer' }
+                    },
+                    xl: {
+                        _active: { cursor: 'pointer' },
+                        _focus: { cursor: 'pointer' },
+                        _hover: { cursor: 'pointer' }
+                    }
                 }
             }
         });
-        cssAsArray = style.css.split('\n');
-
-        expect(cssAsArray[0].trim()).toBe(':active {');
-        expect(cssAsArray[1].trim()).toBe('cursor: default;');
-        expect(cssAsArray[2].trim()).toBe('}');
-        expect(cssAsArray[3].trim()).toBe(':focus {');
-        expect(cssAsArray[4].trim()).toBe('cursor: pointer;');
-        expect(cssAsArray[5].trim()).toBe('}');
-        expect(cssAsArray[6].trim()).toBe(':hover {');
-        expect(cssAsArray[7].trim()).toBe('cursor: default;');
-        expect(cssAsArray[8].trim()).toBe('}');
+        checkState(style, ['cursor: pointer;']);
 
         // display
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _active: {
-                    display: 'block'
+                    display: 'block',
                 },
                 _focus: {
-                    display: 'flex'
+                    display: 'block'
                 },
                 _hover: {
-                    display: 'none'
+                    display: 'block'
+                },
+                _down: {
+                    xs: {
+                        _active: { display: 'block' },
+                        _focus: { display: 'block' },
+                        _hover: { display: 'block' }
+                    },
+                    sm: {
+                        _active: { display: 'block' },
+                        _focus: { display: 'block' },
+                        _hover: { display: 'block' }
+                    },
+                    md: {
+                        _active: { display: 'block' },
+                        _focus: { display: 'block' },
+                        _hover: { display: 'block' }
+                    },
+                    lg: {
+                        _active: { display: 'block' },
+                        _focus: { display: 'block' },
+                        _hover: { display: 'block' }
+                    },
+                    xl: {
+                        _active: { display: 'block' },
+                        _focus: { display: 'block' },
+                        _hover: { display: 'block' }
+                    }
+                },
+                _up: {
+                    xs: {
+                        _active: { display: 'block' },
+                        _focus: { display: 'block' },
+                        _hover: { display: 'block' }
+                    },
+                    sm: {
+                        _active: { display: 'block' },
+                        _focus: { display: 'block' },
+                        _hover: { display: 'block' }
+                    },
+                    md: {
+                        _active: { display: 'block' },
+                        _focus: { display: 'block' },
+                        _hover: { display: 'block' }
+                    },
+                    lg: {
+                        _active: { display: 'block' },
+                        _focus: { display: 'block' },
+                        _hover: { display: 'block' }
+                    },
+                    xl: {
+                        _active: { display: 'block' },
+                        _focus: { display: 'block' },
+                        _hover: { display: 'block' }
+                    }
                 }
             }
         });
-        cssAsArray = style.css.split('\n');
-
-        expect(cssAsArray[0].trim()).toBe(':active {');
-        expect(cssAsArray[1].trim()).toBe('display: block;');
-        expect(cssAsArray[2].trim()).toBe('}');
-        expect(cssAsArray[3].trim()).toBe(':focus {');
-        expect(cssAsArray[4].trim()).toBe('display: flex;');
-        expect(cssAsArray[5].trim()).toBe('}');
-        expect(cssAsArray[6].trim()).toBe(':hover {');
-        expect(cssAsArray[7].trim()).toBe('display: none;');
-        expect(cssAsArray[8].trim()).toBe('}');
+        checkState(style, ['display: block;']);
 
         // d
         style = ComponentStyle({
