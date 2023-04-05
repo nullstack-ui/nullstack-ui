@@ -23,11 +23,12 @@ export const ComponentStyle = ({ addToCache, cache, context, darkMode, depth, pr
     for (const propName in allProps) {
         const alias = allProps[propName]?.aliasFor;
         const prop = allProps[alias || propName] || {};
-        const { breakpoint, breakpointSelector, cssProps, group, initialValue, parent, selector, state } = prop;
+        const { breakpoint, breakpointSelector, cssProps, group, initialValue, parent, responsiveState, selector, state } = prop;
 
-        if (!Array.isArray(selector) && !cssProps && !group && !parent && !state) { continue; }
-
+        if (!breakpointSelector && !Array.isArray(selector) && !cssProps && !group && !parent && !responsiveState && !state) { continue; }
+        
         if (breakpointSelector) {
+            console.log(propName, prop)
             allCSS += `${breakpointSelector} {\n`;
         }
 
@@ -150,11 +151,15 @@ const getParentStyle = ({ parentProp }) => {
 const getState = ({
     stateProp
 }) => {
-    const { state, ...stateProps } = stateProp;
+    const { responsiveState, state, ...stateProps } = stateProp;
     let allCSS = '';
 
     for (const prop in stateProps) {
         const stateProp = stateProps[prop];
+
+        if (stateProp?.breakpointSelector) {
+            allCSS += `${stateProp.breakpointSelector} {\n`;
+        }
 
         if (stateProp?.parent) {
             allCSS += getParentStyle({
@@ -165,7 +170,7 @@ const getState = ({
                 stateProp
             })
         } else {
-            if (stateProp.selector) {
+            if (!stateProp.breakpointSelector && stateProp.selector) {
                 allCSS += `${stateProp.selector} {\n`;
             }
 
@@ -179,9 +184,13 @@ const getState = ({
                 })
             }
 
-            if (stateProp.selector) {
+            if (!stateProp.breakpointSelector && stateProp.selector) {
                 allCSS += '}\n';
             }
+        }
+
+        if (stateProp?.breakpointSelector) {
+            allCSS += '}\n';
         }
     }
 

@@ -245,7 +245,13 @@ export const handleProp = ({
     let handledProps = {};
 
     if (cache?.[propName]?.[initialValue]) {
-        handledProps[propName] = cache[propName][initialValue];
+        const { cssProps, prop } = cache[propName][initialValue];
+
+        handledProps[propName] = {
+            cssProps,
+            initialValue,
+            prop
+        };
 
         return handledProps;
     }

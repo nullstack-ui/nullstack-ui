@@ -36,11 +36,17 @@ export const addToCache = ({
     initialValue,
     propName,
 }) => {
+    const { cssProps, prop } = cachedProps;
+
     if (!cache[propName]) {
         cache[propName] = {};
     }
 
-    cache[propName][initialValue] = cachedProps;
+    cache[propName][initialValue] = {
+        cssProps,
+        initialValue,
+        prop
+    };
 }
 
 class NullstackUI {

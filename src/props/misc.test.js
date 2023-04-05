@@ -888,13 +888,67 @@ describe('misc props', () => {
             ...mockedStyleProps,
             props: {
                 _active: {
-                    all: 'initial'
+                    all: 'initial',
                 },
                 _focus: {
                     all: 'initial'
                 },
                 _hover: {
                     all: 'initial'
+                },
+                _down: {
+                    xs: {
+                        _active: {
+                            all: 'initial'
+                        }
+                    },
+                    sm: {
+                        _active: {
+                            all: 'inherit'
+                        }
+                    },
+                    md: {
+                        _active: {
+                            all: 'initial'
+                        }
+                    },
+                    lg: {
+                        _active: {
+                            all: 'inherit'
+                        }
+                    },
+                    xl: {
+                        _active: {
+                            all: 'initial'
+                        }
+                    }
+                },
+                _up: {
+                    xs: {
+                        _active: {
+                            all: 'initial'
+                        }
+                    },
+                    sm: {
+                        _active: {
+                            all: 'inherit'
+                        }
+                    },
+                    md: {
+                        _active: {
+                            all: 'initial'
+                        }
+                    },
+                    lg: {
+                        _active: {
+                            all: 'inherit'
+                        }
+                    },
+                    xl: {
+                        _active: {
+                            all: 'initial'
+                        }
+                    }
                 }
             }
         });
