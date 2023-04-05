@@ -1794,6 +1794,13 @@ describe('misc props', () => {
                     md: { all: 'initial' },
                     lg: { all: 'inherit' },
                     xl: { all: 'initial' }
+                },
+                _up: {
+                    xs: { all: 'initial' },
+                    sm: { all: 'inherit' },
+                    md: { all: 'initial' },
+                    lg: { all: 'inherit' },
+                    xl: { all: 'initial' }
                 }
             }
         });
@@ -1814,12 +1821,34 @@ describe('misc props', () => {
         expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
         expect(cssAsArray[13].trim()).toBe('all: initial;');
         expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('all: initial;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('all: inherit;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('all: initial;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('all: inherit;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('all: initial;');
+        expect(cssAsArray[29].trim()).toBe('}');
 
         // appearance
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _down: {
+                    xs: { appearance: 'inherit' },
+                    sm: { appearance: 'initial' },
+                    md: { appearance: 'inherit' },
+                    lg: { appearance: 'initial' },
+                    xl: { appearance: 'inherit' }
+                },
+                _up: {
                     xs: { appearance: 'inherit' },
                     sm: { appearance: 'initial' },
                     md: { appearance: 'inherit' },
@@ -1845,6 +1874,21 @@ describe('misc props', () => {
         expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
         expect(cssAsArray[13].trim()).toBe('appearance: inherit;');
         expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('appearance: inherit;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('appearance: initial;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('appearance: inherit;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('appearance: initial;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('appearance: inherit;');
+        expect(cssAsArray[29].trim()).toBe('}');
 
         // block
         style = ComponentStyle({
@@ -1856,7 +1900,14 @@ describe('misc props', () => {
                     md: { block: true },
                     lg: { block: true },
                     xl: { block: true }
-                }
+                },
+                _up: {
+                    xs: { block: true },
+                    sm: { block: true },
+                    md: { block: true },
+                    lg: { block: true },
+                    xl: { block: true }
+                },
             }
         });
         cssAsArray = style.css.split('\n');
@@ -1876,12 +1927,87 @@ describe('misc props', () => {
         expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
         expect(cssAsArray[13].trim()).toBe('display: block;');
         expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('display: block;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('display: block;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('display: block;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('display: block;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('display: block;');
+        expect(cssAsArray[29].trim()).toBe('}');
+
+        // boxSizing
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { boxSizing: 'border-box' },
+                    sm: { boxSizing: 'content-box' },
+                    md: { boxSizing: 'border-box' },
+                    lg: { boxSizing: 'content-box' },
+                    xl: { boxSizing: 'border-box' }
+                },
+                _up: {
+                    xs: { boxSizing: 'border-box' },
+                    sm: { boxSizing: 'content-box' },
+                    md: { boxSizing: 'border-box' },
+                    lg: { boxSizing: 'content-box' },
+                    xl: { boxSizing: 'border-box' }
+                },
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('box-sizing: border-box;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('box-sizing: content-box;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('box-sizing: border-box;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('box-sizing: content-box;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('box-sizing: border-box;');
+        expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('box-sizing: border-box;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('box-sizing: content-box;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('box-sizing: border-box;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('box-sizing: content-box;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('box-sizing: border-box;');
+        expect(cssAsArray[29].trim()).toBe('}');
 
         // content
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _down: {
+                    xs: { content: '"xs"' },
+                    sm: { content: '"sm"' },
+                    md: { content: '"md"' },
+                    lg: { content: '"lg"' },
+                    xl: { content: '"xl"' }
+                },
+                _up: {
                     xs: { content: '"xs"' },
                     sm: { content: '"sm"' },
                     md: { content: '"md"' },
@@ -1907,12 +2033,35 @@ describe('misc props', () => {
         expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
         expect(cssAsArray[13].trim()).toBe('content: "xl";');
         expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('content: "xs";');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('content: "sm";');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('content: "md";');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('content: "lg";');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('content: "xl";');
+        expect(cssAsArray[29].trim()).toBe('}');
+
 
         // cursor
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _down: {
+                    xs: { cursor: 'default' },
+                    sm: { cursor: 'pointer' },
+                    md: { cursor: 'default' },
+                    lg: { cursor: 'pointer' },
+                    xl: { cursor: 'default' }
+                },
+                _up: {
                     xs: { cursor: 'default' },
                     sm: { cursor: 'pointer' },
                     md: { cursor: 'default' },
@@ -1938,6 +2087,21 @@ describe('misc props', () => {
         expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
         expect(cssAsArray[13].trim()).toBe('cursor: default;');
         expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('cursor: default;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('cursor: pointer;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('cursor: default;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('cursor: pointer;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('cursor: default;');
+        expect(cssAsArray[29].trim()).toBe('}');
 
         // display
         style = ComponentStyle({
@@ -1949,7 +2113,14 @@ describe('misc props', () => {
                     md: { display: 'grid' },
                     lg: { display: 'inline-block' },
                     xl: { display: 'none' }
-                }
+                },
+                _up: {
+                    xs: { display: 'block' },
+                    sm: { display: 'flex' },
+                    md: { display: 'grid' },
+                    lg: { display: 'inline-block' },
+                    xl: { display: 'none' }
+                },
             }
         });
         cssAsArray = style.css.split('\n');
@@ -1969,12 +2140,34 @@ describe('misc props', () => {
         expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
         expect(cssAsArray[13].trim()).toBe('display: none;');
         expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('display: block;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('display: flex;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('display: grid;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('display: inline-block;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('display: none;');
+        expect(cssAsArray[29].trim()).toBe('}');
 
         // d
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _down: {
+                    xs: { d: 'block' },
+                    sm: { d: 'flex' },
+                    md: { d: 'grid' },
+                    lg: { d: 'inline-block' },
+                    xl: { d: 'none' }
+                },
+                _up: {
                     xs: { d: 'block' },
                     sm: { d: 'flex' },
                     md: { d: 'grid' },
@@ -2000,12 +2193,34 @@ describe('misc props', () => {
         expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
         expect(cssAsArray[13].trim()).toBe('display: none;');
         expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('display: block;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('display: flex;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('display: grid;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('display: inline-block;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('display: none;');
+        expect(cssAsArray[29].trim()).toBe('}');
 
         // opacity
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _down: {
+                    xs: { opacity: 0 },
+                    sm: { opacity: .25 },
+                    md: { opacity: .5 },
+                    lg: { opacity: .75 },
+                    xl: { opacity: 1 }
+                },
+                _up: {
                     xs: { opacity: 0 },
                     sm: { opacity: .25 },
                     md: { opacity: .5 },
@@ -2031,12 +2246,34 @@ describe('misc props', () => {
         expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
         expect(cssAsArray[13].trim()).toBe('opacity: 1;');
         expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('opacity: 0;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('opacity: 0.25;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('opacity: 0.5;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('opacity: 0.75;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('opacity: 1;');
+        expect(cssAsArray[29].trim()).toBe('}');
 
         // op
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _down: {
+                    xs: { op: 0 },
+                    sm: { op: .25 },
+                    md: { op: .5 },
+                    lg: { op: .75 },
+                    xl: { op: 1 }
+                },
+                _up: {
                     xs: { op: 0 },
                     sm: { op: .25 },
                     md: { op: .5 },
@@ -2062,12 +2299,34 @@ describe('misc props', () => {
         expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
         expect(cssAsArray[13].trim()).toBe('opacity: 1;');
         expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('opacity: 0;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('opacity: 0.25;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('opacity: 0.5;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('opacity: 0.75;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('opacity: 1;');
+        expect(cssAsArray[29].trim()).toBe('}');
 
         // reset
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _down: {
+                    xs: { reset: true },
+                    sm: { reset: true },
+                    md: { reset: true },
+                    lg: { reset: true },
+                    xl: { reset: true }
+                },
+                _up: {
                     xs: { reset: true },
                     sm: { reset: true },
                     md: { reset: true },
@@ -2103,12 +2362,44 @@ describe('misc props', () => {
         expect(cssAsArray[22].trim()).toBe('background: none;');
         expect(cssAsArray[23].trim()).toBe('border: none;');
         expect(cssAsArray[24].trim()).toBe('}');
+        expect(cssAsArray[25].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[26].trim()).toBe('appearance: none;');
+        expect(cssAsArray[27].trim()).toBe('background: none;');
+        expect(cssAsArray[28].trim()).toBe('border: none;');
+        expect(cssAsArray[29].trim()).toBe('}');
+        expect(cssAsArray[30].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[31].trim()).toBe('appearance: none;');
+        expect(cssAsArray[32].trim()).toBe('background: none;');
+        expect(cssAsArray[33].trim()).toBe('border: none;');
+        expect(cssAsArray[34].trim()).toBe('}');
+        expect(cssAsArray[35].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[36].trim()).toBe('appearance: none;');
+        expect(cssAsArray[37].trim()).toBe('background: none;');
+        expect(cssAsArray[38].trim()).toBe('border: none;');
+        expect(cssAsArray[39].trim()).toBe('}');
+        expect(cssAsArray[40].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[41].trim()).toBe('appearance: none;');
+        expect(cssAsArray[42].trim()).toBe('background: none;');
+        expect(cssAsArray[43].trim()).toBe('border: none;');
+        expect(cssAsArray[44].trim()).toBe('}');
+        expect(cssAsArray[45].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[46].trim()).toBe('appearance: none;');
+        expect(cssAsArray[47].trim()).toBe('background: none;');
+        expect(cssAsArray[48].trim()).toBe('border: none;');
+        expect(cssAsArray[49].trim()).toBe('}');
 
         // resize
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _down: {
+                    xs: { resize: 'both' },
+                    sm: { resize: 'horizontal' },
+                    md: { resize: 'vertical' },
+                    lg: { resize: 'horizontal' },
+                    xl: { resize: 'both' }
+                },
+                _up: {
                     xs: { resize: 'both' },
                     sm: { resize: 'horizontal' },
                     md: { resize: 'vertical' },
@@ -2134,5 +2425,20 @@ describe('misc props', () => {
         expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
         expect(cssAsArray[13].trim()).toBe('resize: both;');
         expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('resize: both;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('resize: horizontal;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('resize: vertical;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('resize: horizontal;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('resize: both;');
+        expect(cssAsArray[29].trim()).toBe('}');
     });
 });
