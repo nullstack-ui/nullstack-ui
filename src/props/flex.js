@@ -163,6 +163,9 @@ export const flexProps = {
     'flex.alContent': { aliasFor: 'flex.alignContent' },
 
     'flex.alignH': {
+        deps: ({ props }) => ([
+            getFlexDirection(props)
+        ]),
         fn: flexAlignH
     },
     'alH': { aliasFor: 'flex.alignH' },
@@ -192,6 +195,9 @@ export const flexProps = {
     'flex.alSelf': { aliasFor: 'flex.alignSelf' },
 
     'flex.alignV': {
+        deps: ({ props }) => ([
+            getFlexDirection(props)
+        ]),
         fn: flexAlignV
     },
     'alV': { aliasFor: 'flex.alignV' },

@@ -26,10 +26,58 @@ describe('misc props', () => {
         let style = ComponentStyle({
             ...mockedStyleProps,
             props: {
-                _active: {
-                    bgColor: 'blue'
-                }
+                children: [
+                    {
+                        attributes: {
+                            _group: {
+                                _hover: {
+                                    bgColor: 'red'
+                                }
+                            }
+                        }
+                    }
+                ],
+                group: true,
             }
         });
+        let cssAsArray = style.css.split('\n');
+
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                children: [
+                    {
+                        attributes: {
+                            _group: {
+                                _hover: {
+                                    bgColor: 'red'
+                                }
+                            }
+                        }
+                    }
+                ],
+                group: true,
+            }
+        });
+
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                children: [
+                    {
+                        attributes: {
+                            _group: {
+                                _hover: {
+                                    bgColor: 'red'
+                                }
+                            }
+                        }
+                    }
+                ],
+                group: true,
+            }
+        });
+
+        // console.log(cssAsArray);
     })
 });

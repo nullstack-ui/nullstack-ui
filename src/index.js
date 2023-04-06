@@ -32,21 +32,27 @@ const acceptableTypes = [
 
 export let cache = {};
 export const addToCache = ({
+    cacheDeps,
     cachedProps,
     initialValue,
     propName,
 }) => {
     const { cssProps, prop } = cachedProps || {};
-
+    let cachePropName = propName;
+    
     if (!cssProps) {
         return false;
     }
 
-    if (!cache[propName]) {
-        cache[propName] = {};
+    if (cacheDeps) {
+        cachePropName = `${propName}:${cacheDeps.join(':')}`;
     }
 
-    cache[propName][initialValue] = {
+    if (!cache[cachePropName]) {
+        cache[cachePropName] = {};
+    }
+
+    cache[cachePropName][initialValue] = {
         cssProps,
         initialValue,
         prop

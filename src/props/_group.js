@@ -6,12 +6,18 @@ export const acceptableGroupStates = {
     '_focus': ':focus',
 };
 
+const groupCache = {};
+
 const group = params => {
     const { depth, props } = params;
     const { children, group } = props;
     const groupId = depth;
 
     if (!group) { return; }
+
+    if (groupCache[groupId] && groupCache[groupId].group) {
+        return groupCache[groupId];
+    }
     
     return handleChildren({ children, params, parentId: groupId });
 }
@@ -22,13 +28,13 @@ const handleChildren = ({ children, params, parentId }) => {
     for (let i = 0; i < children?.length; i++) {
         const child = children[i];
         const { _group } = child.attributes || {};
-        const childId = `${parentId}${i}`
+        const childId = `${parentId}${i}`;
 
         if (typeof child !== 'object' && !child.attributes) { continue; }
 
         child.attributes['data-group-child-id'] = childId;
 
-        if (child.children) {
+        if (child.children?.length) {
             const handledChildren = handleChildren({
                 children: child.children,
                 params,
@@ -57,11 +63,15 @@ const handleChildren = ({ children, params, parentId }) => {
                         };
                     }
 
-                    handledProps[childId][state] = handledStateProps;
+                    handledProps[childId][state] = {
+                        ...handledStateProps
+                    };
                 }
             }
         }
     }
+
+    groupCache[parentId] = handledProps;
 
     return handledProps;
 }
@@ -70,7 +80,4 @@ export const groupProps = {
     'group': {
         fn: group
     },
-    // '_group': {
-    //     fn: groupChild
-    // }
 }

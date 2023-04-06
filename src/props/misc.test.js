@@ -19,7 +19,7 @@ const mockedStyleProps = {
     theme: {}
 }
 
-const checkState = (style, cssProps) => {
+export const checkState = (style, cssProps) => {
     let cssAsArray = style.css.split('\n');
     let n = 0;
 
@@ -1646,141 +1646,359 @@ describe('misc props', () => {
             ...mockedStyleProps,
             props: {
                 _active: {
-                    d: 'block'
+                    d: 'block',
                 },
                 _focus: {
-                    d: 'flex'
+                    d: 'block'
                 },
                 _hover: {
-                    d: 'none'
+                    d: 'block'
+                },
+                _down: {
+                    xs: {
+                        _active: { d: 'block' },
+                        _focus: { d: 'block' },
+                        _hover: { d: 'block' }
+                    },
+                    sm: {
+                        _active: { d: 'block' },
+                        _focus: { d: 'block' },
+                        _hover: { d: 'block' }
+                    },
+                    md: {
+                        _active: { d: 'block' },
+                        _focus: { d: 'block' },
+                        _hover: { d: 'block' }
+                    },
+                    lg: {
+                        _active: { d: 'block' },
+                        _focus: { d: 'block' },
+                        _hover: { d: 'block' }
+                    },
+                    xl: {
+                        _active: { d: 'block' },
+                        _focus: { d: 'block' },
+                        _hover: { d: 'block' }
+                    }
+                },
+                _up: {
+                    xs: {
+                        _active: { d: 'block' },
+                        _focus: { d: 'block' },
+                        _hover: { d: 'block' }
+                    },
+                    sm: {
+                        _active: { d: 'block' },
+                        _focus: { d: 'block' },
+                        _hover: { d: 'block' }
+                    },
+                    md: {
+                        _active: { d: 'block' },
+                        _focus: { d: 'block' },
+                        _hover: { d: 'block' }
+                    },
+                    lg: {
+                        _active: { d: 'block' },
+                        _focus: { d: 'block' },
+                        _hover: { d: 'block' }
+                    },
+                    xl: {
+                        _active: { d: 'block' },
+                        _focus: { d: 'block' },
+                        _hover: { d: 'block' }
+                    }
                 }
             }
         });
-        cssAsArray = style.css.split('\n');
-
-        expect(cssAsArray[0].trim()).toBe(':active {');
-        expect(cssAsArray[1].trim()).toBe('display: block;');
-        expect(cssAsArray[2].trim()).toBe('}');
-        expect(cssAsArray[3].trim()).toBe(':focus {');
-        expect(cssAsArray[4].trim()).toBe('display: flex;');
-        expect(cssAsArray[5].trim()).toBe('}');
-        expect(cssAsArray[6].trim()).toBe(':hover {');
-        expect(cssAsArray[7].trim()).toBe('display: none;');
-        expect(cssAsArray[8].trim()).toBe('}');
+        checkState(style, ['display: block;']);
 
         // opacity
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _active: {
-                    opacity: .25
+                    opacity: .5,
                 },
                 _focus: {
                     opacity: .5
                 },
                 _hover: {
-                    opacity: .75
+                    opacity: .5
+                },
+                _down: {
+                    xs: {
+                        _active: { opacity: .5 },
+                        _focus: { opacity: .5 },
+                        _hover: { opacity: .5 }
+                    },
+                    sm: {
+                        _active: { opacity: .5 },
+                        _focus: { opacity: .5 },
+                        _hover: { opacity: .5 }
+                    },
+                    md: {
+                        _active: { opacity: .5 },
+                        _focus: { opacity: .5 },
+                        _hover: { opacity: .5 }
+                    },
+                    lg: {
+                        _active: { opacity: .5 },
+                        _focus: { opacity: .5 },
+                        _hover: { opacity: .5 }
+                    },
+                    xl: {
+                        _active: { opacity: .5 },
+                        _focus: { opacity: .5 },
+                        _hover: { opacity: .5 }
+                    }
+                },
+                _up: {
+                    xs: {
+                        _active: { opacity: .5 },
+                        _focus: { opacity: .5 },
+                        _hover: { opacity: .5 }
+                    },
+                    sm: {
+                        _active: { opacity: .5 },
+                        _focus: { opacity: .5 },
+                        _hover: { opacity: .5 }
+                    },
+                    md: {
+                        _active: { opacity: .5 },
+                        _focus: { opacity: .5 },
+                        _hover: { opacity: .5 }
+                    },
+                    lg: {
+                        _active: { opacity: .5 },
+                        _focus: { opacity: .5 },
+                        _hover: { opacity: .5 }
+                    },
+                    xl: {
+                        _active: { opacity: .5 },
+                        _focus: { opacity: .5 },
+                        _hover: { opacity: .5 }
+                    }
                 }
             }
         });
-        cssAsArray = style.css.split('\n');
-
-        expect(cssAsArray[0].trim()).toBe(':active {');
-        expect(cssAsArray[1].trim()).toBe('opacity: 0.25;');
-        expect(cssAsArray[2].trim()).toBe('}');
-        expect(cssAsArray[3].trim()).toBe(':focus {');
-        expect(cssAsArray[4].trim()).toBe('opacity: 0.5;');
-        expect(cssAsArray[5].trim()).toBe('}');
-        expect(cssAsArray[6].trim()).toBe(':hover {');
-        expect(cssAsArray[7].trim()).toBe('opacity: 0.75;');
-        expect(cssAsArray[8].trim()).toBe('}');
+        checkState(style, ['opacity: 0.5;']);
 
         // op
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _active: {
-                    op: .25
+                    op: .75,
                 },
                 _focus: {
-                    op: .5
+                    op: .75
                 },
                 _hover: {
                     op: .75
+                },
+                _down: {
+                    xs: {
+                        _active: { op: .75 },
+                        _focus: { op: .75 },
+                        _hover: { op: .75 }
+                    },
+                    sm: {
+                        _active: { op: .75 },
+                        _focus: { op: .75 },
+                        _hover: { op: .75 }
+                    },
+                    md: {
+                        _active: { op: .75 },
+                        _focus: { op: .75 },
+                        _hover: { op: .75 }
+                    },
+                    lg: {
+                        _active: { op: .75 },
+                        _focus: { op: .75 },
+                        _hover: { op: .75 }
+                    },
+                    xl: {
+                        _active: { op: .75 },
+                        _focus: { op: .75 },
+                        _hover: { op: .75 }
+                    }
+                },
+                _up: {
+                    xs: {
+                        _active: { op: .75 },
+                        _focus: { op: .75 },
+                        _hover: { op: .75 }
+                    },
+                    sm: {
+                        _active: { op: .75 },
+                        _focus: { op: .75 },
+                        _hover: { op: .75 }
+                    },
+                    md: {
+                        _active: { op: .75 },
+                        _focus: { op: .75 },
+                        _hover: { op: .75 }
+                    },
+                    lg: {
+                        _active: { op: .75 },
+                        _focus: { op: .75 },
+                        _hover: { op: .75 }
+                    },
+                    xl: {
+                        _active: { op: .75 },
+                        _focus: { op: .75 },
+                        _hover: { op: .75 }
+                    }
                 }
             }
         });
-        cssAsArray = style.css.split('\n');
-
-        expect(cssAsArray[0].trim()).toBe(':active {');
-        expect(cssAsArray[1].trim()).toBe('opacity: 0.25;');
-        expect(cssAsArray[2].trim()).toBe('}');
-        expect(cssAsArray[3].trim()).toBe(':focus {');
-        expect(cssAsArray[4].trim()).toBe('opacity: 0.5;');
-        expect(cssAsArray[5].trim()).toBe('}');
-        expect(cssAsArray[6].trim()).toBe(':hover {');
-        expect(cssAsArray[7].trim()).toBe('opacity: 0.75;');
-        expect(cssAsArray[8].trim()).toBe('}');
+        checkState(style, ['opacity: 0.75;']);
 
         // reset
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _active: {
-                    reset: true
+                    reset: true,
                 },
                 _focus: {
                     reset: true
                 },
                 _hover: {
                     reset: true
+                },
+                _down: {
+                    xs: {
+                        _active: { reset: true },
+                        _focus: { reset: true },
+                        _hover: { reset: true }
+                    },
+                    sm: {
+                        _active: { reset: true },
+                        _focus: { reset: true },
+                        _hover: { reset: true }
+                    },
+                    md: {
+                        _active: { reset: true },
+                        _focus: { reset: true },
+                        _hover: { reset: true }
+                    },
+                    lg: {
+                        _active: { reset: true },
+                        _focus: { reset: true },
+                        _hover: { reset: true }
+                    },
+                    xl: {
+                        _active: { reset: true },
+                        _focus: { reset: true },
+                        _hover: { reset: true }
+                    }
+                },
+                _up: {
+                    xs: {
+                        _active: { reset: true },
+                        _focus: { reset: true },
+                        _hover: { reset: true }
+                    },
+                    sm: {
+                        _active: { reset: true },
+                        _focus: { reset: true },
+                        _hover: { reset: true }
+                    },
+                    md: {
+                        _active: { reset: true },
+                        _focus: { reset: true },
+                        _hover: { reset: true }
+                    },
+                    lg: {
+                        _active: { reset: true },
+                        _focus: { reset: true },
+                        _hover: { reset: true }
+                    },
+                    xl: {
+                        _active: { reset: true },
+                        _focus: { reset: true },
+                        _hover: { reset: true }
+                    }
                 }
             }
         });
-        cssAsArray = style.css.split('\n');
-
-        expect(cssAsArray[0].trim()).toBe(':active {');
-        expect(cssAsArray[1].trim()).toBe('appearance: none;');
-        expect(cssAsArray[2].trim()).toBe('background: none;');
-        expect(cssAsArray[3].trim()).toBe('border: none;');
-        expect(cssAsArray[4].trim()).toBe('}');
-        expect(cssAsArray[5].trim()).toBe(':focus {');
-        expect(cssAsArray[6].trim()).toBe('appearance: none;');
-        expect(cssAsArray[7].trim()).toBe('background: none;');
-        expect(cssAsArray[8].trim()).toBe('border: none;');
-        expect(cssAsArray[9].trim()).toBe('}');
-        expect(cssAsArray[10].trim()).toBe(':hover {');
-        expect(cssAsArray[11].trim()).toBe('appearance: none;');
-        expect(cssAsArray[12].trim()).toBe('background: none;');
-        expect(cssAsArray[13].trim()).toBe('border: none;');
-        expect(cssAsArray[14].trim()).toBe('}');
+        checkState(style, [
+            'appearance: none;',
+            'background: none;',
+            'border: none;',
+        ]);
 
         // resize
         style = ComponentStyle({
             ...mockedStyleProps,
             props: {
                 _active: {
-                    resize: 'both'
+                    resize: 'both',
                 },
                 _focus: {
-                    resize: 'none'
+                    resize: 'both'
                 },
                 _hover: {
                     resize: 'both'
+                },
+                _down: {
+                    xs: {
+                        _active: { resize: 'both' },
+                        _focus: { resize: 'both' },
+                        _hover: { resize: 'both' }
+                    },
+                    sm: {
+                        _active: { resize: 'both' },
+                        _focus: { resize: 'both' },
+                        _hover: { resize: 'both' }
+                    },
+                    md: {
+                        _active: { resize: 'both' },
+                        _focus: { resize: 'both' },
+                        _hover: { resize: 'both' }
+                    },
+                    lg: {
+                        _active: { resize: 'both' },
+                        _focus: { resize: 'both' },
+                        _hover: { resize: 'both' }
+                    },
+                    xl: {
+                        _active: { resize: 'both' },
+                        _focus: { resize: 'both' },
+                        _hover: { resize: 'both' }
+                    }
+                },
+                _up: {
+                    xs: {
+                        _active: { resize: 'both' },
+                        _focus: { resize: 'both' },
+                        _hover: { resize: 'both' }
+                    },
+                    sm: {
+                        _active: { resize: 'both' },
+                        _focus: { resize: 'both' },
+                        _hover: { resize: 'both' }
+                    },
+                    md: {
+                        _active: { resize: 'both' },
+                        _focus: { resize: 'both' },
+                        _hover: { resize: 'both' }
+                    },
+                    lg: {
+                        _active: { resize: 'both' },
+                        _focus: { resize: 'both' },
+                        _hover: { resize: 'both' }
+                    },
+                    xl: {
+                        _active: { resize: 'both' },
+                        _focus: { resize: 'both' },
+                        _hover: { resize: 'both' }
+                    }
                 }
             }
         });
-        cssAsArray = style.css.split('\n');
-
-        expect(cssAsArray[0].trim()).toBe(':active {');
-        expect(cssAsArray[1].trim()).toBe('resize: both;');
-        expect(cssAsArray[2].trim()).toBe('}');
-        expect(cssAsArray[3].trim()).toBe(':focus {');
-        expect(cssAsArray[4].trim()).toBe('resize: none;');
-        expect(cssAsArray[5].trim()).toBe('}');
-        expect(cssAsArray[6].trim()).toBe(':hover {');
-        expect(cssAsArray[7].trim()).toBe('resize: both;');
-        expect(cssAsArray[8].trim()).toBe('}');
+        checkState(style, ['resize: both;']);
     });
 
     it('should return css with responsive queries', () => {

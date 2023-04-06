@@ -235,14 +235,20 @@ export const handleProp = ({
         theme
     }) : props[prop];
     const {
+        deps,
         fn,
         key,
         transform,
         value: unhandledValue
     } = allProps[alias || prop]
     const propName = alias || prop;
+    let cachePropName = propName;
     let cssProps = [];
     let handledProps = {};
+
+    if (deps) {
+        cachePropName = `${propName}:${deps({ props }).join(':')}`;
+    }
 
     if (cache?.[propName]?.[initialValue]) {
         const { cssProps, prop } = cache[propName][initialValue];
@@ -406,6 +412,7 @@ export const handleProp = ({
     }
 
     if (!cache?.[propName]?.[initialValue] && typeof initialValue !== 'function') {
+        let cacheDeps;
         let handledInitialValue = initialValue;
 
         if (!Array.isArray(initialValue) && typeof initialValue === 'object' && allProps[propName]?.chainable) {
@@ -416,8 +423,13 @@ export const handleProp = ({
             handledInitialValue = JSON.stringify(initialValue);
         }
 
+        if (deps) {
+            cacheDeps = typeof deps === 'function' ? deps({ props }) : deps;
+        }
+
         if (handledInitialValue) {
             addToCache?.({
+                cacheDeps,
                 cachedProps: handledProps[propName],
                 initialValue: handledInitialValue,
                 propName,
