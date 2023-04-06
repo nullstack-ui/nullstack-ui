@@ -19,262 +19,633 @@ const mockedStyleProps = {
     theme: {}
 }
 
-export const checkState = (style, cssProps) => {
+export const checkState = (style, cssProps, separateProps) => {
     let cssAsArray = style.css.split('\n');
     let n = 0;
 
-    expect(cssAsArray[n++].trim()).toBe(':active {');
-
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe(':active {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':focus {');
-
     for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':active {');
+        }
+
         expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':hover {');
-    
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':focus {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':focus {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':hover {');
+    }
+
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':hover {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+    }
+
     expect(cssAsArray[n++].trim()).toBe('@media screen and (max-width: 576px) {');
-    expect(cssAsArray[n++].trim()).toBe(':active {');
 
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe(':active {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':focus {');
-
     for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':active {');
+        }
+
         expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':hover {');
-    
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':focus {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':focus {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':hover {');
+    }
+
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':hover {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+    }
+
     expect(cssAsArray[n++].trim()).toBe('}');
     expect(cssAsArray[n++].trim()).toBe('@media screen and (max-width: 640px) {');
-    expect(cssAsArray[n++].trim()).toBe(':active {');
 
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe(':active {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':focus {');
-
     for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':active {');
+        }
+
         expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':hover {');
-
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':focus {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':focus {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':hover {');
+    }
+
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':hover {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+    }
+
     expect(cssAsArray[n++].trim()).toBe('}');
     expect(cssAsArray[n++].trim()).toBe('@media screen and (max-width: 768px) {');
-    expect(cssAsArray[n++].trim()).toBe(':active {');
 
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe(':active {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':focus {');
-    
     for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':active {');
+        }
+
         expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':hover {');
-
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':focus {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':focus {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':hover {');
+    }
+
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':hover {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+    }
+
     expect(cssAsArray[n++].trim()).toBe('}');
     expect(cssAsArray[n++].trim()).toBe('@media screen and (max-width: 1024px) {');
-    expect(cssAsArray[n++].trim()).toBe(':active {');
 
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe(':active {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':focus {');
-
     for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':active {');
+        }
+
         expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':hover {');
-
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':focus {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':focus {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':hover {');
+    }
+
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':hover {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+    }
+
     expect(cssAsArray[n++].trim()).toBe('}');
     expect(cssAsArray[n++].trim()).toBe('@media screen and (max-width: 1280px) {');
-    expect(cssAsArray[n++].trim()).toBe(':active {');
 
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe(':active {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':focus {');
-
     for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':active {');
+        }
+
         expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':hover {');
-
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':focus {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':focus {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':hover {');
+    }
+
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':hover {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+    }
+
     expect(cssAsArray[n++].trim()).toBe('}');
     expect(cssAsArray[n++].trim()).toBe('@media screen and (min-width: 576px) {');
-    expect(cssAsArray[n++].trim()).toBe(':active {');
 
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe(':active {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':focus {');
-
     for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':active {');
+        }
+
         expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':hover {');
-
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':focus {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':focus {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':hover {');
+    }
+
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':hover {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+    }
+
     expect(cssAsArray[n++].trim()).toBe('}');
     expect(cssAsArray[n++].trim()).toBe('@media screen and (min-width: 640px) {');
-    expect(cssAsArray[n++].trim()).toBe(':active {');
 
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe(':active {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':focus {');
-
     for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
-    }
-    
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':hover {');
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':active {');
+        }
 
-    for (let i = 0; i < cssProps.length; i++) {
         expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':focus {');
+    }
+
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':focus {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':hover {');
+    }
+
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':hover {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+    }
+
     expect(cssAsArray[n++].trim()).toBe('}');
     expect(cssAsArray[n++].trim()).toBe('@media screen and (min-width: 768px) {');
-    expect(cssAsArray[n++].trim()).toBe(':active {');
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe(':active {');
+    }
 
     for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':active {');
+        }
+
         expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':focus {');
+    }
+
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':focus {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':hover {');
+    }
+
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':hover {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
     }
 
     expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':focus {');
-
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
-    }
-
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':hover {');
-
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
-    }
-
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe('}');
-
     expect(cssAsArray[n++].trim()).toBe('@media screen and (min-width: 1024px) {');
 
-    expect(cssAsArray[n++].trim()).toBe(':active {');
-
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe(':active {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':focus {');
-
     for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':active {');
+        }
+
         expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':hover {');
-
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':focus {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':focus {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':hover {');
+    }
+
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':hover {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+    }
+
     expect(cssAsArray[n++].trim()).toBe('}');
     expect(cssAsArray[n++].trim()).toBe('@media screen and (min-width: 1280px) {');
-    expect(cssAsArray[n++].trim()).toBe(':active {');
 
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe(':active {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':focus {');
-
     for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':active {');
+        }
+
         expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
-    expect(cssAsArray[n++].trim()).toBe(':hover {');
-
-    for (let i = 0; i < cssProps.length; i++) {
-        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':focus {');
     }
 
-    expect(cssAsArray[n++].trim()).toBe('}');
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':focus {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+        expect(cssAsArray[n++].trim()).toBe(':hover {');
+    }
+
+    for (let i = 0; i < cssProps.length; i++) {
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe(':hover {');
+        }
+
+        expect(cssAsArray[n++].trim()).toBe(cssProps[i]);
+
+        if (separateProps) {
+            expect(cssAsArray[n++].trim()).toBe('}');
+        }
+    }
+
+    if (!separateProps) {
+        expect(cssAsArray[n++].trim()).toBe('}');
+    }
+    
     expect(cssAsArray[n++].trim()).toBe('}');
 }
 
@@ -1214,7 +1585,7 @@ describe('misc props', () => {
         let cssAsArray = style.css.split('\n');
 
         checkState(style, ['all: initial;']);
-        
+
         // appearance
         style = ComponentStyle({
             ...mockedStyleProps,
@@ -1356,7 +1727,7 @@ describe('misc props', () => {
             }
         });
         checkState(style, ['display: block;']);
-        
+
         // boxSizing
         style = ComponentStyle({
             ...mockedStyleProps,

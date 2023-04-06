@@ -22,62 +22,34 @@ const mockedStyleProps = {
 // TODO: maybe move some of these to specific test files
 
 describe('misc props', () => {
+    // it('should return correct css props', () => {
+    //     let props = handleProps({
+    //         ...mockedProps,
+    //         props: {
+    //             bg: {
+    //                 blend: 'multiply'
+    //             }
+    //         }
+    //     })
+
+    //     props = handleProps({
+    //         ...mockedProps,
+    //         props: {
+    //             bgBlend: 'multiply'
+    //         }
+    //     })
+
+    //     props = handleProps({
+    //         ...mockedProps,
+    //         props: {
+    //             bgBlend: 'screen'
+    //         }
+    //     })
+
+    //     // console.log(cssAsArray);
+    // })
+
     it('should return correct css props', () => {
-        let style = ComponentStyle({
-            ...mockedStyleProps,
-            props: {
-                children: [
-                    {
-                        attributes: {
-                            _group: {
-                                _hover: {
-                                    bgColor: 'red'
-                                }
-                            }
-                        }
-                    }
-                ],
-                group: true,
-            }
-        });
-        let cssAsArray = style.css.split('\n');
-
-        style = ComponentStyle({
-            ...mockedStyleProps,
-            props: {
-                children: [
-                    {
-                        attributes: {
-                            _group: {
-                                _hover: {
-                                    bgColor: 'red'
-                                }
-                            }
-                        }
-                    }
-                ],
-                group: true,
-            }
-        });
-
-        style = ComponentStyle({
-            ...mockedStyleProps,
-            props: {
-                children: [
-                    {
-                        attributes: {
-                            _group: {
-                                _hover: {
-                                    bgColor: 'red'
-                                }
-                            }
-                        }
-                    }
-                ],
-                group: true,
-            }
-        });
-
-        // console.log(cssAsArray);
-    })
+        // console.log(cache)
+    });
 });
