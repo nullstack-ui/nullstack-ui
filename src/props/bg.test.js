@@ -2000,7 +2000,7 @@ describe('bg props', () => {
                 }
             }
         });
-        checkState(style, ['background-position: center center;']); 
+        checkState(style, ['background-position: center center;']);
 
         // bgRepeat
         style = ComponentStyle({
@@ -2071,7 +2071,7 @@ describe('bg props', () => {
                 }
             }
         });
-        checkState(style, ['background-repeat: no-repeat;']); 
+        checkState(style, ['background-repeat: no-repeat;']);
 
         // bgSize
         style = ComponentStyle({
@@ -2214,5 +2214,895 @@ describe('bg props', () => {
             }
         });
         checkState(style, ['background-image: url(image.png);']);
+    });
+
+    it('should return css with responsive queries', () => {
+        // bg (string)
+        let style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { bg: 'initial' },
+                    sm: { bg: 'inherit' },
+                    md: { bg: 'initial' },
+                    lg: { bg: 'inherit' },
+                    xl: { bg: 'initial' }
+                },
+                _up: {
+                    xs: { bg: 'initial' },
+                    sm: { bg: 'inherit' },
+                    md: { bg: 'initial' },
+                    lg: { bg: 'inherit' },
+                    xl: { bg: 'initial' }
+                }
+            }
+        });
+        let cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('background: initial;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('background: inherit;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('background: initial;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('background: inherit;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('background: initial;');
+        expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('background: initial;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('background: inherit;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('background: initial;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('background: inherit;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('background: initial;');
+        expect(cssAsArray[29].trim()).toBe('}');
+
+        // bg (object)
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: {
+                        bg: {
+                            attachment: 'fixed',
+                            blend: 'multiply',
+                            clip: 'border-box',
+                            color: 'red',
+                            image: 'url(image.png)',
+                            origin: 'border',
+                            position: 'left top',
+                            repeat: 'no-repeat',
+                            size: 'cover',
+                        }
+                    },
+                    sm: {
+                        bg: {
+                            attachment: 'scroll',
+                            blend: 'screen',
+                            clip: 'padding-box',
+                            color: 'blue',
+                            image: 'url(image2.png)',
+                            origin: 'padding',
+                            position: 'center center',
+                            repeat: 'repeat-x',
+                            size: 'contain',
+                        }
+                    },
+                    md: {
+                        bg: {
+                            attachment: 'fixed',
+                            blend: 'multiply',
+                            clip: 'border-box',
+                            color: 'red',
+                            image: 'url(image.png)',
+                            origin: 'border',
+                            position: 'left top',
+                            repeat: 'no-repeat',
+                            size: 'cover',
+                        }
+                    },
+                    lg: {
+                        bg: {
+                            attachment: 'scroll',
+                            blend: 'screen',
+                            clip: 'padding-box',
+                            color: 'blue',
+                            image: 'url(image2.png)',
+                            origin: 'padding',
+                            position: 'center center',
+                            repeat: 'repeat-x',
+                            size: 'contain',
+                        }
+                    },
+                    xl: {
+                        bg: {
+                            attachment: 'fixed',
+                            blend: 'multiply',
+                            clip: 'border-box',
+                            color: 'red',
+                            image: 'url(image.png)',
+                            origin: 'border',
+                            position: 'left top',
+                            repeat: 'no-repeat',
+                            size: 'cover',
+                        }
+                    },
+                },
+                _up: {
+                    xs: {
+                        bg: {
+                            attachment: 'fixed',
+                            blend: 'multiply',
+                            clip: 'border-box',
+                            color: 'red',
+                            image: 'url(image.png)',
+                            origin: 'border',
+                            position: 'left top',
+                            repeat: 'no-repeat',
+                            size: 'cover',
+                        }
+                    },
+                    sm: {
+                        bg: {
+                            attachment: 'scroll',
+                            blend: 'screen',
+                            clip: 'padding-box',
+                            color: 'blue',
+                            image: 'url(image2.png)',
+                            origin: 'padding',
+                            position: 'center center',
+                            repeat: 'repeat-x',
+                            size: 'contain',
+                        }
+                    },
+                    md: {
+                        bg: {
+                            attachment: 'fixed',
+                            blend: 'multiply',
+                            clip: 'border-box',
+                            color: 'red',
+                            image: 'url(image.png)',
+                            origin: 'border',
+                            position: 'left top',
+                            repeat: 'no-repeat',
+                            size: 'cover',
+                        }
+                    },
+                    lg: {
+                        bg: {
+                            attachment: 'scroll',
+                            blend: 'screen',
+                            clip: 'padding-box',
+                            color: 'blue',
+                            image: 'url(image2.png)',
+                            origin: 'padding',
+                            position: 'center center',
+                            repeat: 'repeat-x',
+                            size: 'contain',
+                        }
+                    },
+                    xl: {
+                        bg: {
+                            attachment: 'fixed',
+                            blend: 'multiply',
+                            clip: 'border-box',
+                            color: 'red',
+                            image: 'url(image.png)',
+                            origin: 'border',
+                            position: 'left top',
+                            repeat: 'no-repeat',
+                            size: 'cover',
+                        }
+                    },
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('background-attachment: fixed;');
+        expect(cssAsArray[2].trim()).toBe('background-blend-mode: multiply;');
+        expect(cssAsArray[3].trim()).toBe('background-clip: border-box;');
+        expect(cssAsArray[4].trim()).toBe('background-color: red;');
+        expect(cssAsArray[5].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[6].trim()).toBe('background-origin: border-box;');
+        expect(cssAsArray[7].trim()).toBe('background-position: left top;');
+        expect(cssAsArray[8].trim()).toBe('background-repeat: no-repeat;');
+        expect(cssAsArray[9].trim()).toBe('background-size: cover;');
+        expect(cssAsArray[10].trim()).toBe('}');
+        expect(cssAsArray[11].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[12].trim()).toBe('background-attachment: scroll;');
+        expect(cssAsArray[13].trim()).toBe('background-blend-mode: screen;');
+        expect(cssAsArray[14].trim()).toBe('background-clip: padding-box;');
+        expect(cssAsArray[15].trim()).toBe('background-color: blue;');
+        expect(cssAsArray[16].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[17].trim()).toBe('background-origin: padding-box;');
+        expect(cssAsArray[18].trim()).toBe('background-position: center center;');
+        expect(cssAsArray[19].trim()).toBe('background-repeat: repeat-x;');
+        expect(cssAsArray[20].trim()).toBe('background-size: contain;');
+        expect(cssAsArray[21].trim()).toBe('}');
+        expect(cssAsArray[22].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[23].trim()).toBe('background-attachment: fixed;');
+        expect(cssAsArray[24].trim()).toBe('background-blend-mode: multiply;');
+        expect(cssAsArray[25].trim()).toBe('background-clip: border-box;');
+        expect(cssAsArray[26].trim()).toBe('background-color: red;');
+        expect(cssAsArray[27].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[28].trim()).toBe('background-origin: border-box;');
+        expect(cssAsArray[29].trim()).toBe('background-position: left top;');
+        expect(cssAsArray[30].trim()).toBe('background-repeat: no-repeat;');
+        expect(cssAsArray[31].trim()).toBe('background-size: cover;');
+        expect(cssAsArray[32].trim()).toBe('}');
+        expect(cssAsArray[33].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[34].trim()).toBe('background-attachment: scroll;');
+        expect(cssAsArray[35].trim()).toBe('background-blend-mode: screen;');
+        expect(cssAsArray[36].trim()).toBe('background-clip: padding-box;');
+        expect(cssAsArray[37].trim()).toBe('background-color: blue;');
+        expect(cssAsArray[38].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[39].trim()).toBe('background-origin: padding-box;');
+        expect(cssAsArray[40].trim()).toBe('background-position: center center;');
+        expect(cssAsArray[41].trim()).toBe('background-repeat: repeat-x;');
+        expect(cssAsArray[42].trim()).toBe('background-size: contain;');
+        expect(cssAsArray[43].trim()).toBe('}');
+        expect(cssAsArray[44].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[45].trim()).toBe('background-attachment: fixed;');
+        expect(cssAsArray[46].trim()).toBe('background-blend-mode: multiply;');
+        expect(cssAsArray[47].trim()).toBe('background-clip: border-box;');
+        expect(cssAsArray[48].trim()).toBe('background-color: red;');
+        expect(cssAsArray[49].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[50].trim()).toBe('background-origin: border-box;');
+        expect(cssAsArray[51].trim()).toBe('background-position: left top;');
+        expect(cssAsArray[52].trim()).toBe('background-repeat: no-repeat;');
+        expect(cssAsArray[53].trim()).toBe('background-size: cover;');
+        expect(cssAsArray[54].trim()).toBe('}');
+        expect(cssAsArray[55].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[56].trim()).toBe('background-attachment: fixed;');
+        expect(cssAsArray[57].trim()).toBe('background-blend-mode: multiply;');
+        expect(cssAsArray[58].trim()).toBe('background-clip: border-box;');
+        expect(cssAsArray[59].trim()).toBe('background-color: red;');
+        expect(cssAsArray[60].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[61].trim()).toBe('background-origin: border-box;');
+        expect(cssAsArray[62].trim()).toBe('background-position: left top;');
+        expect(cssAsArray[63].trim()).toBe('background-repeat: no-repeat;');
+        expect(cssAsArray[64].trim()).toBe('background-size: cover;');
+        expect(cssAsArray[65].trim()).toBe('}');
+        expect(cssAsArray[66].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[67].trim()).toBe('background-attachment: scroll;');
+        expect(cssAsArray[68].trim()).toBe('background-blend-mode: screen;');
+        expect(cssAsArray[69].trim()).toBe('background-clip: padding-box;');
+        expect(cssAsArray[70].trim()).toBe('background-color: blue;');
+        expect(cssAsArray[71].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[72].trim()).toBe('background-origin: padding-box;');
+        expect(cssAsArray[73].trim()).toBe('background-position: center center;');
+        expect(cssAsArray[74].trim()).toBe('background-repeat: repeat-x;');
+        expect(cssAsArray[75].trim()).toBe('background-size: contain;');
+        expect(cssAsArray[76].trim()).toBe('}');
+        expect(cssAsArray[77].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[78].trim()).toBe('background-attachment: fixed;');
+        expect(cssAsArray[79].trim()).toBe('background-blend-mode: multiply;');
+        expect(cssAsArray[80].trim()).toBe('background-clip: border-box;');
+        expect(cssAsArray[81].trim()).toBe('background-color: red;');
+        expect(cssAsArray[82].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[83].trim()).toBe('background-origin: border-box;');
+        expect(cssAsArray[84].trim()).toBe('background-position: left top;');
+        expect(cssAsArray[85].trim()).toBe('background-repeat: no-repeat;');
+        expect(cssAsArray[86].trim()).toBe('background-size: cover;');
+        expect(cssAsArray[87].trim()).toBe('}');
+        expect(cssAsArray[88].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[89].trim()).toBe('background-attachment: scroll;');
+        expect(cssAsArray[90].trim()).toBe('background-blend-mode: screen;');
+        expect(cssAsArray[91].trim()).toBe('background-clip: padding-box;');
+        expect(cssAsArray[92].trim()).toBe('background-color: blue;');
+        expect(cssAsArray[93].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[94].trim()).toBe('background-origin: padding-box;');
+        expect(cssAsArray[95].trim()).toBe('background-position: center center;');
+        expect(cssAsArray[96].trim()).toBe('background-repeat: repeat-x;');
+        expect(cssAsArray[97].trim()).toBe('background-size: contain;');
+        expect(cssAsArray[98].trim()).toBe('}');
+        expect(cssAsArray[99].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[100].trim()).toBe('background-attachment: fixed;');
+        expect(cssAsArray[101].trim()).toBe('background-blend-mode: multiply;');
+        expect(cssAsArray[102].trim()).toBe('background-clip: border-box;');
+        expect(cssAsArray[103].trim()).toBe('background-color: red;');
+        expect(cssAsArray[104].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[105].trim()).toBe('background-origin: border-box;');
+        expect(cssAsArray[106].trim()).toBe('background-position: left top;');
+        expect(cssAsArray[107].trim()).toBe('background-repeat: no-repeat;');
+        expect(cssAsArray[108].trim()).toBe('background-size: cover;');
+        expect(cssAsArray[109].trim()).toBe('}');
+
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { bg: { url: 'image.png' } },
+                    sm: { bg: { url: 'image2.png' } },
+                    md: { bg: { url: 'image.png' } },
+                    lg: { bg: { url: 'image2.png' } },
+                    xl: { bg: { url: 'image.png' } }
+                },
+                _up: {
+                    xs: { bg: { url: 'image.png' } },
+                    sm: { bg: { url: 'image2.png' } },
+                    md: { bg: { url: 'image.png' } },
+                    lg: { bg: { url: 'image2.png' } },
+                    xl: { bg: { url: 'image.png' } }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[29].trim()).toBe('}');
+
+        // bgAttachment
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { bgAttachment: 'fixed' },
+                    sm: { bgAttachment: 'scroll' },
+                    md: { bgAttachment: 'fixed' },
+                    lg: { bgAttachment: 'scroll' },
+                    xl: { bgAttachment: 'fixed' }
+                },
+                _up: {
+                    xs: { bgAttachment: 'fixed' },
+                    sm: { bgAttachment: 'scroll' },
+                    md: { bgAttachment: 'fixed' },
+                    lg: { bgAttachment: 'scroll' },
+                    xl: { bgAttachment: 'fixed' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('background-attachment: fixed;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('background-attachment: scroll;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('background-attachment: fixed;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('background-attachment: scroll;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('background-attachment: fixed;');
+        expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('background-attachment: fixed;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('background-attachment: scroll;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('background-attachment: fixed;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('background-attachment: scroll;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('background-attachment: fixed;');
+        expect(cssAsArray[29].trim()).toBe('}');
+
+        // bgBlend
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { bgBlend: 'multiply' },
+                    sm: { bgBlend: 'screen' },
+                    md: { bgBlend: 'multiply' },
+                    lg: { bgBlend: 'screen' },
+                    xl: { bgBlend: 'multiply' }
+                },
+                _up: {
+                    xs: { bgBlend: 'multiply' },
+                    sm: { bgBlend: 'screen' },
+                    md: { bgBlend: 'multiply' },
+                    lg: { bgBlend: 'screen' },
+                    xl: { bgBlend: 'multiply' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('background-blend-mode: multiply;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('background-blend-mode: screen;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('background-blend-mode: multiply;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('background-blend-mode: screen;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('background-blend-mode: multiply;');
+        expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('background-blend-mode: multiply;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('background-blend-mode: screen;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('background-blend-mode: multiply;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('background-blend-mode: screen;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('background-blend-mode: multiply;');
+        expect(cssAsArray[29].trim()).toBe('}');
+
+        // bgClip
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { bgClip: 'border-box' },
+                    sm: { bgClip: 'padding-box' },
+                    md: { bgClip: 'border-box' },
+                    lg: { bgClip: 'padding-box' },
+                    xl: { bgClip: 'border-box' }
+                },
+                _up: {
+                    xs: { bgClip: 'border-box' },
+                    sm: { bgClip: 'padding-box' },
+                    md: { bgClip: 'border-box' },
+                    lg: { bgClip: 'padding-box' },
+                    xl: { bgClip: 'border-box' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('background-clip: border-box;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('background-clip: padding-box;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('background-clip: border-box;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('background-clip: padding-box;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('background-clip: border-box;');
+        expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('background-clip: border-box;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('background-clip: padding-box;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('background-clip: border-box;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('background-clip: padding-box;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('background-clip: border-box;');
+        expect(cssAsArray[29].trim()).toBe('}');
+
+        // bgColor
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { bgColor: 'red' },
+                    sm: { bgColor: 'blue' },
+                    md: { bgColor: 'red' },
+                    lg: { bgColor: 'blue' },
+                    xl: { bgColor: 'red' }
+                },
+                _up: {
+                    xs: { bgColor: 'red' },
+                    sm: { bgColor: 'blue' },
+                    md: { bgColor: 'red' },
+                    lg: { bgColor: 'blue' },
+                    xl: { bgColor: 'red' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('background-color: red;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('background-color: blue;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('background-color: red;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('background-color: blue;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('background-color: red;');
+        expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('background-color: red;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('background-color: blue;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('background-color: red;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('background-color: blue;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('background-color: red;');
+        expect(cssAsArray[29].trim()).toBe('}');
+
+        // bgImage
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { bgImage: 'url(image.png)' },
+                    sm: { bgImage: 'url(image2.png)' },
+                    md: { bgImage: 'url(image.png)' },
+                    lg: { bgImage: 'url(image2.png)' },
+                    xl: { bgImage: 'url(image.png)' }
+                },
+                _up: {
+                    xs: { bgImage: 'url(image.png)' },
+                    sm: { bgImage: 'url(image2.png)' },
+                    md: { bgImage: 'url(image.png)' },
+                    lg: { bgImage: 'url(image2.png)' },
+                    xl: { bgImage: 'url(image.png)' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[29].trim()).toBe('}');
+
+        // bgOrigin
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { bgOrigin: 'border' },
+                    sm: { bgOrigin: 'padding' },
+                    md: { bgOrigin: 'border' },
+                    lg: { bgOrigin: 'padding' },
+                    xl: { bgOrigin: 'border' }
+                },
+                _up: {
+                    xs: { bgOrigin: 'border' },
+                    sm: { bgOrigin: 'padding' },
+                    md: { bgOrigin: 'border' },
+                    lg: { bgOrigin: 'padding' },
+                    xl: { bgOrigin: 'border' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('background-origin: border-box;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('background-origin: padding-box;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('background-origin: border-box;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('background-origin: padding-box;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('background-origin: border-box;');
+        expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('background-origin: border-box;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('background-origin: padding-box;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('background-origin: border-box;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('background-origin: padding-box;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('background-origin: border-box;');
+        expect(cssAsArray[29].trim()).toBe('}');
+
+        // bgPosition
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { bgPosition: 'left top' },
+                    sm: { bgPosition: 'center center' },
+                    md: { bgPosition: 'left top' },
+                    lg: { bgPosition: 'center center' },
+                    xl: { bgPosition: 'left top' }
+                },
+                _up: {
+                    xs: { bgPosition: 'left top' },
+                    sm: { bgPosition: 'center center' },
+                    md: { bgPosition: 'left top' },
+                    lg: { bgPosition: 'center center' },
+                    xl: { bgPosition: 'left top' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('background-position: left top;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('background-position: center center;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('background-position: left top;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('background-position: center center;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('background-position: left top;');
+        expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('background-position: left top;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('background-position: center center;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('background-position: left top;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('background-position: center center;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('background-position: left top;');
+        expect(cssAsArray[29].trim()).toBe('}');
+
+        // bgRepeat
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { bgRepeat: 'repeat-x' },
+                    sm: { bgRepeat: 'no-repeat' },
+                    md: { bgRepeat: 'repeat-x' },
+                    lg: { bgRepeat: 'no-repeat' },
+                    xl: { bgRepeat: 'repeat-x' }
+                },
+                _up: {
+                    xs: { bgRepeat: 'repeat-x' },
+                    sm: { bgRepeat: 'no-repeat' },
+                    md: { bgRepeat: 'repeat-x' },
+                    lg: { bgRepeat: 'no-repeat' },
+                    xl: { bgRepeat: 'repeat-x' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('background-repeat: repeat-x;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('background-repeat: no-repeat;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('background-repeat: repeat-x;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('background-repeat: no-repeat;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('background-repeat: repeat-x;');
+        expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('background-repeat: repeat-x;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('background-repeat: no-repeat;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('background-repeat: repeat-x;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('background-repeat: no-repeat;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('background-repeat: repeat-x;');
+        expect(cssAsArray[29].trim()).toBe('}');
+
+        // bgSize
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { bgSize: 'contain' },
+                    sm: { bgSize: 'cover' },
+                    md: { bgSize: 'contain' },
+                    lg: { bgSize: 'cover' },
+                    xl: { bgSize: 'contain' }
+                },
+                _up: {
+                    xs: { bgSize: 'contain' },
+                    sm: { bgSize: 'cover' },
+                    md: { bgSize: 'contain' },
+                    lg: { bgSize: 'cover' },
+                    xl: { bgSize: 'contain' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('background-size: contain;');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('background-size: cover;');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('background-size: contain;');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('background-size: cover;');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('background-size: contain;');
+        expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('background-size: contain;');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('background-size: cover;');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('background-size: contain;');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('background-size: cover;');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('background-size: contain;');
+        expect(cssAsArray[29].trim()).toBe('}');
+
+        // bgUrl
+        style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _down: {
+                    xs: { bgUrl: 'image.png' },
+                    sm: { bgUrl: 'image2.png' },
+                    md: { bgUrl: 'image.png' },
+                    lg: { bgUrl: 'image2.png' },
+                    xl: { bgUrl: 'image.png' }
+                },
+                _up: {
+                    xs: { bgUrl: 'image.png' },
+                    sm: { bgUrl: 'image2.png' },
+                    md: { bgUrl: 'image.png' },
+                    lg: { bgUrl: 'image2.png' },
+                    xl: { bgUrl: 'image.png' }
+                }
+            }
+        });
+        cssAsArray = style.css.split('\n');
+
+        expect(cssAsArray[0].trim()).toBe('@media screen and (max-width: 576px) {');
+        expect(cssAsArray[1].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[2].trim()).toBe('}');
+        expect(cssAsArray[3].trim()).toBe('@media screen and (max-width: 640px) {');
+        expect(cssAsArray[4].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[5].trim()).toBe('}');
+        expect(cssAsArray[6].trim()).toBe('@media screen and (max-width: 768px) {');
+        expect(cssAsArray[7].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[8].trim()).toBe('}');
+        expect(cssAsArray[9].trim()).toBe('@media screen and (max-width: 1024px) {');
+        expect(cssAsArray[10].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[11].trim()).toBe('}');
+        expect(cssAsArray[12].trim()).toBe('@media screen and (max-width: 1280px) {');
+        expect(cssAsArray[13].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[14].trim()).toBe('}');
+        expect(cssAsArray[15].trim()).toBe('@media screen and (min-width: 576px) {');
+        expect(cssAsArray[16].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[17].trim()).toBe('}');
+        expect(cssAsArray[18].trim()).toBe('@media screen and (min-width: 640px) {');
+        expect(cssAsArray[19].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[20].trim()).toBe('}');
+        expect(cssAsArray[21].trim()).toBe('@media screen and (min-width: 768px) {');
+        expect(cssAsArray[22].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[23].trim()).toBe('}');
+        expect(cssAsArray[24].trim()).toBe('@media screen and (min-width: 1024px) {');
+        expect(cssAsArray[25].trim()).toBe('background-image: url(image2.png);');
+        expect(cssAsArray[26].trim()).toBe('}');
+        expect(cssAsArray[27].trim()).toBe('@media screen and (min-width: 1280px) {');
+        expect(cssAsArray[28].trim()).toBe('background-image: url(image.png);');
+        expect(cssAsArray[29].trim()).toBe('}');
     });
 });
