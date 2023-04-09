@@ -156,18 +156,19 @@ export const rounded = ({
 export const borderProps = {
     // Border
     'border': {
+        chainable: true,
         fn: border,
         key: 'border',
     },
     'bd': { aliasFor: 'border' },
 
-    'border.color': {
+    'borderColor': {
         fn: borderColor,
         key: 'border-color'
     },
-    'bd.color': { aliasFor: 'border.color' },
-    'bdColor': { aliasFor: 'border.color' },
-    'borderColor': { aliasFor: 'border.color' },
+    'bd.color': { aliasFor: 'borderColor' },
+    'bdColor': { aliasFor: 'borderColor' },
+    'border.color': { aliasFor: 'borderColor' },
 
     // Border bottom
     'border.bottom': {

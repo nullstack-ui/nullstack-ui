@@ -7,7 +7,6 @@ export const getNestedProps = ({
     ...rest
 }) => {
     const handled = {};
-    let handledProps;
 
     for (let prop in childProps) {
         if (Array.isArray(propName)) {
