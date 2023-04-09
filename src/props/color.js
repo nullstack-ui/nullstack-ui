@@ -441,8 +441,6 @@ export const colorProps = {
         key: 'background-color',
     },
     'bg.color': { aliasFor: 'bgColor' },
-    'background.color': { aliasFor: 'bgColor' },
-    'backgroundColor': { aliasFor: 'bgColor' },
 
     'caretColor': {
         fn: bgColor,

@@ -36,6 +36,7 @@ const borderRadiusAliases = [
 // Methods
 export const border = ({
     key = 'border',
+    propName = 'bd',
     theme,
     value,
     ...rest
@@ -64,7 +65,7 @@ export const border = ({
     } else if (typeof value === 'object') {
         return getNestedProps({
             childProps: value,
-            propName: key,
+            propName,
             theme
         });
     } else {
@@ -108,7 +109,7 @@ export const borderRadius = ({
     } else if (typeof value === 'object') {
         return getNestedProps({
             childProps: value,
-            propName: 'borderRadius',
+            propName: 'bdRadius',
             theme
         });
     } else {
@@ -155,344 +156,373 @@ export const rounded = ({
 // Props
 export const borderProps = {
     // Border
-    'border': {
+    'bd': {
         chainable: true,
         fn: border,
         key: 'border',
     },
-    'bd': { aliasFor: 'border' },
 
-    'borderColor': {
+    // Border color
+    'bdColor': {
         fn: borderColor,
         key: 'border-color'
     },
-    'bd.color': { aliasFor: 'borderColor' },
-    'bdColor': { aliasFor: 'borderColor' },
-    'border.color': { aliasFor: 'borderColor' },
+    'bd.color': { aliasFor: 'bdColor' },
+
+    // Border radius
+    'bdRadius': {
+        chainable: true,
+        fn: borderRadius,
+        key: 'border-radius'
+    },
+    'bd.radius': { aliasFor: 'bdRadius' },
+    'radius': { aliasFor: 'bdRadius' },
+    'rounded': { aliasFor: 'bdRadius' },
+
+    // Border radius (bottom)
+    'bdRadiusBottom': {
+        fn: borderRadius,
+        key: [
+            'border-bottom-left-radius',
+            'border-bottom-right-radius',
+        ]
+    },
+    'bd.radius.bottom': { aliasFor: 'bdRadiusBottom' },
+    'bdRadius.bottom': { aliasFor: 'bdRadiusBottom' },
+    'radius.bottom': { aliasFor: 'bdRadiusBottom' },
+    'rounded.bottom': { aliasFor: 'bdRadiusBottom' },
+
+    // Border radius (left)
+    'bdRadiusLeft': {
+        fn: borderRadius,
+        key: [
+            'border-bottom-left-radius',
+            'border-top-left-radius',
+        ]
+    },
+    'bd.radius.left': { aliasFor: 'bdRadiusLeft' },
+    'bdRadius.left': { aliasFor: 'bdRadiusLeft' },
+    'radius.left': { aliasFor: 'bdRadiusLeft' },
+    'rounded.left': { aliasFor: 'bdRadiusLeft' },
+
+    'bdRadiusRight': {
+        fn: borderRadius,
+        key: [
+            'border-bottom-right-radius',
+            'border-top-right-radius',
+        ]
+    },
+    'bd.radius.right': { aliasFor: 'bdRadiusRight' },
+    'bdRadius.right': { aliasFor: 'bdRadiusRight' },
+    'radius.right': { aliasFor: 'bdRadiusRight' },
+    'rounded.right': { aliasFor: 'bdRadiusRight' },
+
+    'bdRadiusTop': {
+        fn: borderRadius,
+        key: [
+            'border-top-left-radius',
+            'border-top-right-radius',
+        ]
+    },
+    'bd.radius.top': { aliasFor: 'bdRadiusTop' },
+    'bdRadius.top': { aliasFor: 'bdRadiusTop' },
+    'radius.top': { aliasFor: 'bdRadiusTop' },
+    'rounded.top': { aliasFor: 'bdRadiusTop' },
+
+    // Border style
+    'bdStyle': {
+        fn: borderStyle,
+        key: 'border-style',
+    },
+    'bd.style': { aliasFor: 'bdStyle' },
+
+    // Border width
+    'bdWidth': {
+        fn: borderWidth,
+        key: 'border-width',
+    },
+    'bd.width': { aliasFor: 'bdWidth' },
 
     // Border bottom
-    'border.bottom': {
+    'bdBottom': {
+        chainable: true,
         fn: params => border({
             ...params,
-            key: 'border-bottom'
+            key: 'border-bottom',
+            propName: 'bdBottom'
         })
     },
-    'bd.bottom': { aliasFor: 'border.bottom' },
-    'bdBottom': { aliasFor: 'border.bottom' },
-    'borderBottom': { aliasFor: 'border.bottom' },
+    'bd.bottom': { aliasFor: 'bdBottom' },
 
-    'border-bottom.color': {
+    'bdBottomColor': {
         fn: params => borderColor({
             ...params,
             key: 'border-bottom-color'
         })
     },
-    'bdBottom.color': { aliasFor: 'border-bottom.color' },
-    'border.bottom.color': { aliasFor: 'border-bottom.color' },
-    'bdBottomColor': { aliasFor: 'border-bottom.color' },
-    'borderBottomColor': { aliasFor: 'border-bottom.color' },
+    'bd.bottom.color': { aliasFor: 'bdBottomColor' },
+    'bdBottom.color': { aliasFor: 'bdBottomColor' },
 
-    'border-bottom.radius': {
+    'bdBottomRadius': {
         fn: borderRadius,
         key: [
             'border-bottom-left-radius',
             'border-bottom-right-radius',
         ]
     },
-    'border.bottom.radius': { aliasFor: 'border-bottom.radius' },
-    'bdBottom.radius': { aliasFor: 'border-bottom.radius' },
-    'bdBottomRadius': { aliasFor: 'border-bottom.radius' },
-    'borderBottomRadius': { aliasFor: 'border-bottom.radius' },
+    'bd.bottom.radius': { aliasFor: 'bdBottomRadius' },
+    'bdBottom.radius': { aliasFor: 'bdBottomRadius' },
 
-    'border-bottom.style': {
+    'bdBottomStyle': {
         fn: params => borderStyle({
             ...params,
             key: 'border-bottom-style'
         })
     },
-    'border.bottom.style': { aliasFor: 'border-bottom.style' },
-    'bdBottom.style': { aliasFor: 'border-bottom.style' },
-    'bdBottomStyle': { aliasFor: 'border-bottom.style' },
-    'borderBottomStyle': { aliasFor: 'border-bottom.style' },
+    'bd.bottom.style': { aliasFor: 'bdBottomStyle' },
+    'bdBottom.style': { aliasFor: 'bdBottomStyle' },
 
-    'border-bottom.width': {
+    'bdBottomWidth': {
         fn: params => borderWidth({
             ...params,
             key: 'border-bottom-width'
         })
     },
-    'border.bottom.width': { aliasFor: 'border-bottom.width' },
-    'bdBottom.width': { aliasFor: 'border-bottom.width' },
-    'bdBottomWidth': { aliasFor: 'border-bottom.width' },
-    'borderBottomWidth': { aliasFor: 'border-bottom.width' },
+    'bd.bottom.width': { aliasFor: 'bdBottomWidth' },
+    'bdBottom.width': { aliasFor: 'bdBottomWidth' },
 
     // Border left
-    'border.left': {
+    'bdLeft': {
         fn: params => border({
             ...params,
-            key: 'border-left'
+            key: 'border-left',
+            propName: 'bdLeft'
         })
     },
-    'bd.left': { aliasFor: 'border.left' },
-    'bdLeft': { aliasFor: 'border.left' },
-    'borderLeft': { aliasFor: 'border.left' },
+    'bd.left': { aliasFor: 'bdLeft' },
 
-    'border-left.color': {
+    'bdLeftColor': {
         fn: params => borderColor({
             ...params,
             key: 'border-left-color'
         })
     },
-    'border.left.color': { aliasFor: 'border-left.color' },
-    'bdLeft.color': { aliasFor: 'border-left.color' },
-    'bdLeftColor': { aliasFor: 'border-left.color' },
-    'borderLeftColor': { aliasFor: 'border-left.color' },
+    'bd.left.color': { aliasFor: 'bdLeftColor' },
+    'bdLeft.color': { aliasFor: 'bdLeftColor' },
 
-    'border-left.radius': {
+    'bdLeftRadius': {
         fn: borderRadius,
         key: [
             'border-bottom-left-radius',
             'border-top-left-radius',
         ]
     },
-    'border.left.radius': { aliasFor: 'border-left.radius' },
-    'bdLeft.radius': { aliasFor: 'border-left.radius' },
-    'bdLeftRadius': { aliasFor: 'border-left.radius' },
-    'borderLeftRadius': { aliasFor: 'border-left.radius' },
+    'bd.left.radius': { aliasFor: 'bdLeftRadius' },
+    'bdLeft.radius': { aliasFor: 'bdLeftRadius' },
 
-    'border-left.style': {
+    'bdLeftStyle': {
         fn: params => borderStyle({
             ...params,
             key: 'border-left-style'
         })
     },
-    'border.left.style': { aliasFor: 'border-left.style' },
-    'bdLeft.style': { aliasFor: 'border-left.style' },
-    'bdLeftStyle': { aliasFor: 'border-left.style' },
-    'borderLeftStyle': { aliasFor: 'border-left.style' },
+    'bd.left.style': { aliasFor: 'bdLeftStyle' },
+    'bdLeft.style': { aliasFor: 'bdLeftStyle' },
 
-    'border-left.width': {
+    'bdLeftWidth': {
         fn: params => borderWidth({
             ...params,
             key: 'border-left-width'
         })
     },
-    'border.left.width': { aliasFor: 'border-left.width' },
-    'bdLeft.width': { aliasFor: 'border-left.width' },
-    'bdLeftWidth': { aliasFor: 'border-left.width' },
-    'borderLeftWidth': { aliasFor: 'border-left.width' },
+    'bd.left.width': { aliasFor: 'bdLeftWidth' },
+    'bdLeft.width': { aliasFor: 'bdLeftWidth' },
 
     // Border right
-    'border.right': {
+    'bdRight': {
+        chainable: true,
         fn: params => border({
             ...params,
-            key: 'border-right'
+            key: 'border-right',
+            propName: 'bdRight'
         })
     },
-    'bd.right': { aliasFor: 'border.right' },
+    'bd.right': { aliasFor: 'bdRight' },
 
-    'borderRight': {
-        fn: params => border({
-            ...params,
-            key: 'border-right'
-        })
-    },
-    'borderR': { aliasFor: 'borderRight' },
-    'bdRight': { aliasFor: 'borderRight' },
-    'bdR': { aliasFor: 'borderRight' },
-
-    'border-right.color': {
+    'bdRightColor': {
         fn: params => borderColor({
             ...params,
             key: 'border-right-color'
         })
     },
-    'bdRight.color': { aliasFor: 'border-right.color' },
-    'bdRightColor': { aliasFor: 'border-right.color' },
-    'borderRightColor': { aliasFor: 'border-right.color' },
+    'bd.right.color': { aliasFor: 'bdRightColor' },
+    'bdRight.color': { aliasFor: 'bdRightColor' },
 
-    'border-right.radius': {
+    'bdRightRadius': {
         fn: borderRadius,
         key: [
             'border-bottom-right-radius',
             'border-top-right-radius',
         ]
     },
-    'border.right.radius': { aliasFor: 'border-right.radius' },
-    'bdRight.radius': { aliasFor: 'border-right.radius' },
-    'bdRightRadius': { aliasFor: 'border-right.radius' },
-    'borderRightRadius': { aliasFor: 'border-right.radius' },
+    'bd.right.radius': { aliasFor: 'bdRightRadius' },
+    'bdRight.radius': { aliasFor: 'bdRightRadius' },
 
-    'border-right.style': {
+    'bdRightStyle': {
         fn: params => borderStyle({
             ...params,
             key: 'border-right-style'
         })
     },
-    'bdRight.style': { aliasFor: 'border-right.style' },
-    'bdRightStyle': { aliasFor: 'border-right.style' },
-    'borderRightStyle': { aliasFor: 'border-right.style' },
+    'bd.right.style': { aliasFor: 'bdRightStyle' },
+    'bdRight.style': { aliasFor: 'bdRightStyle' },
 
-    'border-right.width': {
+    'bdRightWidth': {
         fn: params => borderWidth({
             ...params,
             key: 'border-right-width'
         })
     },
-    'border.right.width': { aliasFor: 'border-right.width' },
-    'bdRight.width': { aliasFor: 'border-right.width' },
-    'bdRightWidth': { aliasFor: 'border-right.width' },
+    'bd.right.width': { aliasFor: 'bdRightWidth' },
+    'bdRight.width': { aliasFor: 'bdRightWidth' },
 
     // Border top
-    'border.top': {
+    'bdTop': {
         fn: params => border({
             ...params,
-            key: 'border-top'
+            key: 'border-top',
+            propName: 'bdTop'
         })
     },
-    'bd.top': { aliasFor: 'border.top' },
-    'bdTop': { aliasFor: 'border.top' },
-    'borderTop': { aliasFor: 'border.top' },
+    'bd.top': { aliasFor: 'bdTop' },
 
-    'border-top.color': {
+    'bdTopColor': {
         fn: params => borderColor({
             ...params,
             key: 'border-top-color'
         })
     },
-    'bdTopColor': { aliasFor: 'border-top.color' },
-    'borderTopColor': { aliasFor: 'border-top.color' },
+    'bd.top.color': { aliasFor: 'bdTopColor' },
+    'bdTop.color': { aliasFor: 'bdTopColor' },
 
-    'border-top.radius': {
+    'bdTopRadius': {
         fn: borderRadius,
         key: [
             'border-top-left-radius',
             'border-top-right-radius',
         ]
     },
-    'border.top.radius': { aliasFor: 'border-top.radius' },
-    'bdTop.radius': { aliasFor: 'border-top.radius' },
-    'bdTopRadius': { aliasFor: 'border-top.radius' },
-    'borderTopRadius': { aliasFor: 'border-top.radius' },
+    'bd.top.radius': { aliasFor: 'bdTopRadius' },
+    'bdTop.radius': { aliasFor: 'bdTopRadius' },
 
-    'border-top.style': {
+    'bdTopStyle': {
         fn: params => borderStyle({
             ...params,
             key: 'border-top-style'
         })
     },
-    'bdTopStyle': { aliasFor: 'border-top.style' },
-    'borderTopStyle': { aliasFor: 'border-top.style' },
-    'bd.top.style': { aliasFor: 'border-top.style' },
-    'border.top.style': { aliasFor: 'border-top.style' },
+    'bd.top.style': { aliasFor: 'bdTopStyle' },
+    'bdTop.style': { aliasFor: 'bdTopStyle' },
 
-    'border-top.width': {
+    'bdTopWidth': {
         fn: params => borderWidth({
             ...params,
             key: 'border-top-width'
         })
     },
-    'bdTWidth': { aliasFor: 'border-top.width' },
-    'bdTopWidth': { aliasFor: 'border-top.width' },
-    'borderTopWidth': { aliasFor: 'border-top.width' },
-    'bd.top.width': { aliasFor: 'border-top.width' },
-    'border.top.width': { aliasFor: 'border-top.width' },
+    'bd.top.width': { aliasFor: 'bdTopWidth' },
+    'bdTop.width': { aliasFor: 'bdTopWidth' },
 
-    // Border radius
-    'border.radius': {
-        fn: borderRadius,
-        key: 'border-radius'
+    // Border X
+    'bdX': {
+        fn: params => border({
+            ...params,
+            key: ['border-left', 'border-right'],
+            propName: 'bdX'
+        }),
     },
-    'bd.radius': { aliasFor: 'border.radius' },
-    'bdRadius': { aliasFor: 'border.radius' },
-    'borderRadius': { aliasFor: 'border.radius' },
-    'radius': { aliasFor: 'border.radius' },
-    'rounded': { aliasFor: 'border.radius' },
+    'bd.x': { aliasFor: 'bdX' },
 
-    'border-radius.bottom': {
-        fn: borderRadius,
-        key: [
-            'border-bottom-left-radius',
-            'border-bottom-right-radius',
-        ]
+    'bdXColor': {
+        fn: params => borderColor({
+            ...params,
+            key: [
+                'border-left-color',
+                'border-right-color',
+            ]
+        })
     },
-    'bd.radius.bottom': { aliasFor: 'border-radius.bottom' },
-    'bdRadius.bottom': { aliasFor: 'border-radius.bottom' },
-    'borderRadius.bottom': { aliasFor: 'border-radius.bottom' },
-    'radius.bottom': { aliasFor: 'border-radius.bottom' },
-    'rounded.bottom': { aliasFor: 'border-radius.bottom' },
+    'bd.x.color': { aliasFor: 'bdXColor' },
+    'bdX.color': { aliasFor: 'bdXColor' },
 
-    'border-radius.left': {
-        fn: borderRadius,
-        key: [
-            'border-bottom-left-radius',
-            'border-top-left-radius',
-        ]
+    'bdXStyle': {
+        fn: params => borderStyle({
+            ...params,
+            key: [
+                'border-left-style',
+                'border-right-style',
+            ]
+        })
     },
-    'bd.radius.left': { aliasFor: 'border-radius.left' },
-    'bdRadius.left': { aliasFor: 'border-radius.left' },
-    'borderRadius.left': { aliasFor: 'border-radius.left' },
-    'radius.left': { aliasFor: 'border-radius.left' },
-    'rounded.left': { aliasFor: 'border-radius.left' },
+    'bd.x.style': { aliasFor: 'bdXStyle' },
+    'bdX.style': { aliasFor: 'bdXStyle' },
 
-    'border-radius.right': {
-        fn: borderRadius,
-        key: [
-            'border-bottom-right-radius',
-            'border-top-right-radius',
-        ]
+    'bdXWidth': {
+        fn: params => borderWidth({
+            ...params,
+            key: [
+                'border-left-width',
+                'border-right-width',
+            ]
+        })
     },
-    'bd.radius.right': { aliasFor: 'border-radius.right' },
-    'bdRadius.right': { aliasFor: 'border-radius.right' },
-    'borderRadius.right': { aliasFor: 'border-radius.right' },
-    'radius.right': { aliasFor: 'border-radius.right' },
-    'rounded.right': { aliasFor: 'border-radius.right' },
+    'bd.x.width': { aliasFor: 'bdXWidth' },
+    'bdX.width': { aliasFor: 'bdXWidth' },
 
-    'border-radius.top': {
-        fn: borderRadius,
-        key: [
-            'border-top-left-radius',
-            'border-top-right-radius',
-        ]
-    },
-    'bd.radius.top': { aliasFor: 'border-radius.top' },
-    'bdRadius.top': { aliasFor: 'border-radius.top' },
-    'borderRadius.top': { aliasFor: 'border-radius.top' },
-    'radius.top': { aliasFor: 'border-radius.top' },
-    'rounded.top': { aliasFor: 'border-radius.top' },
-
-    // style
-    'border.style': {
-        fn: borderStyle,
-        key: 'border-style',
-    },
-    'bd.style': { aliasFor: 'border.style' },
-    'bdStyle': { aliasFor: 'border.style' },
-    'borderStyle': { aliasFor: 'border.style' },
-
-    // width
-    'border.width': {
-        fn: borderWidth,
-        key: 'border-width',
-    },
-    'bd.width': { aliasFor: 'border.width' },
-    'bdWidth': { aliasFor: 'border.width' },
-    'borderWidth': { aliasFor: 'border.width' },
-
-    // Border X & Y
-    'border.x': {
-        fn: border,
-        key: ['border-left', 'border-right'],
-    },
-    'bdX': { aliasFor: 'border.x' },
-    'bd.x': { aliasFor: 'border.x' },
-    'borderX': { aliasFor: 'border.x' },
-
-    'border.y': {
-        fn: border,
+    // Border Y
+    'bdY': {
+        fn: params => border({
+            ...params,
+            key: ['border-bottom', 'border-top'],
+            propName: 'bdY'
+        }),
         key: ['border-bottom', 'border-top']
     },
-    'bdY': { aliasFor: 'border.y' },
-    'bd.y': { aliasFor: 'border.y' },
-    'borderY': { aliasFor: 'border.y' },
+    'bd.y': { aliasFor: 'bdY' },
+
+    'bdYColor': {
+        fn: params => borderColor({
+            ...params,
+            key: [
+                'border-bottom-color',
+                'border-top-color',
+            ]
+        })
+    },
+    'bd.y.color': { aliasFor: 'bdYColor' },
+    'bdY.color': { aliasFor: 'bdYColor' },
+
+    'bdYStyle': {
+        fn: params => borderStyle({
+            ...params,
+            key: [
+                'border-bottom-style',
+                'border-top-style',
+            ]
+        })
+    },
+    'bd.y.style': { aliasFor: 'bdYStyle' },
+    'bdY.style': { aliasFor: 'bdYStyle' },
+
+    'bdYWidth': {
+        fn: params => borderWidth({
+            ...params,
+            key: [
+                'border-bottom-width',
+                'border-top-width',
+            ]
+        })
+    },
+    'bd.y.width': { aliasFor: 'bdYWidth' },
+    'bdY.width': { aliasFor: 'bdYWidth' },
 }
