@@ -7,7 +7,13 @@ const mockedProps = {
     cache,
     context: {},
     depth: 'DEPTH_HERE',
-    theme: {}
+    theme: {
+        colors: {
+            dark: {
+                400: 'red'
+            }
+        }
+    }
 }
 
 const mockedStyleProps = {
@@ -16,38 +22,49 @@ const mockedStyleProps = {
     context: {},
     darkMode: false,
     depth: 'DEPTH_HERE',
-    theme: {}
+    theme: {
+        colors: {
+            dark: {
+                400: 'red'
+            }
+        }
+    }
 }
 
 // TODO: maybe move some of these to specific test files
 
 describe('misc props', () => {
-    // it('should return correct css props', () => {
-    //     let props = handleProps({
-    //         ...mockedProps,
-    //         props: {
-    //             bg: {
-    //                 blend: 'multiply'
-    //             }
-    //         }
-    //     })
-
-    //     props = handleProps({
-    //         ...mockedProps,
-    //         props: {
-    //             bgBlend: 'multiply'
-    //         }
-    //     })
-
-    //     props = handleProps({
-    //         ...mockedProps,
-    //         props: {
-    //             bgBlend: 'screen'
-    //         }
-    //     })
-
-    //     // console.log(cssAsArray);
-    // })
+    it('should return correct css props', () => {
+        let props = handleProps({
+            ...mockedProps,
+            props: {
+                _not: {
+                    _firstChild: {
+                        bdTop: {
+                            color: ['dark', 400],
+                            style: 'solid',
+                            width: 1,
+                        },
+                    },
+                }
+            }
+        });
+        let style = ComponentStyle({
+            ...mockedStyleProps,
+            props: {
+                _not: {
+                    _firstChild: {
+                        bdTop: {
+                            color: ['dark', 400],
+                            style: 'solid',
+                            width: 1,
+                        },
+                    },
+                }
+            }
+        });
+        let cssAsArray = style.css.split('\n');
+    })
 
     it('should return correct css props', () => {
         // console.log(cache)
