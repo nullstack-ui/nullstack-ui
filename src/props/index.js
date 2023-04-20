@@ -250,7 +250,7 @@ export const handleProp = ({
         cachePropName = `${propName}:${deps({ props }).join(':')}`;
     }
 
-    if (cache?.[propName]?.[initialValue]) {
+    if (propName !== 'if' && cache?.[propName]?.[initialValue]) {
         const { cssProps, prop } = cache[propName][initialValue];
 
         handledProps[propName] = {
